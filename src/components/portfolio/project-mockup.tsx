@@ -1,25 +1,27 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Play, Plus, RotateCcw, LayoutGrid, LayoutList, 
-  Highlighter, FileText, Code, Database, Terminal, 
-  Sparkles, Check, DollarSign, ArrowUpRight, ArrowDownRight
+  Highlighter, FileText, Terminal, 
+  Sparkles, ArrowDownRight
 } from "lucide-react";
 
 interface ProjectMockupProps {
   slug: string;
 }
 
+const subscribe = () => () => {};
+
 export function ProjectMockup({ slug }: ProjectMockupProps) {
-  const [mounted, setMounted] = useState(false);
+  const isMounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (!isMounted) {
     return (
       <div className="w-full aspect-[4/3] bg-[#0c0c0e] border border-white/5 rounded-2xl flex items-center justify-center">
         <span className="text-2xs text-white/20 uppercase tracking-widest animate-pulse">Initializing Simulator...</span>
@@ -52,7 +54,7 @@ function TrackMySpendSimulator() {
 
   const [mockName, setMockName] = useState("");
   const [mockAmount, setMockAmount] = useState("");
-  const [mockCategory, setMockCategory] = useState("SaaS");
+  const mockCategory = "SaaS";
 
   const addTransaction = (e: React.FormEvent) => {
     e.preventDefault();

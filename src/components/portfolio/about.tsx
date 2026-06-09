@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { GitBranch, Terminal, ShieldCheck } from "lucide-react";
+
 
 interface AboutProps {
   bioText: string;
@@ -68,7 +68,7 @@ export default developer;`,
 
           {/* Metrics Grid */}
           <div className="grid grid-cols-2 gap-4 pt-6 max-w-xl">
-            {metricBadges.map((badge, idx) => (
+            {metricBadges.map((badge) => (
               <div
                 key={badge.label}
                 className="border border-white/5 bg-white/2 p-5 rounded-2xl flex flex-col justify-between min-h-[100px] hover:border-white/20 transition-all duration-300"

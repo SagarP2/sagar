@@ -11,6 +11,7 @@ interface HeroProps {
 
 export function Hero({ resumeUrl }: HeroProps) {
   const [offsetY, setOffsetY] = useState(0);
+  void resumeUrl;
 
   useEffect(() => {
     const handleScroll = () => {
