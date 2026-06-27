@@ -25,6 +25,7 @@ export const settings: WebsiteSetting = {
   updatedAt: "2026-06-06T10:57:39.366Z",
 };
 
+// TODO: Replace 'cvMedia' with a real file link (e.g., "/Resume_Sagar_Panchal.pdf") once uploaded to your public assets.
 export const resumeSettings: ResumeSetting = {
   id: "global_resume",
   cvMediaId: null,
@@ -279,13 +280,13 @@ export const experiences: Experience[] = [
   },
   {
     id: "cmq28oin1000tjsznycd0ep18",
-    company: "Freelance",
-    role: "Full Stack & Shopify App Developer",
+    company: "Rabbitcode Agency",
+    role: "MERN Stack & Shopify App Developer",
     location: "Remote",
     startDate: "2025-01-01T00:00:00.000Z",
     endDate: null,
     isCurrent: true,
-    description: "Developing custom portfolio apps, e-commerce solutions, and Shopify Apps. Delivering client projects using Next.js, React, Node, Express, MongoDB, and PHP systems. Working with merchants on store customization and custom Shopify App integrations.",
+    description: "Developing robust full-stack web applications using the MERN stack (MongoDB, Express, React, Node.js) and designing custom Shopify applications. Implementing embedded app architectures, Webhook event pipelines, GraphQL API integrations, and tailored Liquid themes to meet enterprise merchant requirements.",
     orderIndex: 2,
   },
 ];
@@ -317,77 +318,103 @@ export const educationList: Education[] = [
 
 export const services: Service[] = [
   {
-    id: "cmq28oj01000wjsznaryi4ii1",
-    title: "Web Development",
-    description: "Providing detailed insights into our professional services such as Static & Dynamic Website, Software Development, Shopify Development, and Web Application Development.",
-    mainDescription: "Web development involves the process of creating and maintaining websites and web applications. We build custom websites, develop robust web applications, ensure seamless user experiences across devices, and optimize for search engines.",
+    id: "service_mern",
+    title: "Full-Stack MERN Development",
+    description: "Architecting secure, scalable node microservices, complex React dashboards, and custom MERN stack systems.",
+    mainDescription: "I specialize in building full-stack web architectures from database modeling to responsive frontend layouts. Using React, Next.js, Node.js, Express, and MongoDB/SQL database engines, I create robust APIs and interfaces optimized for performance and security.",
     icon: "Browser",
     orderIndex: 1,
     subServices: [
       {
-        id: "cmq28oj8v000xjsznec05gnhl",
-        serviceId: "cmq28oj01000wjsznaryi4ii1",
-        subTitle: "Static Website",
-        subDescription: "Simple yet elegant solutions for businesses looking to establish an online presence without the need for frequent updates.",
+        id: "sub_mern_apps",
+        serviceId: "service_mern",
+        subTitle: "Custom MERN Applications",
+        subDescription: "Simple yet elegant web solutions and highly interactive dashboards tailored to your specific business processes.",
         imageMediaId: null,
         highlights: [
-          "Fast loading times, ensuring an improved user experience",
-          "High level of security, as there's no server-side processing",
-          "Minimal maintenance requirements and cost-effective",
+          "Fast loading speeds, ensuring improved user engagement and SEO",
+          "Component-driven architecture for scalable and reusable codebases",
+          "Thorough client-side validations and custom UI states"
         ],
-        subDetails: "Static websites are perfect for showcasing content that doesn't change often, such as company information, portfolios, and brochures.",
+        subDetails: "Custom MERN applications are perfect for startups and enterprises seeking robust platforms built on React and Node.js without legacy bloat."
       },
       {
-        id: "cmq28oj8v000yjszn8dvbqjdv",
-        serviceId: "cmq28oj01000wjsznaryi4ii1",
-        subTitle: "Dynamic Website",
-        subDescription: "Ideal for businesses that require frequent updates, interactive elements, or real-time content changes.",
+        id: "sub_mern_apis",
+        serviceId: "service_mern",
+        subTitle: "REST & GraphQL APIs",
+        subDescription: "Designing and deploying high-performance database endpoints, JWT authentication layers, and secure middleware.",
         imageMediaId: null,
         highlights: [
-          "Database integration for personalized user experiences",
-          "Perfect for blogs, news sites, and social platforms",
-          "Supports user registration and forums",
+          "Comprehensive request validations and clean error handlers",
+          "Scalable SQL/NoSQL query optimization to minimize latency",
+          "Stateless JWT-based session security and role audits"
         ],
-        subDetails: "Dynamic websites are built to allow content changes, user interactions, and real-time data processing.",
+        subDetails: "I build secure, clean API integrations that serve as a reliable bridge between your databases and frontend layers."
       },
       {
-        id: "cmq28oj8v000zjszn2tfqitbm",
-        serviceId: "cmq28oj01000wjsznaryi4ii1",
-        subTitle: "Shopify Development",
-        subDescription: "Shopify is a leading e-commerce platform designed to help businesses establish and grow their online stores.",
+        id: "sub_mern_databases",
+        serviceId: "service_mern",
+        subTitle: "Database Design & Dashboards",
+        subDescription: "Structuring clean database schemas, collection index configurations, and administrative dashboard panels.",
         imageMediaId: null,
         highlights: [
-          "Custom templates and themes matching your brand identity",
-          "Integrated payment gateways and checkout options",
-          "Access to robust app ecosystem for advanced features",
+          "Optimized query structures and database indexing strategies",
+          "Interactive dashboard reporting widgets with real-time stats",
+          "Automated server backups and data sanitization routines"
         ],
-        subDetails: "We specialize in creating Shopify-based solutions tailored to your business needs.",
-      },
-    ],
+        subDetails: "I configure secure, well-structured database systems using MongoDB and PostgreSQL, integrated with clean admin panels."
+      }
+    ]
   },
   {
-    id: "cmq28ojhe0010jsznltf90mqn",
-    title: "Graphic Design",
-    description: "Offering professional graphic design services, creating visually compelling and impactful designs.",
-    mainDescription: "Graphic design is the art of creating visual content to communicate messages. We combine typography, imagery, color, and layout to build visual identities.",
-    icon: "PenTool",
+    id: "service_shopify",
+    title: "Shopify Commerce Engineering",
+    description: "Building custom Shopify embedded applications, admin extension plugins, and high-speed theme templates.",
+    mainDescription: "I engineer custom commerce integrations using the Shopify framework. From building Node.js/React embedded applications that connect to the Shopify Admin GraphQL API, to custom storefront theme customization with Liquid, I help merchant brands expand their capabilities.",
+    icon: "ShoppingBag",
     orderIndex: 2,
     subServices: [
       {
-        id: "cmq28ojq10011jszn1t9dwk77",
-        serviceId: "cmq28ojhe0010jsznltf90mqn",
-        subTitle: "Website Design",
-        subDescription: "Creating visually appealing and user-centric designs is at the core of my website design services.",
+        id: "sub_shopify_apps",
+        serviceId: "service_shopify",
+        subTitle: "Shopify App Development",
+        subDescription: "Engineering robust embedded admin applications utilizing Shopify CLI, App Bridge, and custom Node/React modules.",
         imageMediaId: null,
         highlights: [
-          "Customized designs that align with your brand identity",
-          "Responsive layouts for great look on all devices",
-          "Modern design trends and usability principles",
+          "Seamless OAuth 2.0 security loops and App Bridge v4 alignments",
+          "Webhook event listeners with automated database state syncing",
+          "Stateless API designs following Shopify guidelines"
         ],
-        subDetails: "From wireframes to final mockups, we ensure that every design is tailored to reflect the brand's identity and meet its goals.",
+        subDetails: "I build custom Shopify apps that extend admin dashboards, manage merchant webhooks, and automate complex store operations."
       },
-    ],
-  },
+      {
+        id: "sub_shopify_apis",
+        serviceId: "service_shopify",
+        subTitle: "Admin & Storefront APIs",
+        subDescription: "Integrating GraphQL and REST APIs to synchronize inventory status, process cart checkout events, and hook up external systems.",
+        imageMediaId: null,
+        highlights: [
+          "Optimized GraphQL query loads to stay within API rate quotas",
+          "Secure synchronizations with external ERPs or payment gates",
+          "Real-time webhook queue architectures to prevent request loss"
+        ],
+        subDetails: "Using Shopify's Admin GraphQL APIs, I design robust synchronization hooks between the store environment and custom backend databases."
+      },
+      {
+        id: "sub_shopify_liquid",
+        serviceId: "service_shopify",
+        subTitle: "Theme Customization & Liquid",
+        subDescription: "Implementing bespoke storefront layout edits, custom product template sections, and theme performance sweeps.",
+        imageMediaId: null,
+        highlights: [
+          "Custom theme components utilizing clean Shopify Liquid & JS",
+          "Mobile-first responsive optimization and fast load audits",
+          "Minimal application app scripts to maximize Lighthouse scores"
+        ],
+        subDetails: "I customize Shopify themes to deliver high-converting design blueprints that align exactly with brand visual identities."
+      }
+    ]
+  }
 ];
 
 export const projects: Project[] = [
@@ -399,7 +426,7 @@ export const projects: Project[] = [
     description: "Track My Spend is a modern personal finance management web application that allows users to monitor income, categorize expenses, and visualize spending patterns. It provides an intuitive dashboard, real-time updates, and a responsive UI.",
     purpose: "To help users track daily expenses, manage income, and gain insights into their financial habits through a clean and interactive dashboard.",
     githubUrl: null,
-    liveUrl: "https://track-my-spend-wheat.vercel.app/",
+    liveUrl: "https://track-my-spend-zeta.vercel.app/",
     techStack: ["React.js", "Next.js", "TailwindCSS", "Node.js", "MongoDB"],
     orderIndex: 10,
     detailsList: [

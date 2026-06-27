@@ -16,15 +16,20 @@ export function CustomCursor() {
   const [hoveredText, setHoveredText] = useState("");
 
   useEffect(() => {
-    const isTouchDevice =
-      "ontouchstart" in window || window.matchMedia("(pointer: coarse)").matches;
-
-    if (isTouchDevice) return;
+    let animationFrameId: number | null = null;
 
     const onMouseMove = (event: MouseEvent) => {
-      cursorX.set(event.clientX);
-      cursorY.set(event.clientY);
-      setVisible(true);
+      if (animationFrameId !== null) return;
+      animationFrameId = requestAnimationFrame(() => {
+        cursorX.set(event.clientX);
+        cursorY.set(event.clientY);
+        setVisible(true);
+        animationFrameId = null;
+      });
+    };
+
+    const onTouchStart = () => {
+      setVisible(false);
     };
 
     const onMouseLeave = () => setVisible(false);
@@ -47,12 +52,15 @@ export function CustomCursor() {
     };
 
     window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("mouseleave", onMouseLeave);
     window.addEventListener("mouseenter", onMouseEnter);
     window.addEventListener("mouseover", onMouseOver);
 
     return () => {
+      if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("mouseleave", onMouseLeave);
       window.removeEventListener("mouseenter", onMouseEnter);
       window.removeEventListener("mouseover", onMouseOver);

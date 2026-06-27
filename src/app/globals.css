@@ -14,8 +14,16 @@
   --color-slate-450: oklch(0.65 0.032 255);
   --color-slate-650: oklch(0.39 0.035 255);
   --color-slate-850: oklch(0.12 0.02 240);
-  --color-indigo-550: oklch(0.57 0.24 275);
-  --color-indigo-650: oklch(0.48 0.25 275);
+  
+  /* Platinum, Ice, and Gold Premium Colors */
+  --color-platinum-100: oklch(0.98 0.002 240);
+  --color-platinum-200: oklch(0.92 0.003 240);
+  --color-platinum-400: oklch(0.70 0.005 240);
+  --color-gold-400: oklch(0.78 0.09 70);
+  --color-gold-500: oklch(0.68 0.08 70);
+  --color-ice-400: oklch(0.85 0.08 200);
+  --color-ice-500: oklch(0.75 0.09 200);
+  
   --text-5xs: 0.55rem;
   --text-4xs: 0.62rem;
   --text-3xs: 0.68rem;
@@ -29,24 +37,24 @@
 }
 
 :root {
-  --background: oklch(0.04 0.005 240); /* Extremely rich charcoal black */
-  --foreground: oklch(0.98 0.005 240); /* Clean white */
-  --card: oklch(0.06 0.006 240);
-  --card-foreground: oklch(0.98 0.005 240);
-  --popover: oklch(0.06 0.006 240);
-  --popover-foreground: oklch(0.98 0.005 240);
-  --primary: oklch(0.98 0.005 240);
-  --primary-foreground: oklch(0.04 0.005 240);
-  --secondary: oklch(0.12 0.02 240);
-  --secondary-foreground: oklch(0.98 0.005 240);
-  --muted: oklch(0.1 0.01 240);
-  --muted-foreground: oklch(0.55 0.01 240);
-  --accent: oklch(0.14 0.02 240);
-  --accent-foreground: oklch(0.98 0.005 240);
-  --border: rgba(255, 255, 255, 0.06);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: oklch(0.55 0.2 275);
-  --radius: 0.5rem;
+  --background: oklch(0.015 0.002 240); /* Luxurious Midnight Obsidian */
+  --foreground: oklch(0.98 0.002 240); /* Platinum White */
+  --card: oklch(0.03 0.002 240); /* Dark Obsidian Carbon Card */
+  --card-foreground: oklch(0.98 0.002 240);
+  --popover: oklch(0.03 0.002 240);
+  --popover-foreground: oklch(0.98 0.002 240);
+  --primary: oklch(0.98 0.002 240);
+  --primary-foreground: oklch(0.015 0.002 240);
+  --secondary: oklch(0.08 0.003 240);
+  --secondary-foreground: oklch(0.98 0.002 240);
+  --muted: oklch(0.04 0.002 240);
+  --muted-foreground: oklch(0.55 0.003 240);
+  --accent: oklch(0.08 0.003 240);
+  --accent-foreground: oklch(0.98 0.002 240);
+  --border: rgba(255, 255, 255, 0.035);
+  --input: rgba(255, 255, 255, 0.045);
+  --ring: oklch(0.78 0.09 70); /* Warm Gold Ring */
+  --radius: 1rem;
 }
 
 @layer base {
@@ -54,44 +62,69 @@
     @apply border-border/80;
   }
   body {
-    @apply bg-background text-foreground antialiased font-sans selection:bg-white/20 selection:text-white;
+    @apply bg-background text-foreground antialiased font-sans selection:bg-gold-400/20 selection:text-gold-400;
     min-height: 100vh;
     overflow-x: hidden;
-    background: #000000;
+    background: #040406; /* absolute luxury black */
   }
   html {
     @apply scroll-smooth;
     color-scheme: dark;
-    background: #000000;
+    background: #040406;
+  }
+  a, button, input, textarea, select {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
+  }
+  
+  /* Luxurious scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #040406;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold-400);
   }
 }
 
 @layer utilities {
+  /* Ultra-delicate grid blueprint overlay */
   .premium-grid {
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 80px 80px;
-    mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
+      linear-gradient(rgba(255, 255, 255, 0.007) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.007) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(circle at center, black 20%, transparent 95%);
   }
 
   .noise-overlay {
     background-image:
       radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.15) 1px, transparent 0);
-    background-size: 24px 24px;
-    opacity: 0.02;
+    background-size: 32px 32px;
+    opacity: 0.015;
   }
 
+  /* Luxury Glass panel overlay */
   .glass-panel {
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: linear-gradient(180deg, rgba(10, 10, 12, 0.8) 0%, rgba(5, 5, 7, 0.5) 100%);
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    background: linear-gradient(180deg, rgba(8, 8, 10, 0.85) 0%, rgba(4, 4, 6, 0.65) 100%);
+    box-shadow: 
+      0 30px 80px rgba(0, 0, 0, 0.9), 
+      inset 0 1px 0 rgba(255, 255, 255, 0.02),
+      0 0 40px rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(30px);
   }
 
   .text-reveal-container {
     overflow: hidden;
     display: inline-block;
+    vertical-align: bottom;
   }
 
   .underline-reveal {
@@ -104,7 +137,7 @@
     left: 0;
     width: 100%;
     height: 1px;
-    background: currentColor;
+    background: var(--color-gold-400);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -116,23 +149,42 @@
 
   /* Thin Steel Lines */
   .steel-border-t {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.035);
   }
   .steel-border-b {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.035);
   }
   .steel-border-l {
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 1px solid rgba(255, 255, 255, 0.035);
   }
   .steel-border-r {
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid rgba(255, 255, 255, 0.035);
   }
+  
+  /* Metallic Gradient Overlays */
+  .metallic-shine {
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.03) 40%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.03) 60%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    background-size: 200% 100%;
+    animation: metallic-glide 8s infinite linear;
+  }
+}
+
+@keyframes metallic-glide {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* Page Counter Loader wipes */
 .loader-wipe {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  transition: clip-path 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+  transition: clip-path 1.4s cubic-bezier(0.85, 0, 0.15, 1);
 }
 
 .loader-wipe.active {
@@ -147,11 +199,59 @@
 /* Section scroll transition support */
 .section-reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(30px);
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .section-reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Premium Glow Utilities */
+.glow-text {
+  text-shadow: 0 0 30px rgba(198, 163, 104, 0.25);
+}
+
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(198, 163, 104, 0.18), rgba(255, 255, 255, 0.02));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.glow-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.001) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.025);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(16px);
+}
+
+.glow-card-hover {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glow-card-hover:hover {
+  border-color: rgba(198, 163, 104, 0.15);
+  box-shadow: 
+    0 0 40px rgba(198, 163, 104, 0.04), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Custom fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

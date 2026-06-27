@@ -104,7 +104,7 @@ export default function PortfolioClient({
   const subBioText = settings?.subBioText || "";
   const contactEmail = settings?.contactEmail || "panchalsagar992003@gmail.com";
   const contactPhone = settings?.contactPhone || "";
-  const contactAddress = settings?.contactAddress || "Mumbai, India";
+  const contactAddress = settings?.contactAddress || "Gandhi Road, Bardoli, Gujarat, India - 394601";
   const resumeUrl = resumeSettings?.cvMedia?.url || undefined;
 
   return (

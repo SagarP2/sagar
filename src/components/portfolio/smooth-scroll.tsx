@@ -20,6 +20,17 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       touchMultiplier: 1.5,
     });
 
+    // Expose lenis instance globally for coordination across pages/components
+    (window as unknown as { lenis: unknown }).lenis = lenis;
+
+    // Smooth scroll to target hash on initial load
+    if (window.location.hash) {
+      const hash = window.location.hash;
+      setTimeout(() => {
+        lenis.scrollTo(hash, { offset: -80, immediate: false });
+      }, 350);
+    }
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -31,6 +42,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     // Cleanup scrolling loops on component unmount
     return () => {
       cancelAnimationFrame(animationFrameId);
+      (window as unknown as { lenis: unknown }).lenis = undefined;
       lenis.destroy();
     };
   }, []);
