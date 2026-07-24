@@ -3,10 +3,15 @@
 import React, { useState } from "react";
 import { SkillCategory } from "@/types/portfolio";
 import { Layers, Server, ShoppingBag, Award, ShieldCheck, PenTool, CheckCircle } from "lucide-react";
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
-import { SkillsSphereCanvas } from "./skills-sphere";
 import { Tilt } from "./tilt";
 import { motion, AnimatePresence } from "framer-motion";
+
+const SkillsSphereCanvas = dynamic(
+  () => import("./skills-sphere").then((mod) => mod.SkillsSphereCanvas),
+  { ssr: false }
+);
 
 interface SkillItem {
   id: string;

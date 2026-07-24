@@ -4,8 +4,13 @@ import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Mail, MapPin, Globe, Sparkles, Loader2, CheckCircle2, Phone } from "lucide-react";
 import * as z from "zod";
-import { ContactBgCanvas } from "./contact-bg-canvas";
+import dynamic from "next/dynamic";
 import { Magnetic } from "./magnetic";
+
+const ContactBgCanvas = dynamic(
+  () => import("./contact-bg-canvas").then((mod) => mod.ContactBgCanvas),
+  { ssr: false }
+);
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -52,27 +57,32 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
 
     startTransition(async () => {
       try {
-        // Simulate network delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            subject,
+            service,
+            budget,
+            message,
+          }),
+        });
 
-        // Save message locally
-        const stored = JSON.parse(localStorage.getItem("portfolio_messages") || "[]");
-        const newMessage = {
-          id: Date.now().toString(),
-          name,
-          email,
-          subject,
-          service,
-          budget,
-          message,
-          createdAt: new Date().toISOString(),
-        };
-        stored.push(newMessage);
-        localStorage.setItem("portfolio_messages", JSON.stringify(stored));
+        const data = await response.json();
 
-        console.log("Simulated message inbox write:", newMessage);
+        if (!response.ok) {
+          if (data.errors) {
+            setErrors(data.errors);
+          }
+          toast.error(data.message || "An error occurred submitting specifications.");
+          return;
+        }
 
-        toast.success("Specifications sent successfully!");
+        toast.success(data.message || "Specifications sent successfully!");
         setIsSuccess(true);
         setName("");
         setEmail("");
@@ -80,7 +90,7 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
         setMessage("");
         setErrors({});
       } catch {
-        toast.error("An error occurred. Please try again.");
+        toast.error("Network error occurred. Please try again.");
       }
     });
   };

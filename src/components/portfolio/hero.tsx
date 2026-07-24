@@ -2,9 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { HeroCanvas } from "./hero-canvas";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Magnetic } from "./magnetic";
+
+const HeroCanvas = dynamic(
+  () => import("./hero-canvas").then((mod) => mod.HeroCanvas),
+  { ssr: false }
+);
 
 interface HeroProps {
   resumeUrl?: string;

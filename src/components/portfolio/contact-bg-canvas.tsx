@@ -51,6 +51,10 @@ function WaveParticles() {
   useFrame((state) => {
     if (!pointsRef.current) return;
 
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const time = state.clock.getElapsedTime() * 0.6;
     const geometry = pointsRef.current.geometry;
     const positionAttr = geometry.attributes.position;

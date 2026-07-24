@@ -80,6 +80,10 @@ function SkillSphere({ skills }: SkillCloudProps) {
   useFrame((state) => {
     if (!groupRef.current) return;
 
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     // Slow rotation speed - dampen rotation if any tag is hovered
     const speedMultiplier = isHovered ? 0.15 : 1.0;
     groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.08 * speedMultiplier;

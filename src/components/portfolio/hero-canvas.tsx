@@ -71,6 +71,11 @@ function InteractiveParticles() {
   useFrame((state) => {
     if (!pointsRef.current) return;
     
+    // Check reduced motion setting to save GPU / battery
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     // Slow drift rotation
     pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.015;
     const targetX = state.pointer.x * 0.15;

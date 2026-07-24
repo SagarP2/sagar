@@ -25,13 +25,14 @@ export const settings: WebsiteSetting = {
   updatedAt: "2026-06-06T10:57:39.366Z",
 };
 
-// TODO: Replace 'cvMedia' with a real file link (e.g., "/Resume_Sagar_Panchal.pdf") once uploaded to your public assets.
 export const resumeSettings: ResumeSetting = {
   id: "global_resume",
-  cvMediaId: null,
+  cvMediaId: "media_cv_sagar",
   lastUpdated: "2026-06-06T10:57:39.524Z",
   totalExperienceYears: 1.5,
-  cvMedia: null,
+  cvMedia: {
+    url: "/Resume_Sagar_Panchal.pdf",
+  },
 };
 
 export const socialLinks: SocialLink[] = [
