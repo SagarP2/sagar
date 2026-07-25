@@ -2,10 +2,12 @@
 
 import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { Mail, MapPin, Globe, Sparkles, Loader2, CheckCircle2, Phone } from "lucide-react";
+import { Mail, MapPin, Sparkles, Loader2, CheckCircle2, Phone, Send } from "lucide-react";
 import * as z from "zod";
 import dynamic from "next/dynamic";
 import { Magnetic } from "./magnetic";
+import { BentoCard } from "@/components/ui/bento-grid";
+import { cn } from "@/lib/utils";
 
 const ContactBgCanvas = dynamic(
   () => import("./contact-bg-canvas").then((mod) => mod.ContactBgCanvas),
@@ -29,7 +31,6 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
   const [isSuccess, setIsSuccess] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  // Form states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -37,6 +38,9 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
   const [budget, setBudget] = useState("$5k - $10k");
   const [service, setService] = useState("Full-Stack MERN");
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const BUDGET_OPTIONS = ["<$5k", "$5k - $10k", "$10k - $25k", "$25k+"];
+  const SERVICE_OPTIONS = ["Full-Stack MERN", "Shopify Custom App", "API System Integration", "Liquid Theme Design"];
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,227 +100,202 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
   };
 
   return (
-    <section id="contact" data-section className="relative py-36 px-6 sm:px-12 border-t border-white/5 bg-[#040406] overflow-hidden">
-      {/* Blueprint Structural Layout Lines */}
+    <section id="contact" data-section className="relative py-32 px-6 sm:px-12 steel-border-t bg-[#040406] overflow-hidden">
+      {/* Background Spatial Effects */}
       <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-
-      {/* Wave Background canvas */}
       <ContactBgCanvas />
 
-      <div className="max-w-7xl mx-auto w-full grid gap-16 lg:grid-cols-12 relative z-10">
+      <div className="max-w-7xl mx-auto w-full grid gap-12 lg:grid-cols-12 relative z-10 items-start">
         
-        {/* Left Column - Contact Coordinates */}
-        <div className="lg:col-span-5 space-y-10 text-left" data-reveal="fade-right">
-          <div>
-            <span className="text-[9px] font-bold text-gold-400 uppercase tracking-[0.25em] block mb-3">
-              08 // INBOX SPECIFICATION
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight uppercase leading-none">
-              LET&apos;S BUILD SOMETHING EXTRAORDINARY
+        {/* Left Column: Contact Coordinates */}
+        <div className="lg:col-span-5 space-y-8 text-left">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 text-2xs font-mono font-bold tracking-[0.25em] text-gold-400 uppercase">
+              <Sparkles className="h-3.5 w-3.5" />
+              07 // COLLABORATION DIRECTORY
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading tracking-tight text-white">
+              INITIATE A <span className="text-gold-400 glow-text">PROJECT</span>.
             </h2>
-            <p className="text-white/50 text-xs sm:text-sm mt-5 leading-relaxed font-sans font-medium">
-              Have an app idea, custom Shopify integrations, or custom headless storefront? Request a briefing call to align on architecture.
+            <p className="text-sm text-slate-300 leading-relaxed pt-2">
+              Have a technical product, Shopify custom application, or high-scale API system in mind? Send your specifications directly to my endpoint.
             </p>
           </div>
 
-          <div className="space-y-6 pt-2">
-            <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-gold-400/10 bg-gold-400/5 text-gold-400 text-[8.5px] font-bold uppercase tracking-widest max-w-fit shadow-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-ping" />
-              CONTRACT AVAILABILITY // Q3 2026
-            </div>
-
-            <div className="space-y-4 text-white/50 text-[10px] sm:text-xs font-mono tracking-widest select-all uppercase">
-              {contactEmail && (
-                <a
-                  href={`mailto:${contactEmail}`}
-                  className="flex items-center gap-3.5 hover:text-white transition-colors"
-                >
-                  <Mail className="h-4.5 w-4.5 text-gold-400 flex-shrink-0" />
+          <div className="space-y-4 pt-4">
+            <div className="bento-card-spatial p-5 flex items-center gap-4">
+              <div className="p-3 rounded-xl bg-gold-400/10 border border-gold-400/20 text-gold-400">
+                <Mail className="h-5 w-5" />
+              </div>
+              <div>
+                <span className="text-3xs font-mono text-white/40 uppercase block">DIRECT EMAIL</span>
+                <a href={`mailto:${contactEmail}`} className="text-sm font-bold text-white hover:text-gold-400 transition-colors font-mono">
                   {contactEmail}
                 </a>
-              )}
-              {contactPhone && (
-                <a
-                  href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                  className="flex items-center gap-3.5 hover:text-white transition-colors"
-                >
-                  <Phone className="h-4.5 w-4.5 text-gold-400 flex-shrink-0" />
+              </div>
+            </div>
+
+            <div className="bento-card-spatial p-5 flex items-center gap-4">
+              <div className="p-3 rounded-xl bg-ice-400/10 border border-ice-400/20 text-ice-400">
+                <Phone className="h-5 w-5" />
+              </div>
+              <div>
+                <span className="text-3xs font-mono text-white/40 uppercase block">TELEPHONE</span>
+                <a href={`tel:${contactPhone}`} className="text-sm font-bold text-white hover:text-ice-400 transition-colors font-mono">
                   {contactPhone}
                 </a>
-              )}
-              {contactAddress && (
-                <div className="flex items-center gap-3.5 text-white/30 select-none">
-                  <MapPin className="h-4.5 w-4.5 text-gold-400/60 flex-shrink-0" />
-                  <span>{contactAddress}</span>
+              </div>
+            </div>
+
+            <div className="bento-card-spatial p-5 flex items-center gap-4">
+              <div className="p-3 rounded-xl bg-emerald-400/10 border border-emerald-400/20 text-emerald-400">
+                <MapPin className="h-5 w-5" />
+              </div>
+              <div>
+                <span className="text-3xs font-mono text-white/40 uppercase block">COORDINATES</span>
+                <div className="text-sm font-bold text-white font-mono">
+                  {contactAddress}
                 </div>
-              )}
-              <div className="flex items-center gap-3.5 text-white/30 select-none">
-                <Globe className="h-4.5 w-4.5 text-gold-400/60 flex-shrink-0" />
-                <span>TIMEZONE: GMT+5:30 (IST)</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column - Premium Project Scope Form */}
-        <div className="lg:col-span-7 flex items-center" data-reveal="fade-left">
-          <div className="w-full relative min-h-[400px] flex flex-col justify-center border border-white/5 bg-white/[0.01] backdrop-blur-md p-8 rounded-3xl shadow-2xl">
-            {isSuccess ? (
-              <div className="text-center space-y-4 py-10 animate-fadeIn select-none">
-                <div className="inline-flex p-3.5 rounded-full border border-gold-400/20 bg-gold-400/5 text-gold-400 mx-auto shadow-md">
-                  <CheckCircle2 className="h-10 w-10 text-gold-400 animate-bounce" />
+        {/* Right Column: Liquid Glass Contact Form */}
+        <div className="lg:col-span-7">
+          <BentoCard glow="gold" className="p-8 sm:p-10 space-y-6">
+            <form onSubmit={onSubmit} className="space-y-6 text-left">
+              
+              {/* Service Selection Pills */}
+              <div className="space-y-2">
+                <label className="text-3xs font-mono font-bold text-white/50 uppercase tracking-widest block">
+                  01 // SELECT ARCHITECTURE SCOPE
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {SERVICE_OPTIONS.map((srv) => (
+                    <button
+                      type="button"
+                      key={srv}
+                      onClick={() => setService(srv)}
+                      className={cn(
+                        "px-3.5 py-1.5 rounded-lg text-3xs font-mono font-bold uppercase transition-all duration-300 cursor-pointer",
+                        service === srv
+                          ? "bg-gold-400 text-black shadow-md"
+                          : "bg-white/[0.03] border border-white/10 text-white/60 hover:text-white"
+                      )}
+                    >
+                      {srv}
+                    </button>
+                  ))}
                 </div>
-                <h3 className="text-lg font-bold text-white uppercase tracking-wider font-heading">SPECIFICATIONS RECEIVED!</h3>
-                <p className="text-xs sm:text-sm text-white/40 max-w-xs mx-auto leading-relaxed font-sans">
-                  I will review your project scope details and reach out within 24 hours to schedule an architecture alignment call.
-                </p>
-                
-                <Magnetic>
-                  <button
-                    onClick={() => setIsSuccess(false)}
-                    className="mt-6 border border-white/10 bg-white text-black hover:bg-gold-400 text-[9px] font-black uppercase tracking-widest rounded-full py-3.5 px-8 cursor-pointer transition-all duration-300"
-                  >
-                    Send another briefing
-                  </button>
-                </Magnetic>
               </div>
-            ) : (
-              <form onSubmit={onSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
-                  {/* Name field */}
-                  <div className="space-y-2.5">
-                    <label htmlFor="name" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Your Name *</label>
-                    <input
-                      id="name"
-                      type="text"
-                      placeholder="e.g. John Doe"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 ${
-                        errors.name ? "border-red-500/50" : "border-white/10"
-                      }`}
-                      disabled={isPending}
-                    />
-                    {errors.name && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.name}</p>}
-                  </div>
 
-                  {/* Email field */}
-                  <div className="space-y-2.5">
-                    <label htmlFor="email" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Email Address *</label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="e.g. john@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 ${
-                        errors.email ? "border-red-500/50" : "border-white/10"
-                      }`}
-                      disabled={isPending}
-                    />
-                    {errors.email && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.email}</p>}
-                  </div>
+              {/* Budget Pills */}
+              <div className="space-y-2">
+                <label className="text-3xs font-mono font-bold text-white/50 uppercase tracking-widest block">
+                  02 // BUDGET ESTIMATE
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {BUDGET_OPTIONS.map((bdg) => (
+                    <button
+                      type="button"
+                      key={bdg}
+                      onClick={() => setBudget(bdg)}
+                      className={cn(
+                        "px-3.5 py-1.5 rounded-lg text-3xs font-mono font-bold uppercase transition-all duration-300 cursor-pointer",
+                        budget === bdg
+                          ? "bg-gold-400 text-black shadow-md"
+                          : "bg-white/[0.03] border border-white/10 text-white/60 hover:text-white"
+                      )}
+                    >
+                      {bdg}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* Service Type Selectors */}
-                <div className="space-y-3.5 text-left">
-                  <span className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono block">Project Category *</span>
-                  <div className="flex flex-wrap gap-2">
-                    {["Full-Stack MERN", "Shopify Apps / Liquid", "Custom Integration", "Consultancy"].map((srv) => (
-                      <button
-                        key={srv}
-                        type="button"
-                        onClick={() => setService(srv)}
-                        className={`px-4 py-2 border rounded-full text-[9px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                          service === srv
-                            ? "bg-white text-black border-white shadow-md font-black"
-                            : "bg-transparent text-white/40 border-white/5 hover:border-gold-400/20 hover:text-white"
-                        }`}
-                      >
-                        {srv}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Budget Selectors */}
-                <div className="space-y-3.5 text-left">
-                  <span className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono block">Estimated Budget *</span>
-                  <div className="flex flex-wrap gap-2">
-                    {["<$2k", "$2k - $5k", "$5k - $10k", "$10k+"].map((bdg) => (
-                      <button
-                        key={bdg}
-                        type="button"
-                        onClick={() => setBudget(bdg)}
-                        className={`px-4 py-2 border rounded-full text-[9px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                          budget === bdg
-                            ? "bg-white text-black border-white shadow-md font-black"
-                            : "bg-transparent text-white/40 border-white/5 hover:border-gold-400/20 hover:text-white"
-                        }`}
-                      >
-                        {bdg}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Subject field */}
-                <div className="space-y-2.5 text-left">
-                  <label htmlFor="subject" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Subject *</label>
+              {/* Name & Email Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-3xs font-mono font-bold text-white/50 uppercase tracking-widest">
+                    NAME *
+                  </label>
                   <input
-                    id="subject"
                     type="text"
-                    placeholder="e.g. Custom Embedded App Bridge integration"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 ${
-                      errors.subject ? "border-red-500/50" : "border-white/10"
-                    }`}
-                    disabled={isPending}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Sagar Panchal"
+                    className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-xs text-white placeholder-white/20 focus:border-gold-400 transition-colors"
                   />
-                  {errors.subject && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.subject}</p>}
+                  {errors.name && <span className="text-4xs text-rose-400 font-mono">{errors.name}</span>}
                 </div>
 
-                {/* Message field */}
-                <div className="space-y-2.5 text-left">
-                  <label htmlFor="message" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Scope Details *</label>
-                  <textarea
-                    id="message"
-                    rows={3}
-                    placeholder="Describe the application features, timelines, or Shopify endpoints required..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 resize-none ${
-                      errors.message ? "border-red-500/50" : "border-white/10"
-                    }`}
-                    disabled={isPending}
+                <div className="space-y-1.5">
+                  <label className="text-3xs font-mono font-bold text-white/50 uppercase tracking-widest">
+                    EMAIL *
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="sagar@company.dev"
+                    className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-xs text-white placeholder-white/20 focus:border-gold-400 transition-colors"
                   />
-                  {errors.message && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.message}</p>}
+                  {errors.email && <span className="text-4xs text-rose-400 font-mono">{errors.email}</span>}
                 </div>
+              </div>
 
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={isPending}
-                  className="w-full inline-flex items-center justify-center rounded-full bg-white hover:bg-gold-400 text-black py-4 text-[9px] font-black uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-xl active:scale-98"
-                >
-                  {isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Saving specifications
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2 h-3.5 w-3.5 text-black" />
-                      Submit scope details
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
+              {/* Subject */}
+              <div className="space-y-1.5">
+                <label className="text-3xs font-mono font-bold text-white/50 uppercase tracking-widest">
+                  SUBJECT *
+                </label>
+                <input
+                  type="text"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Custom Shopify Application Architecture"
+                  className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-xs text-white placeholder-white/20 focus:border-gold-400 transition-colors"
+                />
+                {errors.subject && <span className="text-4xs text-rose-400 font-mono">{errors.subject}</span>}
+              </div>
+
+              {/* Message */}
+              <div className="space-y-1.5">
+                <label className="text-3xs font-mono font-bold text-white/50 uppercase tracking-widest">
+                  MESSAGE SPECIFICATION *
+                </label>
+                <textarea
+                  rows={4}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Outline project objectives, timeline, and technical requirements..."
+                  className="w-full px-4 py-3 rounded-xl bg-black/50 border border-white/10 text-xs text-white placeholder-white/20 focus:border-gold-400 transition-colors resize-none"
+                />
+                {errors.message && <span className="text-4xs text-rose-400 font-mono">{errors.message}</span>}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isPending}
+                className="w-full py-4 rounded-xl bg-gold-400 text-black font-bold text-xs uppercase tracking-widest hover:bg-gold-300 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl shadow-gold-400/10"
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin text-black" />
+                    <span>TRANSMITTING SPECIFICATIONS...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4 text-black" />
+                    <span>TRANSMIT SPECIFICATIONS TO ENDPOINT</span>
+                  </>
+                )}
+              </button>
+
+            </form>
+          </BentoCard>
         </div>
 
       </div>

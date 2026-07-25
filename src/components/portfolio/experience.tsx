@@ -1,22 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import {
-  Plus,
-  Minus,
-  Download,
-  Calendar,
-  MapPin,
-  Briefcase,
-} from "lucide-react";
+import React, { useState } from "react";
+import { Briefcase, GraduationCap, Calendar, MapPin, Sparkles, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { Magnetic } from "./magnetic";
+import { BentoCard } from "@/components/ui/bento-grid";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ExperienceItem {
   id: string;
@@ -78,295 +66,145 @@ const FALLBACK_EXPERIENCE: ExperienceItem[] = [
 export function Experience({
   experiences,
   educationList,
-  cvUrl,
 }: ExperienceProps) {
   const [activeTab, setActiveTab] = useState<"work" | "education">("work");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const displayExperiences = experiences.length
-    ? experiences
-    : FALLBACK_EXPERIENCE;
-
-  const sortedExperiences = React.useMemo(() => {
-    return [...displayExperiences].sort((a, b) => {
-      if (a.isCurrent && !b.isCurrent) return -1;
-      if (!a.isCurrent && b.isCurrent) return 1;
-      return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-    });
-  }, [displayExperiences]);
-
-  const sortedEducation = React.useMemo(() => {
-    return [...educationList].sort((a, b) => {
-      return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-    });
-  }, [educationList]);
-
-  const formatDate = (date: Date | string | null, isCurrent = false) => {
-    if (isCurrent) return "PRESENT";
-    if (!date) return "";
-    const d = new Date(date);
-    return d
-      .toLocaleDateString("en-US", { month: "short", year: "numeric" })
-      .toUpperCase();
-  };
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end center"],
-  });
-
-  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-  const toggleExpand = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
+  const displayExperiences = experiences.length ? experiences : FALLBACK_EXPERIENCE;
 
   return (
-    <section
-      id="experience"
-      data-section
-      className="relative py-36 px-6 sm:px-12 steel-border-t bg-[#040406]"
-    >
-      {/* Blueprint Structural Layout Lines */}
+    <section id="experience" data-section className="relative py-32 px-6 sm:px-12 steel-border-t bg-[#040406]">
+      {/* Background Lighting */}
       <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
+      <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto w-full space-y-16 relative z-10">
+      <div className="max-w-7xl mx-auto w-full space-y-12 relative z-10">
+        
         {/* Section Header */}
-        <div
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6"
-          data-reveal="fade-up"
-        >
-          <div className="space-y-3">
-            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.25em] block">
-              03 // CHRONOLOGY
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight uppercase">
-              JOURNEY &amp; PATH
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3 text-left">
+            <div className="inline-flex items-center gap-2 text-2xs font-mono font-bold tracking-[0.25em] text-gold-400 uppercase">
+              <Sparkles className="h-3.5 w-3.5" />
+              04 // CHRONOLOGY &amp; CAREER
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading tracking-tight text-white">
+              WORK &amp; <span className="text-gold-400 glow-text">BACKGROUND</span>.
             </h2>
           </div>
 
-          {/* Tab selectors as deluxe tabs */}
-          <div className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-widest font-mono select-none">
+          {/* Work / Education Tabs */}
+          <div className="flex gap-2 p-1.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md">
             <button
-              onClick={() => {
-                setActiveTab("work");
-                setExpandedId(null);
-              }}
+              onClick={() => setActiveTab("work")}
               className={cn(
-                "transition-colors cursor-pointer pb-1",
+                "px-5 py-2 rounded-full text-3xs font-mono font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer",
                 activeTab === "work"
-                  ? "text-gold-400 border-b border-gold-400 font-bold"
-                  : "text-white/40 hover:text-white",
+                  ? "bg-gold-400 text-black shadow-md shadow-gold-400/20"
+                  : "text-white/60 hover:text-white"
               )}
             >
-              Career History
+              <Briefcase className="h-3.5 w-3.5" />
+              EXPERIENCE
             </button>
-            <span className="text-white/10">/</span>
             <button
-              onClick={() => {
-                setActiveTab("education");
-                setExpandedId(null);
-              }}
+              onClick={() => setActiveTab("education")}
               className={cn(
-                "transition-colors cursor-pointer pb-1",
+                "px-5 py-2 rounded-full text-3xs font-mono font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2 cursor-pointer",
                 activeTab === "education"
-                  ? "text-gold-400 border-b border-gold-400 font-bold"
-                  : "text-white/40 hover:text-white",
+                  ? "bg-gold-400 text-black shadow-md shadow-gold-400/20"
+                  : "text-white/60 hover:text-white"
               )}
             >
-              Academic Path
+              <GraduationCap className="h-3.5 w-3.5" />
+              EDUCATION
             </button>
           </div>
         </div>
 
-        {/* Timeline Indicator with GSAP Scroll transform */}
-        <div
-          ref={containerRef}
-          className="relative border-l border-white/5 pl-6 sm:pl-10 ml-2 sm:ml-4 space-y-8 py-2"
-        >
-          {/* Guide tracks */}
-          <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-white/5" />
+        {/* Timeline Container (Linear Style) */}
+        <AnimatePresence mode="wait">
           <motion.div
-            style={{ scaleY, transformOrigin: "top" }}
-            className="absolute left-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-gold-400 via-white to-gold-500 shadow-[0_0_15px_rgba(198,163,104,0.4)]"
-          />
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="space-y-8 relative before:absolute before:top-4 before:bottom-4 before:left-4 sm:before:left-8 before:w-[2px] before:bg-gradient-to-b before:from-gold-400/80 before:via-white/10 before:to-transparent"
+          >
+            {activeTab === "work"
+              ? displayExperiences.map((exp, idx) => (
+                  <div key={exp.id} className="relative pl-12 sm:pl-20 text-left">
+                    {/* Glowing Node Marker */}
+                    <div className="absolute left-2 sm:left-6 top-6 -translate-x-1/2 w-4 h-4 rounded-full bg-[#040406] border-2 border-gold-400 flex items-center justify-center shadow-lg shadow-gold-400/30 z-10">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping" />
+                    </div>
 
-          {activeTab === "work"
-            ? sortedExperiences.map((exp) => {
-                const isOpen = expandedId === exp.id;
-                return (
-                  <div
-                    key={exp.id}
-                    className="relative transition-all duration-300 group"
-                  >
-                    {/* Glowing Node Point */}
-                    <div
-                      className={cn(
-                        "absolute -left-[29px] sm:-left-[45px] top-6 h-2.5 w-2.5 rounded-full border bg-black transition-all duration-500 shadow-md",
-                        isOpen
-                          ? "border-gold-400 bg-gold-400 shadow-gold-400/30 scale-125"
-                          : "border-white/20 group-hover:border-gold-400/50 group-hover:bg-gold-400/20",
-                      )}
-                    />
-
-                    <div className="p-6 sm:p-8 border border-white/5 bg-white/[0.01] rounded-2xl transition-all duration-300 hover:border-white/10 hover:shadow-[0_0_35px_rgba(0,0,0,0.85)]">
-                      <button
-                        onClick={() => toggleExpand(exp.id)}
-                        className="w-full flex justify-between items-center text-left cursor-pointer"
-                      >
-                        <div className="space-y-2">
-                          <span className="text-[9px] font-mono text-gold-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                            <Calendar className="h-3.5 w-3.5 text-gold-400/60" />
-                            {formatDate(exp.startDate)} —{" "}
-                            {formatDate(exp.endDate, exp.isCurrent)}
-                          </span>
-                          <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-gold-400 transition-colors leading-tight uppercase font-heading tracking-tight">
-                            {exp.role}
-                          </h3>
-                          <p className="text-2xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
-                            <Briefcase className="h-3.5 w-3.5 text-white/20" />
+                    <BentoCard glow={idx === 0 ? "gold" : "none"} className="space-y-4">
+                      {/* Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-xl font-black font-heading uppercase text-white tracking-tight">
+                              {exp.role}
+                            </h3>
+                            {exp.isCurrent && (
+                              <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-4xs font-mono font-bold uppercase">
+                                PRESENT
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs font-bold text-gold-400 uppercase tracking-wider font-mono mt-1">
                             {exp.company}
-                          </p>
+                          </div>
                         </div>
-                        <div className="p-2.5 border border-white/5 group-hover:border-gold-400/20 rounded-full transition-colors shrink-0 ml-4">
-                          {isOpen ? (
-                            <Minus className="h-3.5 w-3.5 text-gold-400" />
-                          ) : (
-                            <Plus className="h-3.5 w-3.5 text-white" />
+
+                        <div className="flex items-center gap-4 text-3xs font-mono text-white/50">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar className="h-3 w-3 text-gold-400" />
+                            {exp.startDate.toString().substring(0, 7)} — {exp.endDate ? exp.endDate.toString().substring(0, 7) : "PRESENT"}
+                          </span>
+                          {exp.location && (
+                            <span className="flex items-center gap-1.5">
+                              <MapPin className="h-3 w-3 text-ice-400" />
+                              {exp.location}
+                            </span>
                           )}
                         </div>
-                      </button>
+                      </div>
 
-                      <AnimatePresence initial={false}>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{
-                              duration: 0.45,
-                              ease: [0.16, 1, 0.3, 1],
-                            }}
-                            className="overflow-hidden"
-                          >
-                            <div className="pt-6 mt-6 border-t border-white/5 space-y-4 max-w-2xl text-xs sm:text-sm text-white/60 leading-relaxed font-sans whitespace-pre-wrap text-left">
-                              {exp.location && (
-                                <div className="text-[8.5px] font-mono uppercase tracking-widest text-gold-400/60 font-bold flex items-center gap-1.5">
-                                  <MapPin className="h-3.5 w-3.5" />
-                                  Coordinates // {exp.location}
-                                </div>
-                              )}
-                              <p className="font-medium text-white/80">
-                                {exp.description}
-                              </p>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                      {/* Description */}
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        {exp.description}
+                      </p>
+                    </BentoCard>
                   </div>
-                );
-              })
-            : sortedEducation.map((edu) => {
-                const isOpen = expandedId === edu.id;
-                return (
-                  <div
-                    key={edu.id}
-                    className="relative transition-all duration-300 group"
-                  >
-                    {/* Glowing Node Point */}
-                    <div
-                      className={cn(
-                        "absolute -left-[29px] sm:-left-[45px] top-6 h-2.5 w-2.5 rounded-full border bg-black transition-all duration-500 shadow-md",
-                        isOpen
-                          ? "border-gold-400 bg-gold-400 shadow-gold-400/30 scale-125"
-                          : "border-white/20 group-hover:border-gold-400/50 group-hover:bg-gold-400/20",
-                      )}
-                    />
+                ))
+              : educationList.map((edu) => (
+                  <div key={edu.id} className="relative pl-12 sm:pl-20 text-left">
+                    <div className="absolute left-2 sm:left-6 top-6 -translate-x-1/2 w-4 h-4 rounded-full bg-[#040406] border-2 border-ice-400 flex items-center justify-center z-10">
+                      <span className="w-1.5 h-1.5 rounded-full bg-ice-400" />
+                    </div>
 
-                    <div className="p-6 sm:p-8 border border-white/5 bg-white/[0.01] rounded-2xl transition-all duration-300 hover:border-white/10 hover:shadow-[0_0_35px_rgba(0,0,0,0.85)]">
-                      <button
-                        onClick={() => toggleExpand(edu.id)}
-                        className="w-full flex justify-between items-center text-left cursor-pointer"
-                      >
-                        <div className="space-y-2">
-                          <span className="text-[9px] font-mono text-gold-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
-                            <Calendar className="h-3.5 w-3.5 text-gold-400/60" />
-                            {formatDate(edu.startDate)} —{" "}
-                            {formatDate(edu.endDate)}
-                          </span>
-                          <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-gold-400 transition-colors leading-tight uppercase font-heading tracking-tight">
+                    <BentoCard glow="ice" className="space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+                        <div>
+                          <h3 className="text-xl font-black font-heading uppercase text-white tracking-tight">
                             {edu.degree} in {edu.fieldOfStudy}
                           </h3>
-                          <p className="text-2xs font-bold text-white/40 uppercase tracking-widest flex items-center gap-2">
-                            <Briefcase className="h-3.5 w-3.5 text-white/20" />
+                          <div className="text-xs font-bold text-ice-400 uppercase tracking-wider font-mono mt-1">
                             {edu.institution}
-                          </p>
+                          </div>
                         </div>
-                        <div className="p-2.5 border border-white/5 group-hover:border-gold-400/20 rounded-full transition-colors shrink-0 ml-4">
-                          {isOpen ? (
-                            <Minus className="h-3.5 w-3.5 text-gold-400" />
-                          ) : (
-                            <Plus className="h-3.5 w-3.5 text-white" />
-                          )}
-                        </div>
-                      </button>
+                      </div>
 
-                      <AnimatePresence initial={false}>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{
-                              duration: 0.45,
-                              ease: [0.16, 1, 0.3, 1],
-                            }}
-                            className="overflow-hidden"
-                          >
-                            <div className="pt-6 mt-6 border-t border-white/5 space-y-4 max-w-2xl text-xs sm:text-sm text-white/60 leading-relaxed font-sans whitespace-pre-wrap text-left">
-                              {edu.location && (
-                                <div className="text-[8.5px] font-mono uppercase tracking-widest text-gold-400/60 font-bold flex items-center gap-1.5">
-                                  <MapPin className="h-3.5 w-3.5" />
-                                  Coordinates // {edu.location}
-                                </div>
-                              )}
-                              <p className="font-medium text-white/80">
-                                {edu.description}
-                              </p>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        {edu.description}
+                      </p>
+                    </BentoCard>
                   </div>
-                );
-              })}
-        </div>
+                ))}
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Executive CV Download Widget */}
-        {cvUrl && (
-          <div
-            className="pt-4 flex justify-start animate-fadeIn"
-            data-reveal="fade-up"
-          >
-            <Magnetic>
-              <a
-                href={cvUrl}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/10 bg-white/[0.01] hover:bg-white/[0.04] hover:border-gold-400/35 rounded-full text-[9px] font-black uppercase tracking-widest text-white transition-all duration-300 cursor-pointer shadow-lg active:scale-95"
-              >
-                <Download className="h-4 w-4 text-gold-400" />
-                Download Briefing CV
-              </a>
-            </Magnetic>
-          </div>
-        )}
       </div>
     </section>
   );

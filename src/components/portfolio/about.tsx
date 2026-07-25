@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Tilt } from "./tilt";
-import { Copy, Check, Terminal, Folder } from "lucide-react";
+import { Copy, Check, Terminal, Code2, Server, Cpu, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
+import { motion } from "framer-motion";
 
 interface AboutProps {
   bioText: string;
@@ -55,180 +56,132 @@ export default developer;`;
     "Liquid"
   ],
   "databases": [
-    "Supabase", 
     "MongoDB", 
     "PostgreSQL"
-  ],
-  "animation": [
-    "GSAP ScrollTrigger", 
-    "Framer Motion"
   ]
 }`;
 
-  const renderProfileCode = () => (
-    <div className="space-y-1 text-2xs sm:text-xs leading-relaxed font-mono select-all text-white/80">
-      <div><span className="text-gold-400 font-bold">const</span> <span className="text-[#7dd3fc]">developer</span> = &#123;</div>
-      <div className="pl-4"><span className="text-white/40">name:</span> <span className="text-emerald-400">{"\"Sagar Panchal\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">role:</span> <span className="text-emerald-400">{"\"MERN Stack & Shopify Architect\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">experience:</span> <span className="text-emerald-400">{"\""}{experienceYears}{"+ Years\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">location:</span> <span className="text-emerald-400">{"\"Gujarat, India\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">specialties:</span> [</div>
-      <div className="pl-8"><span className="text-emerald-400">{"\"Next.js / React 19 / TS\""}</span>,</div>
-      <div className="pl-8"><span className="text-emerald-400">{"\"Node.js & Scalable APIs\""}</span>,</div>
-      <div className="pl-8"><span className="text-emerald-400">{"\"Shopify Liquid & App Bridge\""}</span></div>
-      <div className="pl-4">],</div>
-      <div className="pl-4"><span className="text-white/40">focus:</span> <span className="text-emerald-400">{"\"High-performance visual code\""}</span></div>
-      <div>&#125;;</div>
-      <div className="mt-4"><span className="text-gold-400 font-bold">export default</span> <span className="text-[#7dd3fc]">developer</span>;</div>
-    </div>
-  );
-
-  const renderStackCode = () => (
-    <div className="space-y-1 text-2xs sm:text-xs leading-relaxed font-mono select-all text-white/80">
-      <div>&#123;</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"core\""}</span>: [ <span className="text-emerald-400">{"\"Next.js\""}</span>, <span className="text-emerald-400">{"\"React 19\""}</span>, <span className="text-emerald-400">{"\"TypeScript\""}</span>, <span className="text-emerald-400">{"\"Node.js\""}</span> ],</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"shopify\""}</span>: [ <span className="text-emerald-400">{"\"App Bridge v4\""}</span>, <span className="text-emerald-400">{"\"GraphQL Admin API\""}</span>, <span className="text-emerald-400">{"\"Liquid\""}</span> ],</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"databases\""}</span>: [ <span className="text-emerald-400">{"\"Supabase\""}</span>, <span className="text-emerald-400">{"\"MongoDB\""}</span>, <span className="text-emerald-400">{"\"PostgreSQL\""}</span> ],</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"animation\""}</span>: [ <span className="text-emerald-400">{"\"GSAP ScrollTrigger\""}</span>, <span className="text-emerald-400">{"\"Framer Motion\""}</span> ]</div>
-      <div>&#125;</div>
-    </div>
-  );
-
   return (
-    <section id="about" data-section className="relative py-36 px-6 sm:px-12 steel-border-t bg-[#040406]">
-      {/* Structural layout details */}
+    <section id="about" data-section className="relative py-32 px-6 sm:px-12 steel-border-t bg-[#040406]">
+      {/* Background Spatial Effects */}
       <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
+      <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto w-full grid gap-16 lg:grid-cols-12 relative z-10">
+      <div className="max-w-7xl mx-auto w-full space-y-12 relative z-10">
         
-        {/* Left Column: Storytelling Content & Metrics */}
-        <div className="lg:col-span-7 flex flex-col justify-center space-y-10" data-reveal="fade-right">
-          <div>
-            <span className="text-[9px] font-bold text-gold-400 uppercase tracking-[0.25em] block mb-3">
-              01 // THE ARCHITECT
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight leading-tight uppercase">
-              HIGH PERFORMANCE BACKENDS. CUSTOM COMMERCE ARCHITECTURE. ELITE FRONTEND CODE.
-            </h2>
+        {/* Section Header */}
+        <div className="space-y-3 text-left">
+          <div className="inline-flex items-center gap-2 text-2xs font-mono font-bold tracking-[0.25em] text-gold-400 uppercase">
+            <Sparkles className="h-3.5 w-3.5" />
+            01 // ARCHITECTURAL PHILOSOPHY
           </div>
-
-          <p className="text-white/60 text-sm sm:text-base leading-relaxed font-sans font-medium whitespace-pre-line">
-            {bioText || "I am a dedicated full-stack developer specializing in the MERN ecosystem and Shopify custom configurations. I build secure databases, robust node servers, and interactive, beautiful interfaces."}
-          </p>
-
-          <p className="text-white/40 text-xs sm:text-sm leading-relaxed font-sans whitespace-pre-line">
-            {subBioText || "My core focus lies in performance-oriented development, integrating state-of-the-art caching, stateless sessions, and GraphQL database APIs to deliver high-performance applications."}
-          </p>
-
-          {/* Metrics Grid redone as high-end watch face / gauges */}
-          <div className="grid grid-cols-2 gap-4 pt-6 max-w-xl">
-            {metricBadges.map((badge) => (
-              <Tilt key={badge.label}>
-                <div
-                  className="border border-white/5 bg-white/[0.01] p-6 rounded-2xl flex flex-col justify-between min-h-[120px] hover:border-gold-400/20 hover:shadow-[0_0_30px_rgba(198,163,104,0.05)] transition-all duration-300 cursor-default group"
-                >
-                  <span className="text-3xl sm:text-4xl font-black text-white tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70 group-hover:to-gold-400 transition-all duration-300">
-                    {badge.value}
-                  </span>
-                  <span className="text-[9px] text-white/30 font-bold uppercase tracking-widest mt-3">
-                    {badge.label}
-                  </span>
-                </div>
-              </Tilt>
-            ))}
-          </div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading tracking-tight text-white">
+            ENGINEERING PURPOSEFUL <span className="text-gold-400 glow-text">DIGITAL PRODUCTS</span>.
+          </h2>
         </div>
 
-        {/* Right Column: Deluxe VSCode IDE Sandbox */}
-        <div className="lg:col-span-5 flex flex-col justify-center" data-reveal="fade-left">
-          <div className="border border-white/5 w-full overflow-hidden rounded-2xl flex flex-col bg-[#08080a] shadow-2xl shadow-black/95 relative">
+        {/* Bento Grid Architecture (70% Spatial, 20% Bento, 10% Glass) */}
+        <BentoGrid className="auto-rows-auto">
+          
+          {/* Main Bio Card (Span 2 cols) */}
+          <BentoCard glow="gold" className="md:col-span-2 space-y-6">
+            <div className="flex items-center gap-3 border-b border-white/5 pb-4">
+              <Cpu className="h-5 w-5 text-gold-400" />
+              <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-white">
+                CORE SYSTEM BIOGRAPHY
+              </h3>
+            </div>
             
-            {/* Header controls */}
-            <div className="bg-[#050507] px-4 py-4 flex items-center justify-between border-b border-white/5 select-none font-mono">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed border-l-2 border-gold-400/40 pl-5">
+              {bioText}
+            </p>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              {subBioText}
+            </p>
+          </BentoCard>
+
+          {/* Interactive Code Terminal (Span 2 cols) */}
+          <BentoCard glow="ice" className="md:col-span-2 space-y-4">
+            {/* Terminal Header */}
+            <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
+                </div>
+                <div className="flex gap-1 ml-4 bg-black/40 p-1 rounded-lg border border-white/5">
+                  <button
+                    onClick={() => setActiveTab("profile.ts")}
+                    className={`px-3 py-1 rounded text-3xs font-mono font-bold uppercase transition-all ${
+                      activeTab === "profile.ts"
+                        ? "bg-gold-400 text-black shadow-md"
+                        : "text-white/60 hover:text-white"
+                    }`}
+                  >
+                    profile.ts
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("stack.json")}
+                    className={`px-3 py-1 rounded text-3xs font-mono font-bold uppercase transition-all ${
+                      activeTab === "stack.json"
+                        ? "bg-gold-400 text-black shadow-md"
+                        : "text-white/60 hover:text-white"
+                    }`}
+                  >
+                    stack.json
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-[8px] text-white/30 uppercase tracking-[0.2em] font-bold">
-                <Terminal className="h-3.5 w-3.5 text-gold-400/50" />
-                sagar-sandbox-console
-              </div>
-              
-              {/* Copy Code Button */}
+
               <button
                 onClick={handleCopy}
-                className="p-1.5 rounded hover:bg-white/5 text-white/40 hover:text-white transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
                 title="Copy Code"
               >
                 {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
               </button>
             </div>
 
-            {/* Editor Workspace Directory Tabs */}
-            <div className="bg-[#060608] border-b border-white/5 flex select-none text-[8px] font-mono tracking-widest uppercase">
-              {["profile.ts", "stack.json"].map((filename) => {
-                const isActive = activeTab === filename;
-                return (
-                  <button
-                    key={filename}
-                    onClick={() => setActiveTab(filename)}
-                    className={`px-6 py-4 border-r border-white/5 transition-colors cursor-pointer ${
-                      isActive
-                        ? "bg-[#08080a] text-gold-400 font-bold border-t border-t-gold-400"
-                        : "text-white/20 hover:text-white/50"
-                    }`}
-                  >
-                    {filename}
-                  </button>
-                );
-              })}
+            {/* Terminal Body */}
+            <div className="p-4 rounded-xl bg-black/60 border border-white/5 font-mono text-2xs sm:text-xs overflow-x-auto">
+              {activeTab === "profile.ts" ? (
+                <div className="space-y-1 text-white/80">
+                  <div><span className="text-gold-400 font-bold">const</span> <span className="text-ice-400">developer</span> = &#123;</div>
+                  <div className="pl-4"><span className="text-white/40">name:</span> <span className="text-emerald-400">{"\"Sagar Panchal\""}</span>,</div>
+                  <div className="pl-4"><span className="text-white/40">role:</span> <span className="text-emerald-400">{"\"MERN Stack & Shopify Developer\""}</span>,</div>
+                  <div className="pl-4"><span className="text-white/40">experience:</span> <span className="text-emerald-400">{"\""}{experienceYears}{"+ Years\""}</span>,</div>
+                  <div className="pl-4"><span className="text-white/40">focus:</span> <span className="text-emerald-400">{"\"Scalable Full-Stack Architecture\""}</span></div>
+                  <div>&#125;;</div>
+                </div>
+              ) : (
+                <div className="space-y-1 text-white/80">
+                  <div>&#123;</div>
+                  <div className="pl-4"><span className="text-gold-400 font-bold">{"\"core\""}</span>: [ <span className="text-emerald-400">{"\"Next.js\""}</span>, <span className="text-emerald-400">{"\"React 19\""}</span>, <span className="text-emerald-400">{"\"Node.js\""}</span> ],</div>
+                  <div className="pl-4"><span className="text-gold-400 font-bold">{"\"shopify\""}</span>: [ <span className="text-emerald-400">{"\"Liquid\""}</span>, <span className="text-emerald-400">{"\"App Bridge\""}</span> ]</div>
+                  <div>&#125;</div>
+                </div>
+              )}
             </div>
+          </BentoCard>
 
-            {/* Split Screen Panel */}
-            <div className="flex flex-1 min-h-[300px]">
-              {/* Sidebar Explorer Mock */}
-              <div className="w-1/3 border-r border-white/5 bg-[#050507] p-4 select-none font-mono text-[9px] text-white/30 hidden sm:block space-y-4">
-                <span className="text-[7.5px] uppercase tracking-widest font-black text-white/20 block mb-2">EXPLORER</span>
-                <div className="flex items-center gap-1 text-white/55 font-bold truncate">
-                  <Folder className="h-3.5 w-3.5 text-gold-400/60" />
-                  <span>sagar-api-core</span>
+          {/* Metric Badges Card (Grid 4 items) */}
+          <BentoCard className="md:col-span-4 py-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {metricBadges.map((badge, idx) => (
+                <div key={idx} className="space-y-1 text-left border-l-2 border-white/10 pl-4">
+                  <div className="text-3xl sm:text-4xl font-black font-heading text-white tracking-tight">
+                    {badge.value}
+                  </div>
+                  <div className="text-3xs font-mono font-bold tracking-widest text-white/40 uppercase">
+                    {badge.label}
+                  </div>
                 </div>
-                <div className="pl-3 space-y-2.5 pt-1">
-                  <button
-                    onClick={() => setActiveTab("profile.ts")}
-                    className={`flex items-center gap-1.5 w-full hover:text-white transition-colors cursor-pointer text-left ${activeTab === "profile.ts" ? "text-gold-400 font-bold" : ""}`}
-                  >
-                    <span>📄 profile.ts</span>
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("stack.json")}
-                    className={`flex items-center gap-1.5 w-full hover:text-white transition-colors cursor-pointer text-left ${activeTab === "stack.json" ? "text-gold-400 font-bold" : ""}`}
-                  >
-                    <span>📄 stack.json</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Code Editor Body */}
-              <div className="flex-1 p-5 overflow-x-auto bg-[#08080a] flex flex-col justify-between select-text selection:bg-white/10 selection:text-white">
-                <div className="animate-fadeIn">
-                  {activeTab === "profile.ts" ? renderProfileCode() : renderStackCode()}
-                </div>
-                
-                {/* Editor Footer details */}
-                <div className="flex justify-between items-center text-[7.5px] font-mono text-white/25 select-none pt-4 border-t border-white/5 uppercase tracking-widest mt-6">
-                  <span>ENCODING: UTF-8</span>
-                  <span>TYPESCRIPT SPECIFICATION</span>
-                </div>
-              </div>
+              ))}
             </div>
+          </BentoCard>
 
-          </div>
-        </div>
-
+        </BentoGrid>
       </div>
     </section>
   );

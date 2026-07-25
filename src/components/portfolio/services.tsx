@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Minus, Check, Layers, ShoppingBag, Globe, Monitor } from "lucide-react";
+import { Plus, Minus, Layers, ShoppingBag, Globe, Monitor, Sparkles, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 
 interface SubServiceItem {
   id: string;
@@ -30,26 +31,26 @@ interface ServicesProps {
 const FALLBACK_SERVICES: ServiceItem[] = [
   {
     id: "mern-development",
-    title: "MERN Stack Development",
-    description: "Full-stack products with React, Node.js, Express, MongoDB, auth, dashboards, and production deployment.",
-    mainDescription: "End-to-end MERN engineering for business applications, admin portals, SaaS products, and custom workflows.",
+    title: "MERN Stack Architecture",
+    description: "Full-stack products built with React 19, Node.js, Express, MongoDB, secure auth, and production deployment.",
+    mainDescription: "End-to-end MERN engineering for business applications, SaaS portals, and custom web API workflows.",
     icon: "Layers",
     orderIndex: 1,
     subServices: [
       {
         id: "mern-api",
-        subTitle: "API-first architecture",
-        subDescription: "Clean backend routes, validation, authentication, and modular service boundaries.",
-        highlights: ["Node.js", "Express", "MongoDB"],
-        subDetails: "Designed for maintainability, secure access patterns, and future integrations.",
+        subTitle: "API-First Architecture",
+        subDescription: "Clean backend routes, validation schemas, auth pipelines, and service boundaries.",
+        highlights: ["Node.js", "Express.js", "MongoDB"],
+        subDetails: "Designed for maintainability, security, and high performance.",
       },
     ],
   },
   {
     id: "shopify-app-development",
-    title: "Shopify App Development",
-    description: "Embedded apps, webhook processing, Admin GraphQL, OAuth flows, and merchant automation.",
-    mainDescription: "Custom Shopify apps that connect storefront operations, product data, order workflows, and third-party platforms.",
+    title: "Shopify Custom Engineering",
+    description: "Embedded apps, Webhook processing, Admin GraphQL APIs, OAuth flows, and tailored Liquid themes.",
+    mainDescription: "Custom Shopify apps connecting storefront operations, product meta-fields, and custom merchant tools.",
     icon: "ShoppingBag",
     orderIndex: 2,
     subServices: [],
@@ -60,7 +61,7 @@ const SERVICE_ICONS = {
   Layers: Layers,
   ShoppingBag: ShoppingBag,
   Globe: Globe,
-  Monitor: Monitor
+  Monitor: Monitor,
 };
 
 export function Services({ services }: ServicesProps) {
@@ -72,117 +73,82 @@ export function Services({ services }: ServicesProps) {
   };
 
   return (
-    <section id="services" data-section className="relative py-36 px-6 sm:px-12 steel-border-t bg-[#040406]">
-      {/* Blueprint Structural Layout Lines */}
+    <section id="services" data-section className="relative py-32 px-6 sm:px-12 steel-border-t bg-[#040406]">
+      {/* Background Lighting */}
       <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
+      <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto w-full space-y-16 relative z-10">
+      <div className="max-w-7xl mx-auto w-full space-y-12 relative z-10">
         
         {/* Section Header */}
-        <div className="text-left space-y-3" data-reveal="fade-up">
-          <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.25em] block">
-            06 // CAPABILITIES
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight uppercase">
-            SERVICES &amp; SCOPES
+        <div className="space-y-3 text-left">
+          <div className="inline-flex items-center gap-2 text-2xs font-mono font-bold tracking-[0.25em] text-gold-400 uppercase">
+            <Sparkles className="h-3.5 w-3.5" />
+            06 // ENGINEERING CAPABILITIES
+          </div>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading tracking-tight text-white">
+            SERVICES &amp; <span className="text-gold-400 glow-text">SPECIALTIES</span>.
           </h2>
         </div>
 
-        {/* Services Rows Accordion */}
-        <div className="border-t border-white/5 divide-y divide-white/5">
-          {displayServices.map((service) => {
-            const isOpen = expandedId === service.id;
+        {/* Spatial Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {displayServices.map((service, idx) => {
             const IconComponent = SERVICE_ICONS[service.icon as keyof typeof SERVICE_ICONS] || Layers;
-            
+            const isOpen = expandedId === service.id;
+
             return (
-              <div
-                key={service.id}
-                className="py-10 transition-colors duration-300 hover:bg-white/[0.01] px-6 -mx-6 rounded-2xl text-left"
-              >
-                <button
-                  onClick={() => toggleExpand(service.id)}
-                  className="w-full flex justify-between items-center text-left group cursor-pointer"
-                >
-                  <div className="space-y-2.5">
-                    <div className="flex items-center gap-3">
-                      <div className={cn(
-                        "p-2 rounded-lg border transition-colors",
-                        isOpen ? "border-gold-400 bg-gold-400/5 text-gold-400" : "border-white/5 text-white/30"
-                      )}>
-                        <IconComponent className="h-4.5 w-4.5" />
-                      </div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-white uppercase tracking-tight font-heading">
+              <BentoCard key={service.id} glow={idx % 2 === 0 ? "gold" : "ice"} className="space-y-6">
+                <div className="flex items-start justify-between border-b border-white/5 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 text-gold-400">
+                      <IconComponent className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black font-heading uppercase text-white tracking-tight">
                         {service.title}
                       </h3>
+                      <span className="text-3xs font-mono text-white/40 uppercase">SERVICE SCOPE 0{idx + 1}</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-white/50 max-w-xl font-medium font-sans">
-                      {service.description}
-                    </p>
                   </div>
-                  
-                  <div className="p-2.5 border border-white/5 group-hover:border-gold-400/20 rounded-full transition-colors ml-4 shrink-0">
-                    {isOpen ? <Minus className="h-4 w-4 text-gold-400" /> : <Plus className="h-4 w-4 text-white" />}
-                  </div>
-                </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
+                  <button
+                    onClick={() => toggleExpand(service.id)}
+                    className="p-2 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer"
+                  >
+                    {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                  </button>
+                </div>
+
+                <p className="text-sm text-slate-300 leading-relaxed text-left">
+                  {service.mainDescription || service.description}
+                </p>
+
+                {/* Subservices Drawer */}
+                <AnimatePresence>
+                  {isOpen && service.subServices && service.subServices.length > 0 && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="space-y-3 pt-4 border-t border-white/5 text-left"
                     >
-                      <div className="pt-8 pb-2 space-y-8 max-w-3xl">
-                        <div className="text-xs sm:text-sm text-white/60 leading-relaxed whitespace-pre-wrap bg-white/[0.01] border border-white/5 p-5 rounded-2xl font-sans">
-                          {service.mainDescription}
-                        </div>
-
-                        {/* Sub Services grid */}
-                        {service.subServices && service.subServices.length > 0 && (
-                          <div className="space-y-5 text-left">
-                            <span className="text-[8.5px] font-mono uppercase tracking-widest text-white/30 block font-bold">
-                              TECHNICAL DELIVERABLES BREAKDOWN
-                            </span>
-                            
-                            <div className="grid gap-4 sm:grid-cols-2">
-                              {service.subServices.map((sub) => (
-                                <div key={sub.id} className="border border-white/5 p-5 rounded-2xl space-y-4 bg-[#050507]">
-                                  <div className="space-y-1">
-                                    <h4 className="text-xs font-bold text-white uppercase tracking-wider font-heading">{sub.subTitle}</h4>
-                                    <p className="text-[11px] text-white/40 leading-relaxed font-sans">{sub.subDescription}</p>
-                                  </div>
-
-                                  {sub.highlights && sub.highlights.length > 0 && (
-                                    <div className="flex flex-wrap gap-1.5 pt-1">
-                                      {sub.highlights.map((h, i) => (
-                                        <span
-                                          key={i}
-                                          className="inline-flex items-center gap-1 rounded-full bg-white/5 border border-white/5 px-2.5 py-0.8 text-[8px] text-white/50 font-mono font-bold"
-                                        >
-                                          <Check className="h-2.5 w-2.5 text-gold-400" />
-                                          {h}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
-
-                                  <div className="text-[9px] text-gold-400/70 leading-relaxed pt-3.5 border-t border-white/5 font-mono uppercase tracking-widest">
-                                    SPEC // {sub.subDetails}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
+                      {service.subServices.map((sub) => (
+                        <div key={sub.id} className="p-4 rounded-xl bg-black/50 border border-white/5 space-y-2">
+                          <div className="flex items-center gap-2 font-bold text-xs font-mono text-gold-400 uppercase">
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            {sub.subTitle}
                           </div>
-                        )}
-                      </div>
+                          <p className="text-xs text-slate-400 leading-relaxed">
+                            {sub.subDescription}
+                          </p>
+                        </div>
+                      ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </BentoCard>
             );
           })}
         </div>

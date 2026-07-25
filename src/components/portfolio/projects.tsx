@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink, Code2, FolderGit2 } from "lucide-react";
+import { ArrowUpRight, FolderGit2, Sparkles, Layers } from "lucide-react";
 import { GithubIcon as Github } from "./social-icons";
 import { cn } from "@/lib/utils";
-import { Tilt } from "./tilt";
-import { Magnetic } from "./magnetic";
+import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Media {
@@ -77,197 +76,132 @@ export function Projects({ projects }: ProjectsProps) {
     : displayProjects.filter((p) => p.category === activeCategory);
 
   return (
-    <section id="projects" data-section className="relative py-36 px-6 sm:px-12 steel-border-t bg-[#040406]">
-      {/* Blueprint lines */}
+    <section id="projects" data-section className="relative py-32 px-6 sm:px-12 steel-border-t bg-[#040406]">
+      {/* Background Lighting */}
       <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
+      <div className="absolute top-[20%] right-[10%] w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto w-full space-y-16 relative z-10">
+      <div className="max-w-7xl mx-auto w-full space-y-12 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6" data-reveal="fade-up">
-          <div className="space-y-3">
-            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.25em] block">
-              04 // CASE STUDIES
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight uppercase">
-              SELECTED WORKS
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3 text-left">
+            <div className="inline-flex items-center gap-2 text-2xs font-mono font-bold tracking-[0.25em] text-gold-400 uppercase">
+              <Sparkles className="h-3.5 w-3.5" />
+              03 // SELECTED WORKS
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading tracking-tight text-white">
+              PROJECT <span className="text-gold-400 glow-text">SHOWCASE</span>.
             </h2>
           </div>
 
-          {/* Filter Categories Tabs */}
-          <div className="flex flex-wrap gap-3 text-[9px] font-bold uppercase tracking-widest font-mono select-none">
-            {categories.map((cat, idx) => (
-              <React.Fragment key={cat}>
-                {idx > 0 && <span className="text-white/10">/</span>}
-                <button
-                  onClick={() => setActiveCategory(cat)}
-                  className={cn(
-                    "transition-colors cursor-pointer pb-1",
-                    activeCategory === cat 
-                      ? "text-gold-400 border-b border-gold-400 font-bold" 
-                      : "text-white/40 hover:text-white"
-                  )}
-                >
-                  {cat === "all" ? "ALL WORKS" : cat.toUpperCase()}
-                </button>
-              </React.Fragment>
+          {/* Category Filters */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "px-4 py-2 rounded-full text-3xs font-mono font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer",
+                  activeCategory === cat
+                    ? "bg-gold-400 text-black shadow-lg shadow-gold-400/20"
+                    : "bg-white/[0.03] border border-white/10 text-white/60 hover:text-white hover:bg-white/10"
+                )}
+              >
+                {cat}
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Projects Grid */}
-        <div className="min-h-[400px]">
-          <AnimatePresence mode="wait">
-            {filteredProjects.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="text-center py-24 border border-dashed border-white/5 rounded-2xl max-w-md mx-auto"
-              >
-                <FolderGit2 className="h-10 w-10 text-white/20 mx-auto mb-3" />
-                <p className="text-white/40 font-mono text-[9px] uppercase tracking-widest">No projects found.</p>
-              </motion.div>
-            ) : (
-              <motion.div
-                key={activeCategory}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="grid gap-10 grid-cols-1 md:grid-cols-2 max-w-6xl mx-auto"
-              >
-                {filteredProjects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+        {/* Spatial Bento Grid Layout */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {filteredProjects.map((project, idx) => {
+              const coverItem = project.mediaList?.find((m) => m.isCover) || project.mediaList?.[0];
+              const imageUrl = coverItem?.media?.url || null;
+
+              return (
+                <BentoCard
+                  key={project.id}
+                  glow={idx % 2 === 0 ? "gold" : "ice"}
+                  className="group flex flex-col justify-between min-h-[26rem] p-7"
+                >
+                  {/* Card Header & Media */}
+                  <div className="space-y-5">
+                    {/* Media Preview Box */}
+                    <div className="rounded-xl overflow-hidden border border-white/10 bg-black/40 aspect-video relative group-hover:border-gold-400/40 transition-colors">
+                      {imageUrl ? (
+                        <Image
+                          src={imageUrl}
+                          alt={project.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-white/5 to-black/80 text-white/20 p-4 text-center">
+                          <FolderGit2 className="h-8 w-8 mb-2 text-gold-400/40" />
+                          <span className="text-3xs font-mono font-bold tracking-widest uppercase">
+                            SPEC BLUEPRINT READY
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Top Badges */}
+                      <div className="absolute top-3 left-3 flex gap-2">
+                        <span className="px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-md border border-white/10 text-4xs font-mono font-bold uppercase text-gold-400">
+                          {project.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Title & Description */}
+                    <div className="space-y-2 text-left">
+                      <h3 className="text-xl font-black uppercase tracking-tight text-white font-heading group-hover:text-gold-400 transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                        {project.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Card Footer: Tech Stack Chips & Link Button */}
+                  <div className="pt-6 border-t border-white/5 flex items-center justify-between gap-4 mt-auto">
+                    <div className="flex flex-wrap gap-1.5 max-w-[70%]">
+                      {project.techStack.slice(0, 3).map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-0.5 rounded bg-white/[0.04] text-5xs font-mono font-bold text-white/60 border border-white/5"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className="inline-flex items-center gap-1 text-2xs font-mono font-bold tracking-widest text-gold-400 hover:text-white uppercase transition-colors underline-reveal"
+                    >
+                      <span>DETAILS</span>
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                </BentoCard>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </section>
-  );
-}
-
-function ProjectCard({ project }: { project: ProjectItem }) {
-  const getCoverImage = (item: ProjectItem) => {
-    const cover = item.mediaList?.find((m) => m.isCover);
-    if (cover) return cover.media.url;
-    if (item.mediaList?.length > 0) return item.mediaList[0].media.url;
-    return "";
-  };
-
-  const coverUrl = getCoverImage(project);
-
-  return (
-    <Tilt>
-      <div
-        className="group flex flex-col justify-between space-y-6 border border-white/5 bg-white/[0.01] p-6 rounded-3xl hover:border-gold-400/20 hover:shadow-[0_0_40px_rgba(198,163,104,0.04)] transition-all duration-600 relative overflow-hidden"
-      >
-        {/* Cover Image container - triggers custom cursor text */}
-        <Link
-          href={`/projects/${project.slug}`}
-          data-cursor-text="CASE STUDY"
-          className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/5 bg-[#050507] flex items-center justify-center cursor-none"
-        >
-          {coverUrl ? (
-            <Image
-              src={coverUrl}
-              alt={project.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out-expo"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-[#060608] flex flex-col justify-end p-6 select-none w-full h-full text-left">
-              <div className="absolute inset-0 premium-grid opacity-15 pointer-events-none" />
-              <div className="relative z-10 space-y-2">
-                <span className="text-[8px] font-bold text-gold-400 uppercase tracking-[0.25em] block">
-                  CASE STUDY // {project.category.toUpperCase()}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight uppercase leading-none font-heading">
-                  {project.title}
-                </h3>
-              </div>
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#040406]/90 via-black/0 to-[#040406]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-        </Link>
-
-        {/* Details Container */}
-        <div className="space-y-5 px-1 select-none text-left">
-          <div className="flex justify-between items-start">
-            <div className="space-y-1">
-              <span className="text-[8px] font-mono text-gold-400 font-bold uppercase tracking-widest">
-                SPEC ARCHITECTURE // {project.category}
-              </span>
-              <h4 className="text-xl font-black text-white group-hover:text-gold-400 transition-colors uppercase font-heading tracking-tight mt-1">
-                {project.title}
-              </h4>
-              <p className="text-xs text-white/50 line-clamp-2 leading-relaxed pt-1 font-sans">
-                {project.description}
-              </p>
-            </div>
-          </div>
-
-          {/* Tech Stack badges */}
-          <div className="flex flex-wrap gap-1.5 pt-1">
-            {project.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="text-[8px] font-mono font-bold uppercase tracking-wider text-white/40 bg-white/[0.02] border border-white/5 px-3 py-1 rounded-full group-hover:border-gold-400/20 group-hover:text-gold-400 transition-all duration-300"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          {/* Links coordinator */}
-          <div className="flex items-center justify-between pt-4 border-t border-white/5 text-[9px] font-mono uppercase tracking-[0.2em] text-white/30">
-            <Magnetic>
-              <Link
-                href={`/projects/${project.slug}`}
-                className="inline-flex items-center text-white/60 hover:text-white transition-colors underline-reveal"
-              >
-                <Code2 className="mr-1.5 h-3.5 w-3.5 text-gold-400/70" />
-                Read Case Study
-              </Link>
-            </Magnetic>
-            
-            <div className="flex items-center gap-4">
-              {project.githubUrl && (
-                <Magnetic>
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors flex items-center gap-1.5 underline-reveal"
-                  >
-                    <Github className="h-3 w-3 text-gold-400/70" />
-                    Source
-                  </a>
-                </Magnetic>
-              )}
-              {project.liveUrl && (
-                <Magnetic>
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white transition-colors flex items-center gap-1.5 underline-reveal"
-                  >
-                    <ExternalLink className="h-3 w-3 text-gold-400/70" />
-                    Launch
-                  </a>
-                </Magnetic>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </Tilt>
   );
 }

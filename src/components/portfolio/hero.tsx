@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Sparkles, Code2, Server, ShoppingBag, ShieldCheck } from "lucide-react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Magnetic } from "./magnetic";
@@ -17,7 +17,6 @@ interface HeroProps {
 
 export function Hero({ resumeUrl }: HeroProps) {
   const [offsetY, setOffsetY] = useState(0);
-  void resumeUrl;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,155 +47,118 @@ export function Hero({ resumeUrl }: HeroProps) {
     }
   };
 
-  // Luxury line reveals
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const lineVariants = {
-    hidden: { y: "110%", rotate: 2 },
-    visible: {
-      y: 0,
-      rotate: 0,
-      transition: {
-        duration: 1.0,
-        ease: [0.16, 1, 0.3, 1] as const,
-      },
-    },
-  };
-
   return (
     <section
       id="home"
       data-section
-      className="relative min-h-screen flex items-center justify-between overflow-hidden px-6 sm:px-12 select-none py-28"
+      className="relative min-h-screen flex items-center justify-between overflow-hidden px-6 sm:px-12 select-none pt-32 pb-24"
     >
-      {/* Background blueprint details */}
+      {/* Ambient Radial Lighting Overlays */}
       <div className="absolute inset-0 premium-grid opacity-15 pointer-events-none" />
       <div className="absolute inset-0 noise-overlay pointer-events-none" />
       
-      {/* Backlight glowing orbs */}
-      <div className="absolute top-[20%] left-[15%] w-[450px] h-[450px] bg-gold-400/5 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[15%] w-[400px] h-[400px] bg-ice-400/5 rounded-full blur-[120px] pointer-events-none" />
+      {/* Spatial Backlight Glows */}
+      <div className="absolute top-[15%] left-[10%] w-[550px] h-[550px] bg-gold-400/10 rounded-full blur-[150px] pointer-events-none animate-pulse" />
+      <div className="absolute bottom-[15%] right-[10%] w-[500px] h-[500px] bg-ice-400/10 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* 3D WebGL Crystal Core */}
+      {/* Interactive 3D WebGL Canvas Layer */}
       <HeroCanvas />
 
-      {/* Blueprint Structural Layout Lines */}
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute left-0 right-0 bottom-24 h-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
+      {/* Blueprint Alignment Guides */}
+      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.03] pointer-events-none hidden md:block" />
+      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.03] pointer-events-none hidden md:block" />
 
-      <div className="max-w-7xl mx-auto w-full grid gap-10 lg:grid-cols-12 relative z-10">
-        {/* Left column text details */}
-        <div className="lg:col-span-9 flex flex-col justify-center space-y-12 text-left">
+      <div className="max-w-7xl mx-auto w-full grid gap-12 lg:grid-cols-12 relative z-10 items-center">
+        
+        {/* Main Content Column */}
+        <div className="lg:col-span-10 space-y-10 text-left">
           
-          {/* Eyebrow tag */}
+          {/* Spatial Status Badge */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex items-center gap-3 px-4 py-2 border border-white/5 bg-white/[0.01] backdrop-blur-md rounded-full max-w-fit text-[9px] font-bold uppercase tracking-[0.25em] text-gold-400 shadow-md"
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-pill text-2xs font-mono font-bold tracking-widest text-gold-400 uppercase shadow-lg shadow-black/60"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
-            ENGINEERING LUXURY PLATFORMS // 2026
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+            <span>AVAILABLE FOR FULL-STACK & SHOPIFY ARCHITECTURE</span>
           </motion.div>
 
-          {/* Premium Headline */}
+          {/* Vercel/Apple Style Main Headline */}
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="space-y-4 font-heading text-6xl font-black tracking-tighter text-white sm:text-8xl lg:text-[6rem] xl:text-[7rem] leading-[0.82] uppercase"
-          >
-            <div className="text-reveal-container block">
-              <motion.h1 
-                variants={lineVariants}
-                className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/70"
-              >
-                MERN STACK
-              </motion.h1>
-            </div>
-            <div className="text-reveal-container block">
-              <motion.h1 
-                variants={lineVariants} 
-                className="bg-clip-text text-transparent bg-gradient-to-b from-white/30 via-white/10 to-white/5"
-              >
-                &amp; SHOPIFY
-              </motion.h1>
-            </div>
-            <div className="text-reveal-container block">
-              <motion.h1 
-                variants={lineVariants}
-                className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-gold-400/80"
-              >
-                ARCHITECT.
-              </motion.h1>
-            </div>
-          </motion.div>
-
-          {/* Luxury Copy */}
-          <motion.p
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white/60 text-sm sm:text-base max-w-xl leading-relaxed font-sans font-medium"
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="space-y-4"
           >
-            Sagar Panchal builds robust, state-of-the-art full-stack architectures, high-performance API backends, bespoke Shopify apps, and Liquid e-commerce storefronts optimized for sub-second page rendering and high visual fidelity.
-          </motion.p>
+            <h1 className="text-5xl sm:text-7xl lg:text-[6.5rem] font-black text-white tracking-tighter leading-[0.85] font-heading uppercase">
+              CRAFTING <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-amber-200 to-white glow-text">HIGH-SCALE</span> WEB &amp; COMMERCE SYSTEMS.
+            </h1>
+            <p className="text-base sm:text-xl font-medium text-slate-300 max-w-3xl leading-relaxed">
+              I’m Sagar Panchal — a backend-focused MERN Stack Engineer and Shopify Developer building resilient APIs, high-performance web applications, and custom commerce solutions.
+            </p>
+          </motion.div>
 
-          {/* CTA Buttons */}
+          {/* Tech Ecosystem Pills */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap gap-4 pt-2"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-wrap gap-3 pt-2"
+          >
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono text-white/80">
+              <Server className="h-3.5 w-3.5 text-gold-400" /> Node.js &amp; Express APIs
+            </div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono text-white/80">
+              <Code2 className="h-3.5 w-3.5 text-ice-400" /> React 19 &amp; Next.js 16
+            </div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono text-white/80">
+              <ShoppingBag className="h-3.5 w-3.5 text-emerald-400" /> Custom Shopify Apps
+            </div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/[0.03] border border-white/10 text-xs font-mono text-white/80">
+              <ShieldCheck className="h-3.5 w-3.5 text-amber-400" /> MongoDB &amp; PostgreSQL
+            </div>
+          </motion.div>
+
+          {/* Action CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4"
           >
             <Magnetic>
               <button
                 onClick={() => scrollToSection("projects")}
-                className="relative group inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-[9px] font-black uppercase tracking-widest text-[#040406] cursor-pointer overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
+                className="px-8 py-4 rounded-full bg-gold-400 text-black font-bold text-xs uppercase tracking-widest hover:bg-gold-300 transition-all duration-300 shadow-xl shadow-gold-400/20 flex items-center justify-center gap-2.5 cursor-pointer"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
-                Explore Portfolio
-                <ArrowUpRight className="ml-2 h-4 w-4 text-black transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span>EXPLORE FEATURED WORKS</span>
+                <ArrowUpRight className="h-4 w-4" />
               </button>
             </Magnetic>
-            
-            <Magnetic>
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="relative group inline-flex items-center justify-center rounded-full border border-white/5 bg-white/[0.01] hover:bg-white/[0.04] px-8 py-4 text-[9px] font-black uppercase tracking-widest text-white cursor-pointer overflow-hidden transition-all duration-300 hover:border-gold-400/30 hover:scale-105 active:scale-95"
-              >
-                <span className="relative z-10">Request briefing</span>
-              </button>
-            </Magnetic>
+
+            {resumeUrl && (
+              <Magnetic>
+                <a
+                  href={resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 rounded-full border border-white/15 bg-white/5 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all duration-300 backdrop-blur-md flex items-center justify-center gap-2"
+                >
+                  <span>GET RESUME (PDF)</span>
+                  <ArrowDown className="h-3.5 w-3.5 text-gold-400" />
+                </a>
+              </Magnetic>
+            )}
           </motion.div>
         </div>
-
-        {/* Right side floating empty offset spacer (for WebGL visual balance) */}
-        <div
-          className="lg:col-span-3 hidden lg:flex items-center justify-center select-none"
-          style={{ transform: `translateY(${offsetY * 0.05}px)` }}
-        />
       </div>
 
-      {/* Blueprint Scroll indicator */}
-      <button
-        onClick={() => scrollToSection("about")}
-        className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-3 text-[9px] font-bold uppercase tracking-[0.25em] text-white/30 transition-colors hover:text-gold-400"
-      >
-        <span>SCROLL DOWN</span>
-        <span className="flex h-10 w-6 items-start justify-center rounded-full border border-white/10 p-1 transition-colors hover:border-gold-400/40">
-          <ArrowDown className="h-3.5 w-3.5 text-white/30 animate-bounce" />
-        </span>
-      </button>
+      {/* Floating Scroll Prompt */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none opacity-40 hover:opacity-100 transition-opacity">
+        <span className="text-[9px] font-mono font-bold tracking-[0.3em] uppercase text-white/60">SCROLL DOWN</span>
+        <ArrowDown className="h-3.5 w-3.5 text-gold-400 animate-bounce" />
+      </div>
     </section>
   );
 }
