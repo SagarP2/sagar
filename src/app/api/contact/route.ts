@@ -1,18 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as z from "zod";
 import { rateLimit } from "@/lib/rate-limit";
 import { handleApiError } from "@/lib/errors";
+import { contactFormSchema } from "@/lib/validations/contact";
+import { ContactApiResponse } from "@/types/portfolio";
 
-const contactApiSchema = z.object({
-  name: z.string().trim().min(2, "Name must be at least 2 characters.").max(100, "Name is too long."),
-  email: z.string().trim().email("Please enter a valid email address.").max(150, "Email is too long."),
-  subject: z.string().trim().min(3, "Subject must be at least 3 characters.").max(200, "Subject is too long."),
-  service: z.string().trim().optional().default("Full-Stack MERN"),
-  budget: z.string().trim().optional().default("$5k - $10k"),
-  message: z.string().trim().min(10, "Message must be at least 10 characters.").max(3000, "Message is too long."),
-});
-
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse<ContactApiResponse>> {
   try {
     // 1. IP & Rate Limiting Check
     const ip =
@@ -44,21 +36,23 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Parse request body
-    const body = await req.json().catch(() => null);
-    if (!body) {
+    const body: unknown = await req.json().catch(() => null);
+    if (!body || typeof body !== "object") {
       return NextResponse.json(
         { success: false, message: "Invalid request payload." },
         { status: 400 }
       );
     }
 
-    // 3. Strict Server-side Input Validation
-    const validation = contactApiSchema.safeParse(body);
+    // 3. Strict Server-side Input Validation via shared Zod schema
+    const validation = contactFormSchema.safeParse(body);
     if (!validation.success) {
       const fieldErrors: Record<string, string> = {};
       validation.error.issues.forEach((issue) => {
-        const path = issue.path[0] as string;
-        fieldErrors[path] = issue.message;
+        const path = String(issue.path[0] ?? "");
+        if (path) {
+          fieldErrors[path] = issue.message;
+        }
       });
 
       return NextResponse.json(
@@ -74,10 +68,10 @@ export async function POST(req: NextRequest) {
     const { name, email, subject, service, budget, message } = validation.data;
 
     // 4. Server-Side Execution & Logging
-    console.log(`[Contact Form Received] Subject: "${subject}" from ${name} <${email}> (${service}, Budget: ${budget})`);
-    console.log(`[Message Body]: ${message}`);
-
-    // (If env variable RESEND_API_KEY / SMTP is present, send email here)
+    console.info(
+      `[Contact Form Received] Subject: "${subject}" from ${name} <${email}> (${service}, Budget: ${budget})`
+    );
+    console.info(`[Message Body]: ${message}`);
 
     return NextResponse.json(
       {
@@ -97,6 +91,6 @@ export async function POST(req: NextRequest) {
       }
     );
   } catch (error) {
-    return handleApiError(error);
+    return handleApiError(error) as NextResponse<ContactApiResponse>;
   }
 }

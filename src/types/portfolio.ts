@@ -19,6 +19,11 @@ export enum ContactStatus {
   REPLIED = "REPLIED",
 }
 
+export interface NavigationItem {
+  readonly label: string;
+  readonly href: string;
+}
+
 export interface WebsiteSetting {
   id: string;
   siteName: string;
@@ -180,3 +185,28 @@ export interface ContactMessage {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export type WebhookStatus = "success" | "retry" | "fail";
+
+export interface WebhookLog {
+  id: string;
+  topic: string;
+  timestamp: string;
+  status: WebhookStatus;
+  details: string;
+}
+
+export type ContactApiResponse =
+  | {
+      success: true;
+      message: string;
+      data: {
+        timestamp: string;
+        referenceId: string;
+      };
+    }
+  | {
+      success: false;
+      message: string;
+      errors?: Record<string, string>;
+    };
