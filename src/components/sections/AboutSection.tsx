@@ -10,39 +10,39 @@ interface AboutSectionProps {
 const CORE_FOCUS_AREAS = [
   {
     icon: Layers,
-    title: "MERN Stack Development",
+    title: "MERN Stack Architecture",
     description:
-      "End-to-end web applications built with MongoDB, Express.js, React.js, Next.js, and Node.js with clean component architecture.",
+      "End-to-end web applications built with React.js, Next.js, TypeScript, Node.js, Express.js, and MongoDB.",
   },
   {
     icon: ShoppingBag,
-    title: "Shopify Application Development",
+    title: "Shopify App Engineering",
     description:
-      "Custom embedded Shopify apps, App Bridge integrations, Admin GraphQL API workflows, webhook handlers, and Liquid theme customization.",
-  },
-  {
-    icon: Code2,
-    title: "Frontend & Backend Engineering",
-    description:
-      "Responsive, accessible user interfaces paired with structured server-side logic, authentication, and middleware validation.",
+      "Custom embedded Shopify apps, App Bridge integrations, Admin GraphQL API workflows, Polaris UI, and Theme App Extensions.",
   },
   {
     icon: Server,
-    title: "API Development",
+    title: "Backend & API Systems",
     description:
-      "RESTful and GraphQL API endpoints engineered for predictable data exchange, rate-limit awareness, and clean error handling.",
+      "RESTful and GraphQL APIs engineered with strict validation, rate-limit awareness, Redis caching, and BullMQ queues.",
   },
   {
     icon: Database,
-    title: "Database Integration",
+    title: "Database & Persistence",
     description:
-      "Schema modeling, indexing, and query optimization across MongoDB and relational SQL databases, plus cloud asset storage with AWS S3.",
+      "Schema modeling and query optimization across MongoDB, PostgreSQL, Supabase, Prisma ORM, and AWS S3 storage.",
+  },
+  {
+    icon: Code2,
+    title: "Frontend Craft & Responsive UI",
+    description:
+      "High-contrast, accessible, and responsive interfaces with clean component boundaries and fast rendering performance.",
   },
   {
     icon: ShieldCheck,
-    title: "Performance, Security & Maintainability",
+    title: "Working Principles & QA",
     description:
-      "Strict input validation, role-based access control, quality assurance testing, and modular codebases built for long-term reliability.",
+      "Maintainable TypeScript codebases, defensive error handling, role-based access control, and thorough QA validation.",
   },
 ] as const;
 
@@ -55,93 +55,113 @@ export function AboutSection({
     <section
       id="about"
       data-section
-      className="relative py-20 sm:py-28 bg-[#EEEAE2] border-b border-[#D8D4CA]"
+      className="relative py-20 sm:py-28 bg-[#030407] border-b border-[#292D36]"
     >
       <div className="editorial-container px-5 sm:px-8 space-y-16">
-        {/* Editorial Section Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start text-left">
-          <div className="lg:col-span-4 space-y-3">
-            <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#590907]">
-              <span>01</span>
-              <span className="text-[#A5A79B]">/</span>
-              <span>About Me</span>
+        {/* Top Asymmetric Biography & Principles Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch text-left">
+          {/* Left Headline & Electric Cobalt Blue Highlight Card (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#D4FF24]">
+                <span>02</span>
+                <span className="text-[#1558C9]">/</span>
+                <span>About</span>
+              </div>
+              <h2
+                className="font-heading font-bold text-[#F5F5F5] tracking-tight leading-[1.08]"
+                style={{ fontSize: "clamp(1.95rem, 3.2vw + 0.5rem, 3rem)" }}
+              >
+                Engineering With Purpose.{" "}
+                <span className="text-[#D4FF24]">Designing With Intent.</span>
+              </h2>
             </div>
-            <h2
-              className="font-heading font-bold text-[#252522] tracking-tight leading-[1.12]"
-              style={{ fontSize: "clamp(1.85rem, 3vw + 0.5rem, 2.85rem)" }}
-            >
-              Engineering purposeful web &amp; commerce systems.
-            </h2>
+
+            {/* Selective Electric Cobalt Blue Block */}
+            <div className="rounded-xl bg-[#1558C9] p-6 sm:p-7 text-[#F5F5F5] space-y-3 border border-[#1558C9]">
+              <span className="inline-block px-2.5 py-0.5 rounded bg-[#030407]/40 text-[10px] font-mono font-bold uppercase tracking-widest text-[#D4FF24]">
+                Engineering Philosophy
+              </span>
+              <p className="font-heading font-bold text-base sm:text-lg leading-snug">
+                Clean architecture on the backend. Deliberate clarity on the frontend.
+              </p>
+              <p className="text-xs sm:text-sm text-[#F5F5F5]/90 leading-relaxed">
+                Every feature is built around real merchant and user workflows—combining reliable
+                data models with fast, intuitive interfaces.
+              </p>
+            </div>
           </div>
 
-          {/* Editorial Bio Copy */}
-          <div className="lg:col-span-8 space-y-6">
-            <p
-              className="text-[#252522] font-medium leading-relaxed border-l-2 border-[#590907] pl-5"
-              style={{ fontSize: "clamp(1.05rem, 1.25vw, 1.25rem)" }}
-            >
-              {bioText}
-            </p>
-            <p className="text-sm sm:text-base text-[#66665F] leading-relaxed">
-              {subBioText}
-            </p>
+          {/* Right Compact Biography & Key Metrics Bento (7 cols) */}
+          <div className="lg:col-span-7 rounded-2xl bg-[#101218] border border-[#292D36] p-6 sm:p-9 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <p
+                className="text-[#F5F5F5] font-medium leading-relaxed border-l-2 border-[#D4FF24] pl-5"
+                style={{ fontSize: "clamp(1.025rem, 1.2vw, 1.2rem)" }}
+              >
+                {bioText}
+              </p>
+              <p className="text-sm sm:text-base text-[#B4B8C3] leading-relaxed">
+                {subBioText}
+              </p>
+            </div>
 
             {/* Verified Profile Summary Strip */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-              <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#D8D4CA]">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#66665F] block">
-                  Primary Focus
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[#292D36]">
+              <div className="p-4 rounded-xl bg-[#1A1E27] border border-[#292D36]">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#B4B8C3] block">
+                  Core Specialization
                 </span>
-                <span className="font-heading font-bold text-sm text-[#252522] mt-1 block">
-                  MERN Stack &amp; Shopify Apps
-                </span>
-              </div>
-
-              <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#D8D4CA]">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#66665F] block">
-                  Professional Experience
-                </span>
-                <span className="font-heading font-bold text-sm text-[#590907] mt-1 block">
-                  {experienceYears}+ Years in Production
+                <span className="font-heading font-bold text-sm text-[#F5F5F5] mt-1 block">
+                  MERN &amp; Shopify Apps
                 </span>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#E8D2B5]/65 border border-[#D8D4CA]">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#252522] block">
-                  Education
+              <div className="p-4 rounded-xl bg-[#1A1E27] border border-[#292D36]">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#B4B8C3] block">
+                  Production Experience
                 </span>
-                <span className="font-heading font-bold text-sm text-[#252522] mt-1 block">
-                  B.Sc. in Information Technology
+                <span className="font-heading font-bold text-sm text-[#D4FF24] mt-1 block">
+                  {experienceYears}+ Years Active
+                </span>
+              </div>
+
+              <div className="p-4 rounded-xl bg-[#1A1E27] border border-[#292D36]">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#B4B8C3] block">
+                  Academic Degree
+                </span>
+                <span className="font-heading font-bold text-sm text-[#F5F5F5] mt-1 block">
+                  B.Sc. in IT (BMIIT)
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 6 Core Engineering Pillars */}
+        {/* 6 Technical Focus & Working Principle Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
           {CORE_FOCUS_AREAS.map((item, idx) => {
             const Icon = item.icon;
             return (
               <article
                 key={item.title}
-                className="editorial-card rounded-lg p-6 sm:p-7 flex flex-col justify-between space-y-4 bg-[#FFFFFF]"
+                className="bento-card rounded-xl p-6 sm:p-7 flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="w-10 h-10 rounded-md bg-[#F7F5F0] border border-[#D8D4CA] flex items-center justify-center text-[#590907]">
+                    <span className="w-10 h-10 rounded-lg bg-[#1A1E27] border border-[#292D36] flex items-center justify-center text-[#D4FF24]">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <span className="text-xs font-mono text-[#A5A79B] font-semibold">
+                    <span className="text-xs font-mono text-[#1558C9] font-bold">
                       0{idx + 1}
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-bold text-lg text-[#252522] tracking-tight">
+                  <h3 className="font-heading font-bold text-lg text-[#F5F5F5] tracking-tight">
                     {item.title}
                   </h3>
 
-                  <p className="text-sm text-[#66665F] leading-relaxed">
+                  <p className="text-sm text-[#B4B8C3] leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -153,4 +173,3 @@ export function AboutSection({
     </section>
   );
 }
-

@@ -28,37 +28,42 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sagarpanchal.dev"),
   title: {
-    default: "Sagar Panchal | MERN Stack & Shopify App Developer",
+    default: "Sagar Panchal | MERN Stack Developer & Shopify App Developer",
     template: "%s | Sagar Panchal",
   },
   description:
-    "Portfolio of Sagar Panchal, a MERN Stack Developer and Shopify App Developer building scalable web applications, custom Shopify solutions, and intuitive digital experiences.",
+    "Portfolio of Sagar Panchal — MERN Stack Developer and Shopify App Developer building modern web applications, custom Shopify solutions, and reliable backend architectures.",
   keywords: [
     "Sagar Panchal",
     "MERN Stack Developer",
     "Shopify App Developer",
     "Shopify Developer",
     "Full-Stack Developer",
-    "Node.js Developer",
     "React.js Developer",
-    "Next.js Portfolio",
-    "REST API Developer",
-    "GraphQL Developer",
+    "Next.js Developer",
+    "Node.js Developer",
+    "Shopify Admin API",
+    "Shopify GraphQL",
   ],
   authors: [{ name: "Sagar Panchal" }],
   creator: "Sagar Panchal",
+  alternates: {
+    canonical: "https://sagarpanchal.dev",
+  },
   openGraph: {
-    title: "Sagar Panchal | MERN Stack & Shopify App Developer",
+    title: "Sagar Panchal | MERN Stack Developer & Shopify App Developer",
     description:
-      "Scalable web applications, backend APIs, custom Shopify apps, and full-stack MERN products.",
+      "Building digital experiences that move business forward — full-stack MERN applications, custom Shopify apps, and dependable backend systems.",
+    url: "https://sagarpanchal.dev",
+    siteName: "Sagar Panchal Portfolio",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sagar Panchal | MERN Stack & Shopify App Developer",
+    title: "Sagar Panchal | MERN Stack Developer & Shopify App Developer",
     description:
-      "MERN Stack Developer and Shopify App Developer building scalable web applications and custom commerce systems.",
+      "Modern web applications and Shopify solutions engineered with thoughtful interfaces and reliable architecture.",
   },
 };
 
@@ -70,9 +75,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#F7F5F0] text-[#252522]">
+      <body className="min-h-full flex flex-col bg-[#030407] text-[#F5F5F5]">
         <SmoothScroll>{children}</SmoothScroll>
         <Toaster position="top-right" richColors />
       </body>

@@ -30,8 +30,8 @@ export function ProjectMockup({ slug }: ProjectMockupProps) {
 
   if (!isMounted) {
     return (
-      <div className="w-full aspect-[4/3] bg-[#FFFFFF] border border-[#D8D4CA] rounded-xl flex items-center justify-center">
-        <span className="text-xs text-[#66665F] uppercase tracking-wider font-mono">
+      <div className="w-full aspect-[4/3] bg-[#101218] border border-[#292D36] rounded-xl flex items-center justify-center">
+        <span className="text-xs text-[#B4B8C3] uppercase tracking-wider font-mono">
           Loading Interactive Preview...
         </span>
       </div>
@@ -102,11 +102,11 @@ function TrackMySpendSimulator() {
   };
 
   return (
-    <div className="w-full bg-[#FFFFFF] border border-[#D8D4CA] rounded-xl p-6 space-y-5 font-sans shadow-sm">
-      <div className="flex justify-between items-center border-b border-[#D8D4CA] pb-3">
+    <div className="w-full bg-[#101218] border border-[#292D36] rounded-xl p-6 space-y-5 font-sans shadow-xl">
+      <div className="flex justify-between items-center border-b border-[#292D36] pb-3">
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-[#590907]" />
-          <span className="text-xs uppercase font-mono font-semibold tracking-wider text-[#252522]">
+          <span className="h-2 w-2 rounded-full bg-[#D4FF24]" />
+          <span className="text-xs uppercase font-mono font-semibold tracking-wider text-[#F5F5F5]">
             Finance Dashboard Preview
           </span>
         </div>
@@ -114,7 +114,7 @@ function TrackMySpendSimulator() {
           type="button"
           onClick={resetSimulator}
           aria-label="Reset finance preview"
-          className="text-[#66665F] hover:text-[#590907] transition-colors cursor-pointer"
+          className="text-[#B4B8C3] hover:text-[#D4FF24] transition-colors cursor-pointer"
         >
           <RotateCcw className="h-4 w-4" />
         </button>
@@ -122,20 +122,20 @@ function TrackMySpendSimulator() {
 
       {/* Balance Cards */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="border border-[#D8D4CA] bg-[#F7F5F0] rounded-lg p-4 text-left">
-          <div className="text-[11px] uppercase tracking-wider text-[#66665F] font-mono">
+        <div className="border border-[#292D36] bg-[#030407] rounded-lg p-4 text-left">
+          <div className="text-[11px] uppercase tracking-wider text-[#B4B8C3] font-mono">
             Total Balance
           </div>
-          <div className="text-xl font-bold text-[#252522] tracking-tight mt-1 font-heading">
+          <div className="text-xl font-bold text-[#F5F5F5] tracking-tight mt-1 font-heading">
             ${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         </div>
-        <div className="border border-[#D8D4CA] bg-[#E8D2B5]/45 rounded-lg p-4 text-left">
-          <div className="text-[11px] uppercase tracking-wider text-[#590907] font-mono">
+        <div className="border border-[#1558C9] bg-[#1558C9]/20 rounded-lg p-4 text-left">
+          <div className="text-[11px] uppercase tracking-wider text-[#D4FF24] font-mono">
             Total Expenses
           </div>
-          <div className="text-xl font-bold tracking-tight mt-1 flex items-center text-[#590907] font-heading">
-            <ArrowDownRight className="h-4 w-4 mr-0.5" />
+          <div className="text-xl font-bold tracking-tight mt-1 flex items-center text-[#F5F5F5] font-heading">
+            <ArrowDownRight className="h-4 w-4 mr-0.5 text-[#D4FF24]" />
             ${expenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         </div>
@@ -143,19 +143,19 @@ function TrackMySpendSimulator() {
 
       {/* Transaction Feed */}
       <div className="space-y-2.5 text-left">
-        <span className="text-[11px] uppercase font-mono font-semibold tracking-wider text-[#66665F]">
+        <span className="text-[11px] uppercase font-mono font-semibold tracking-wider text-[#B4B8C3]">
           Recent Activity
         </span>
         <div className="space-y-2">
           {transactions.map((tx) => (
             <div
               key={tx.id}
-              className="flex items-center justify-between p-3 border border-[#D8D4CA] bg-[#F7F5F0] rounded-lg text-xs"
+              className="flex items-center justify-between p-3 border border-[#292D36] bg-[#030407] rounded-lg text-xs"
             >
               <div className="space-y-0.5">
-                <div className="font-semibold text-[#252522]">{tx.name}</div>
-                <div className="text-[11px] text-[#66665F] flex items-center gap-1.5 font-mono">
-                  <span className="px-1.5 py-0.5 bg-[#E8D2B5] rounded text-[10px] text-[#590907] font-semibold">
+                <div className="font-semibold text-[#F5F5F5]">{tx.name}</div>
+                <div className="text-[11px] text-[#B4B8C3] flex items-center gap-1.5 font-mono">
+                  <span className="px-1.5 py-0.5 bg-[#1558C9]/30 rounded text-[10px] text-[#D4FF24] font-semibold">
                     {tx.category}
                   </span>
                   <span>·</span>
@@ -165,7 +165,7 @@ function TrackMySpendSimulator() {
               <span
                 className={cn(
                   "font-mono font-bold",
-                  tx.amount > 0 ? "text-[#252522]" : "text-[#590907]"
+                  tx.amount > 0 ? "text-[#D4FF24]" : "text-[#F5F5F5]"
                 )}
               >
                 {tx.amount > 0 ? "+" : ""}${tx.amount.toFixed(2)}
@@ -176,25 +176,25 @@ function TrackMySpendSimulator() {
       </div>
 
       {/* Add Transaction Form */}
-      <form onSubmit={addTransaction} className="border-t border-[#D8D4CA] pt-4 flex gap-2">
+      <form onSubmit={addTransaction} className="border-t border-[#292D36] pt-4 flex gap-2">
         <input
           type="text"
           placeholder="Add item..."
           value={mockName}
           onChange={(e) => setMockName(e.target.value)}
-          className="flex-1 bg-[#F7F5F0] border border-[#D8D4CA] focus:border-[#590907] rounded-md px-3 py-2 text-xs text-[#252522] placeholder-[#66665F]"
+          className="flex-1 bg-[#030407] border border-[#292D36] focus:border-[#D4FF24] rounded-md px-3 py-2 text-xs text-[#F5F5F5] placeholder-[#B4B8C3]/50"
         />
         <input
           type="number"
           placeholder="-35"
           value={mockAmount}
           onChange={(e) => setMockAmount(e.target.value)}
-          className="w-20 bg-[#F7F5F0] border border-[#D8D4CA] focus:border-[#590907] rounded-md px-2 py-2 text-xs text-[#252522] placeholder-[#66665F] text-center font-mono"
+          className="w-20 bg-[#030407] border border-[#292D36] focus:border-[#D4FF24] rounded-md px-2 py-2 text-xs text-[#F5F5F5] placeholder-[#B4B8C3]/50 text-center font-mono"
         />
         <button
           type="submit"
           aria-label="Add transaction"
-          className="bg-[#590907] hover:bg-[#3D0605] text-[#F7F5F0] px-3 py-2 rounded-md flex items-center justify-center transition-colors cursor-pointer"
+          className="bg-[#D4FF24] hover:bg-[#e1ff5c] text-[#030407] px-3 py-2 rounded-md flex items-center justify-center transition-colors cursor-pointer"
         >
           <Plus className="h-4 w-4" />
         </button>
@@ -215,23 +215,23 @@ function PortfolioBuilderSimulator() {
   ];
 
   return (
-    <div className="w-full bg-[#FFFFFF] border border-[#D8D4CA] rounded-xl p-6 space-y-5 font-sans shadow-sm">
-      <div className="flex justify-between items-center border-b border-[#D8D4CA] pb-3">
+    <div className="w-full bg-[#101218] border border-[#292D36] rounded-xl p-6 space-y-5 font-sans shadow-xl">
+      <div className="flex justify-between items-center border-b border-[#292D36] pb-3">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[#590907]" />
-          <span className="text-xs uppercase font-mono font-semibold tracking-wider text-[#252522]">
+          <Sparkles className="h-4 w-4 text-[#D4FF24]" />
+          <span className="text-xs uppercase font-mono font-semibold tracking-wider text-[#F5F5F5]">
             Layout System Preview
           </span>
         </div>
 
-        <div className="flex gap-1 bg-[#EEEAE2] p-1 rounded-md border border-[#D8D4CA]">
+        <div className="flex gap-1 bg-[#030407] p-1 rounded-md border border-[#292D36]">
           <button
             type="button"
             onClick={() => setLayoutMode("grid")}
             aria-label="Grid layout"
             className={cn(
               "p-1.5 rounded cursor-pointer transition-colors",
-              layoutMode === "grid" ? "bg-[#590907] text-[#F7F5F0]" : "text-[#66665F]"
+              layoutMode === "grid" ? "bg-[#D4FF24] text-[#030407]" : "text-[#B4B8C3]"
             )}
           >
             <LayoutGrid className="h-3.5 w-3.5" />
@@ -242,7 +242,7 @@ function PortfolioBuilderSimulator() {
             aria-label="List layout"
             className={cn(
               "p-1.5 rounded cursor-pointer transition-colors",
-              layoutMode === "list" ? "bg-[#590907] text-[#F7F5F0]" : "text-[#66665F]"
+              layoutMode === "list" ? "bg-[#D4FF24] text-[#030407]" : "text-[#B4B8C3]"
             )}
           >
             <LayoutList className="h-3.5 w-3.5" />
@@ -250,22 +250,22 @@ function PortfolioBuilderSimulator() {
         </div>
       </div>
 
-      <div className="border border-[#D8D4CA] rounded-lg overflow-hidden bg-[#F7F5F0] flex flex-col text-left">
-        <div className="p-3.5 border-b border-[#D8D4CA] flex justify-between items-center bg-[#EEEAE2]">
-          <span className="text-xs uppercase font-mono font-bold tracking-wider text-[#590907]">
+      <div className="border border-[#292D36] rounded-lg overflow-hidden bg-[#030407] flex flex-col text-left">
+        <div className="p-3.5 border-b border-[#292D36] flex justify-between items-center bg-[#1A1E27]">
+          <span className="text-xs uppercase font-mono font-bold tracking-wider text-[#D4FF24]">
             PORTFOLIO.UI
           </span>
-          <div className="flex gap-4 text-xs text-[#66665F] font-mono">
+          <div className="flex gap-4 text-xs text-[#B4B8C3] font-mono">
             <button
               type="button"
-              className={cn("cursor-pointer", activeTab === "about" && "text-[#590907] font-bold")}
+              className={cn("cursor-pointer", activeTab === "about" && "text-[#D4FF24] font-bold")}
               onClick={() => setActiveTab("about")}
             >
               ABOUT
             </button>
             <button
               type="button"
-              className={cn("cursor-pointer", activeTab === "works" && "text-[#590907] font-bold")}
+              className={cn("cursor-pointer", activeTab === "works" && "text-[#D4FF24] font-bold")}
               onClick={() => setActiveTab("works")}
             >
               WORKS
@@ -276,10 +276,10 @@ function PortfolioBuilderSimulator() {
         <div className="p-5 space-y-4">
           {activeTab === "about" ? (
             <div className="space-y-2 text-left">
-              <h3 className="text-sm font-bold text-[#252522] font-heading">
+              <h3 className="text-sm font-bold text-[#F5F5F5] font-heading">
                 Full-Stack Architecture
               </h3>
-              <p className="text-xs text-[#66665F] leading-relaxed">
+              <p className="text-xs text-[#B4B8C3] leading-relaxed">
                 Dynamic content management, AWS S3 asset storage, and responsive component layouts.
               </p>
             </div>
@@ -288,16 +288,16 @@ function PortfolioBuilderSimulator() {
               {mockCards.map((card) => (
                 <div
                   key={card.title}
-                  className="border border-[#D8D4CA] bg-[#FFFFFF] rounded-lg p-3.5 space-y-2"
+                  className="border border-[#292D36] bg-[#101218] rounded-lg p-3.5 space-y-2"
                 >
-                  <div className="text-xs font-bold text-[#252522] font-heading">
+                  <div className="text-xs font-bold text-[#F5F5F5] font-heading">
                     {card.title}
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {card.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#E8D2B5]/60 text-[#590907]"
+                        className="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-[#1558C9]/30 text-[#D4FF24]"
                       >
                         {tag}
                       </span>
@@ -351,11 +351,11 @@ function PdfEditorSimulator() {
   };
 
   return (
-    <div className="w-full bg-[#FFFFFF] border border-[#D8D4CA] rounded-xl p-6 space-y-5 font-sans shadow-sm text-left">
-      <div className="flex justify-between items-center border-b border-[#D8D4CA] pb-3">
+    <div className="w-full bg-[#101218] border border-[#292D36] rounded-xl p-6 space-y-5 font-sans shadow-xl text-left">
+      <div className="flex justify-between items-center border-b border-[#292D36] pb-3">
         <div className="flex items-center gap-2">
-          <FileText className="h-4 w-4 text-[#590907]" />
-          <span className="text-xs uppercase font-mono font-semibold tracking-wider text-[#252522]">
+          <FileText className="h-4 w-4 text-[#D4FF24]" />
+          <span className="text-xs uppercase font-mono font-semibold tracking-wider text-[#F5F5F5]">
             PDF Annotation Preview
           </span>
         </div>
@@ -363,21 +363,21 @@ function PdfEditorSimulator() {
           type="button"
           onClick={resetAll}
           aria-label="Reset PDF annotations"
-          className="text-[#66665F] hover:text-[#590907] transition-colors cursor-pointer"
+          className="text-[#B4B8C3] hover:text-[#D4FF24] transition-colors cursor-pointer"
         >
           <RotateCcw className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="flex gap-2 p-1 bg-[#EEEAE2] rounded-lg border border-[#D8D4CA]">
+      <div className="flex gap-2 p-1 bg-[#030407] rounded-lg border border-[#292D36]">
         <button
           type="button"
           onClick={() => setActiveTool("cursor")}
           className={cn(
             "flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-mono font-semibold uppercase tracking-wider cursor-pointer transition-colors",
             activeTool === "cursor"
-              ? "bg-[#590907] text-[#F7F5F0]"
-              : "text-[#66665F] hover:text-[#252522]"
+              ? "bg-[#D4FF24] text-[#030407]"
+              : "text-[#B4B8C3] hover:text-[#F5F5F5]"
           )}
         >
           <Play className="h-3 w-3 rotate-90 fill-current" />
@@ -389,8 +389,8 @@ function PdfEditorSimulator() {
           className={cn(
             "flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-mono font-semibold uppercase tracking-wider cursor-pointer transition-colors",
             activeTool === "highlight"
-              ? "bg-[#590907] text-[#F7F5F0]"
-              : "text-[#66665F] hover:text-[#252522]"
+              ? "bg-[#D4FF24] text-[#030407]"
+              : "text-[#B4B8C3] hover:text-[#F5F5F5]"
           )}
         >
           <Highlighter className="h-3 w-3" />
@@ -402,8 +402,8 @@ function PdfEditorSimulator() {
           className={cn(
             "flex-1 flex items-center justify-center gap-1.5 py-2 rounded-md text-xs font-mono font-semibold uppercase tracking-wider cursor-pointer transition-colors",
             activeTool === "comment"
-              ? "bg-[#590907] text-[#F7F5F0]"
-              : "text-[#66665F] hover:text-[#252522]"
+              ? "bg-[#D4FF24] text-[#030407]"
+              : "text-[#B4B8C3] hover:text-[#F5F5F5]"
           )}
         >
           <Sparkles className="h-3 w-3" />
@@ -412,8 +412,8 @@ function PdfEditorSimulator() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="sm:col-span-2 border border-[#D8D4CA] bg-[#F7F5F0] rounded-lg p-4 space-y-2.5">
-          <span className="text-[10px] font-mono text-[#66665F] uppercase tracking-wider">
+        <div className="sm:col-span-2 border border-[#292D36] bg-[#030407] rounded-lg p-4 space-y-2.5">
+          <span className="text-[10px] font-mono text-[#B4B8C3] uppercase tracking-wider">
             Page 1 // Interactive Document
           </span>
           <div className="space-y-2 pt-1">
@@ -425,8 +425,8 @@ function PdfEditorSimulator() {
                 className={cn(
                   "w-full text-left block text-xs leading-relaxed cursor-pointer rounded p-1.5 transition-colors",
                   highlights.includes(idx)
-                    ? "bg-[#E8D2B5] text-[#590907] font-medium border-l-2 border-[#590907]"
-                    : "text-[#252522] hover:bg-[#EEEAE2]"
+                    ? "bg-[#1558C9]/30 text-[#D4FF24] font-medium border-l-2 border-[#D4FF24]"
+                    : "text-[#F5F5F5] hover:bg-[#1A1E27]"
                 )}
               >
                 {sentence}
@@ -435,19 +435,19 @@ function PdfEditorSimulator() {
           </div>
         </div>
 
-        <div className="border border-[#D8D4CA] bg-[#EEEAE2] rounded-lg p-3.5 flex flex-col justify-between space-y-3">
+        <div className="border border-[#292D36] bg-[#1A1E27] rounded-lg p-3.5 flex flex-col justify-between space-y-3">
           <div className="space-y-2">
-            <span className="text-[10px] font-mono text-[#590907] uppercase block font-bold">
+            <span className="text-[10px] font-mono text-[#D4FF24] uppercase block font-bold">
               Notes
             </span>
             <div className="space-y-1.5 max-h-[120px] overflow-y-auto">
               {comments.length === 0 ? (
-                <span className="text-xs text-[#66665F] italic block">No annotations.</span>
+                <span className="text-xs text-[#B4B8C3] italic block">No annotations.</span>
               ) : (
                 comments.map((comm, idx) => (
                   <div
                     key={idx}
-                    className="p-2 rounded border border-[#D8D4CA] bg-[#FFFFFF] text-xs text-[#252522]"
+                    className="p-2 rounded border border-[#292D36] bg-[#030407] text-xs text-[#F5F5F5]"
                   >
                     {comm}
                   </div>
@@ -463,7 +463,7 @@ function PdfEditorSimulator() {
                 placeholder="Add note..."
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                className="w-full bg-[#FFFFFF] border border-[#D8D4CA] rounded px-2.5 py-1.5 text-xs text-[#252522] placeholder-[#66665F]"
+                className="w-full bg-[#030407] border border-[#292D36] rounded px-2.5 py-1.5 text-xs text-[#F5F5F5] placeholder-[#B4B8C3]/50"
               />
             </form>
           )}
@@ -555,16 +555,16 @@ function TechnicalSpecSimulator({ slug }: { slug: string }) {
   };
 
   return (
-    <div className="w-full bg-[#FFFFFF] border border-[#D8D4CA] rounded-xl p-6 space-y-5 font-mono shadow-sm text-left">
-      <div className="flex justify-between items-center border-b border-[#D8D4CA] pb-3 gap-2">
+    <div className="w-full bg-[#101218] border border-[#292D36] rounded-xl p-6 space-y-5 font-mono shadow-xl text-left">
+      <div className="flex justify-between items-center border-b border-[#292D36] pb-3 gap-2">
         <div className="flex items-center gap-2">
-          <Terminal className="h-4 w-4 text-[#590907]" />
-          <span className="text-xs uppercase font-semibold tracking-wider text-[#252522]">
+          <Terminal className="h-4 w-4 text-[#D4FF24]" />
+          <span className="text-xs uppercase font-semibold tracking-wider text-[#F5F5F5]">
             {details.role}
           </span>
         </div>
 
-        <div className="flex gap-1 bg-[#EEEAE2] p-1 rounded-md border border-[#D8D4CA]">
+        <div className="flex gap-1 bg-[#030407] p-1 rounded-md border border-[#292D36]">
           {(["endpoints", "schema", "console"] as const).map((tab) => (
             <button
               key={tab}
@@ -573,8 +573,8 @@ function TechnicalSpecSimulator({ slug }: { slug: string }) {
               className={cn(
                 "px-2.5 py-1 rounded cursor-pointer transition-colors text-[10px] uppercase font-bold tracking-wider",
                 activeTab === tab
-                  ? "bg-[#590907] text-[#F7F5F0]"
-                  : "text-[#66665F] hover:text-[#252522]"
+                  ? "bg-[#D4FF24] text-[#030407]"
+                  : "text-[#B4B8C3] hover:text-[#F5F5F5]"
               )}
             >
               {tab}
@@ -589,16 +589,16 @@ function TechnicalSpecSimulator({ slug }: { slug: string }) {
             {details.endpoints.map((ep, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between p-3 border border-[#D8D4CA] bg-[#F7F5F0] rounded-lg text-xs gap-2"
+                className="flex items-center justify-between p-3 border border-[#292D36] bg-[#030407] rounded-lg text-xs gap-2"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded font-bold text-[10px] bg-[#E8D2B5] text-[#590907]">
+                    <span className="px-2 py-0.5 rounded font-bold text-[10px] bg-[#1558C9] text-[#F5F5F5]">
                       {ep.method}
                     </span>
-                    <span className="font-bold text-[#252522]">{ep.path}</span>
+                    <span className="font-bold text-[#F5F5F5]">{ep.path}</span>
                   </div>
-                  <span className="text-xs text-[#66665F] block font-sans">{ep.desc}</span>
+                  <span className="text-xs text-[#B4B8C3] block font-sans">{ep.desc}</span>
                 </div>
                 <button
                   type="button"
@@ -607,7 +607,7 @@ function TechnicalSpecSimulator({ slug }: { slug: string }) {
                     setActiveTab("console");
                     handleTestRequest(ep.path, ep.method);
                   }}
-                  className="h-8 w-8 rounded-md bg-[#590907] hover:bg-[#3D0605] text-[#F7F5F0] flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                  className="h-8 w-8 rounded-md bg-[#D4FF24] hover:bg-[#e1ff5c] text-[#030407] flex items-center justify-center transition-colors cursor-pointer shrink-0"
                 >
                   <Play className="h-3.5 w-3.5 fill-current" />
                 </button>
@@ -617,13 +617,13 @@ function TechnicalSpecSimulator({ slug }: { slug: string }) {
         )}
 
         {activeTab === "schema" && (
-          <pre className="p-4 border border-[#D8D4CA] bg-[#F7F5F0] rounded-lg text-xs leading-relaxed text-[#252522] overflow-x-auto font-mono">
+          <pre className="p-4 border border-[#292D36] bg-[#030407] rounded-lg text-xs leading-relaxed text-[#F5F5F5] overflow-x-auto font-mono">
             {details.schema}
           </pre>
         )}
 
         {activeTab === "console" && (
-          <div className="p-4 border border-[#D8D4CA] bg-[#F7F5F0] rounded-lg text-xs text-[#590907] space-y-1.5 overflow-y-auto max-h-[160px] font-mono">
+          <div className="p-4 border border-[#292D36] bg-[#030407] rounded-lg text-xs text-[#D4FF24] space-y-1.5 overflow-y-auto max-h-[160px] font-mono">
             {consoleLogs.map((log, i) => (
               <div key={i}>{log}</div>
             ))}

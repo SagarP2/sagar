@@ -14,21 +14,21 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
     <section
       id="testimonials"
       data-section
-      className="relative py-20 sm:py-28 bg-[#EEEAE2] border-b border-[#D8D4CA]"
+      className="relative py-20 sm:py-28 bg-[#030407] border-b border-[#292D36]"
     >
       <div className="editorial-container px-5 sm:px-8 space-y-12">
         {/* Section Header */}
         <div className="text-left space-y-3 max-w-2xl">
-          <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#590907]">
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#D4FF24]">
             <span>07</span>
-            <span className="text-[#A5A79B]">/</span>
+            <span className="text-[#1558C9]">/</span>
             <span>Collaborator Notes</span>
           </div>
           <h2
-            className="font-heading font-bold text-[#252522] tracking-tight leading-[1.12]"
-            style={{ fontSize: "clamp(1.85rem, 3vw + 0.5rem, 2.85rem)" }}
+            className="font-heading font-bold text-[#F5F5F5] tracking-tight leading-[1.1]"
+            style={{ fontSize: "clamp(1.95rem, 3.2vw + 0.5rem, 3rem)" }}
           >
-            Feedback from engineering &amp; agency partners.
+            Feedback From Engineering &amp; Agency Partners.
           </h2>
         </div>
 
@@ -45,7 +45,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             return (
               <blockquote
                 key={t.id}
-                className="editorial-card rounded-xl bg-[#FFFFFF] p-7 sm:p-8 flex flex-col justify-between space-y-6"
+                className="bento-card rounded-2xl p-7 sm:p-8 flex flex-col justify-between space-y-6"
               >
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -59,33 +59,33 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                           className={cn(
                             "h-4 w-4",
                             idx < t.rating
-                              ? "text-[#590907] fill-[#590907]"
-                              : "text-[#D8D4CA]"
+                              ? "text-[#D4FF24] fill-[#D4FF24]"
+                              : "text-[#292D36]"
                           )}
                           aria-hidden="true"
                         />
                       ))}
                     </div>
-                    <Quote className="h-6 w-6 text-[#E8D2B5]" aria-hidden="true" />
+                    <Quote className="h-6 w-6 text-[#1558C9]" aria-hidden="true" />
                   </div>
 
-                  <p className="text-sm sm:text-base text-[#252522] leading-relaxed italic">
+                  <p className="text-sm sm:text-base text-[#F5F5F5] leading-relaxed">
                     &ldquo;{t.content}&rdquo;
                   </p>
                 </div>
 
-                <footer className="flex items-center gap-3.5 pt-5 border-t border-[#D8D4CA]">
+                <footer className="flex items-center gap-3.5 pt-5 border-t border-[#292D36]">
                   <div
                     aria-hidden="true"
-                    className="h-10 w-10 rounded-full bg-[#E8D2B5] border border-[#D8D4CA] flex items-center justify-center text-xs font-mono font-bold text-[#590907] shrink-0"
+                    className="h-10 w-10 rounded-full bg-[#1558C9] flex items-center justify-center text-xs font-mono font-bold text-[#F5F5F5] shrink-0"
                   >
                     {initials}
                   </div>
                   <div>
-                    <div className="font-heading font-bold text-sm text-[#252522]">
+                    <div className="font-heading font-bold text-sm text-[#F5F5F5]">
                       {t.clientName}
                     </div>
-                    <div className="text-xs font-mono text-[#66665F]">
+                    <div className="text-xs font-mono text-[#B4B8C3]">
                       {t.role} · {t.company}
                     </div>
                   </div>
@@ -98,4 +98,3 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
     </section>
   );
 }
-

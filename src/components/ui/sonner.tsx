@@ -13,21 +13,21 @@ import {
 const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
-      theme="light"
+      theme="dark"
       className="toaster group"
       icons={{
-        success: <CircleCheckIcon className="size-4" />,
-        info: <InfoIcon className="size-4" />,
-        warning: <TriangleAlertIcon className="size-4" />,
+        success: <CircleCheckIcon className="size-4 text-[#D4FF24]" />,
+        info: <InfoIcon className="size-4 text-[#1558C9]" />,
+        warning: <TriangleAlertIcon className="size-4 text-[#D4FF24]" />,
         error: <OctagonXIcon className="size-4" />,
-        loading: <Loader2Icon className="size-4 animate-spin" />,
+        loading: <Loader2Icon className="size-4 animate-spin text-[#D4FF24]" />,
       }}
       style={
         {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)",
+          "--normal-bg": "#101218",
+          "--normal-text": "#F5F5F5",
+          "--normal-border": "#292D36",
+          "--border-radius": "0.75rem",
         } as React.CSSProperties
       }
       toastOptions={{

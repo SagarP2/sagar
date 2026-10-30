@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, ArrowRight, FolderGit2, ExternalLink } from "lucide-react";
-import { Project } from "@/types/portfolio";
+import { ArrowUpRight, ArrowRight, FolderGit2, ExternalLink, CheckCircle2 } from "lucide-react";
+import { Project, DetailType } from "@/types/portfolio";
 import { GithubIcon as Github } from "@/components/shared/SocialIcons";
 import { cn } from "@/lib/utils";
 
@@ -29,26 +29,26 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
     <section
       id="projects"
       data-section
-      className="relative py-20 sm:py-28 bg-[#EEEAE2] border-b border-[#D8D4CA]"
+      className="relative py-20 sm:py-28 bg-[#030407] border-b border-[#292D36]"
     >
       <div className="editorial-container px-5 sm:px-8 space-y-14">
         {/* Section Heading & Category Filters */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 text-left">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#590907]">
-              <span>03</span>
-              <span className="text-[#A5A79B]">/</span>
+            <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#D4FF24]">
+              <span>01</span>
+              <span className="text-[#1558C9]">/</span>
               <span>Featured Projects</span>
             </div>
             <h2
-              className="font-heading font-bold text-[#252522] tracking-tight leading-[1.12]"
-              style={{ fontSize: "clamp(1.85rem, 3vw + 0.5rem, 2.85rem)" }}
+              className="font-heading font-bold text-[#F5F5F5] tracking-tight leading-[1.1]"
+              style={{ fontSize: "clamp(1.95rem, 3.2vw + 0.5rem, 3rem)" }}
             >
-              Selected engineering &amp; product work.
+              Selected Engineering &amp; Product Work.
             </h2>
-            <p className="text-sm sm:text-base text-[#66665F] leading-relaxed">
-              Full-stack web applications, MERN platforms, and interactive digital tools built with
-              clean architecture and practical user workflows.
+            <p className="text-sm sm:text-base text-[#B4B8C3] leading-relaxed">
+              Full-stack MERN applications, portfolio platforms, and developer tools engineered with
+              modular architecture, clean APIs, and responsive interfaces.
             </p>
           </div>
 
@@ -68,10 +68,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   aria-selected={isActive}
                   onClick={() => setActiveCategory(cat)}
                   className={cn(
-                    "px-4 py-2 rounded-md text-xs font-mono font-semibold uppercase tracking-wider transition-colors cursor-pointer",
+                    "px-4 py-2 rounded-md text-xs font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer",
                     isActive
-                      ? "bg-[#590907] text-[#F7F5F0]"
-                      : "bg-[#FFFFFF] border border-[#D8D4CA] text-[#66665F] hover:text-[#252522] hover:border-[#A5A79B]"
+                      ? "bg-[#D4FF24] text-[#030407]"
+                      : "bg-[#101218] border border-[#292D36] text-[#B4B8C3] hover:text-[#F5F5F5] hover:border-[#1558C9]"
                   )}
                 >
                   {cat}
@@ -81,15 +81,23 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           </div>
         </div>
 
-        {/* Featured Editorial Spotlight Card */}
+        {/* Flagship Bento Spotlight Card */}
         {featuredProject && (
-          <article className="rounded-xl bg-[#FFFFFF] border border-[#D8D4CA] overflow-hidden shadow-sm">
+          <article className="rounded-2xl bg-[#101218] border border-[#1558C9]/60 overflow-hidden shadow-2xl">
             <div className="grid grid-cols-1 lg:grid-cols-12">
-              {/* Project Preview Image Column (7 cols) */}
-              <div className="lg:col-span-7 bg-[#A5A79B]/25 p-5 sm:p-8 flex items-center justify-center border-b lg:border-b-0 lg:border-r border-[#D8D4CA]">
+              {/* Project Preview Image Column with Electric Cobalt Blue Stage (7 cols) */}
+              <div className="lg:col-span-7 bg-[#1558C9] p-5 sm:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#292D36] relative overflow-hidden">
+                <div className="flex items-center justify-between gap-2 mb-4 relative z-10">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#030407] text-[#D4FF24] text-xs font-mono font-bold uppercase tracking-wider">
+                    <span className="w-2 h-2 rounded-full bg-[#D4FF24]" aria-hidden="true" />
+                    Flagship · {featuredProject.category}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-[#F5F5F5]">01 // FEATURED</span>
+                </div>
+
                 <Link
                   href={`/projects/${featuredProject.slug}`}
-                  className="w-full rounded-lg overflow-hidden border border-[#D8D4CA] bg-[#F7F5F0] aspect-[16/10] relative group block shadow-sm"
+                  className="w-full rounded-xl overflow-hidden border border-[#030407]/40 bg-[#030407] aspect-[16/10] relative group block shadow-2xl"
                   aria-label={`View ${featuredProject.title} case study`}
                 >
                   {(() => {
@@ -107,7 +115,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                         className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-[#E8D2B5]/40 text-[#590907] p-6 text-center">
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-[#030407] text-[#D4FF24] p-6 text-center">
                         <FolderGit2 className="h-10 w-10 mb-2" aria-hidden="true" />
                         <span className="text-xs font-mono font-semibold uppercase tracking-wider">
                           {featuredProject.title}
@@ -118,50 +126,61 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 </Link>
               </div>
 
-              {/* Project Editorial Details Column (5 cols) */}
-              <div className="lg:col-span-5 p-6 sm:p-9 flex flex-col justify-between space-y-6 text-left">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-3 py-1 rounded bg-[#E8D2B5] text-[#590907] text-xs font-mono font-semibold uppercase tracking-wider">
-                      Featured · {featuredProject.category}
-                    </span>
-                    <span className="text-xs font-mono text-[#66665F]">01</span>
-                  </div>
-
-                  <h3 className="font-heading font-bold text-2xl sm:text-3xl text-[#590907] tracking-tight">
+              {/* Project Details Column (5 cols) */}
+              <div className="lg:col-span-5 p-6 sm:p-9 flex flex-col justify-between space-y-6 text-left bg-[#101218]">
+                <div className="space-y-5">
+                  <h3 className="font-heading font-bold text-2xl sm:text-3xl text-[#F5F5F5] tracking-tight leading-tight">
                     <Link
                       href={`/projects/${featuredProject.slug}`}
-                      className="hover:text-[#3D0605] transition-colors"
+                      className="hover:text-[#D4FF24] transition-colors"
                     >
                       {featuredProject.title}
                     </Link>
                   </h3>
 
-                  <p className="text-sm text-[#252522] leading-relaxed">
+                  <p className="text-sm text-[#B4B8C3] leading-relaxed">
                     {featuredProject.description}
                   </p>
 
-                  {featuredProject.purpose && (
-                    <div className="p-4 rounded-lg bg-[#F7F5F0] border border-[#D8D4CA] space-y-1">
-                      <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#590907] block">
-                        Problem Solved &amp; Purpose
+                  {/* Main Features List */}
+                  {featuredProject.detailsList && featuredProject.detailsList.length > 0 && (
+                    <div className="p-4 rounded-xl bg-[#1A1E27] border border-[#292D36] space-y-2.5">
+                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#D4FF24] block">
+                        Key Features &amp; Architecture
                       </span>
-                      <p className="text-xs text-[#66665F] leading-relaxed">
-                        {featuredProject.purpose}
-                      </p>
+                      <ul className="space-y-1.5">
+                        {featuredProject.detailsList
+                          .filter((d) => d.type === DetailType.FEATURE)
+                          .slice(0, 3)
+                          .map((feat) => (
+                            <li
+                              key={feat.id}
+                              className="text-xs text-[#F5F5F5] flex items-start gap-2 leading-relaxed"
+                            >
+                              <CheckCircle2
+                                className="h-3.5 w-3.5 text-[#D4FF24] shrink-0 mt-0.5"
+                                aria-hidden="true"
+                              />
+                              <span>
+                                <strong className="font-semibold">{feat.title}:</strong>{" "}
+                                <span className="text-[#B4B8C3]">{feat.description}</span>
+                              </span>
+                            </li>
+                          ))}
+                      </ul>
                     </div>
                   )}
 
                   {/* Tech Stack */}
-                  <div className="space-y-2 pt-1">
-                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#66665F] block">
+                  <div className="space-y-2">
+                    <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#B4B8C3] block">
                       Technology Stack
                     </span>
                     <ul className="flex flex-wrap gap-1.5" aria-label="Technologies used">
                       {featuredProject.techStack.map((tech) => (
                         <li
                           key={tech}
-                          className="px-2.5 py-1 rounded bg-[#EEEAE2] border border-[#D8D4CA] text-xs font-medium text-[#252522]"
+                          className="px-2.5 py-1 rounded bg-[#1A1E27] border border-[#292D36] text-xs font-mono text-[#F5F5F5]"
                         >
                           {tech}
                         </li>
@@ -171,10 +190,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 </div>
 
                 {/* Action Links */}
-                <div className="pt-5 border-t border-[#D8D4CA] flex flex-wrap items-center gap-4">
+                <div className="pt-5 border-t border-[#292D36] flex flex-wrap items-center gap-4">
                   <Link
                     href={`/projects/${featuredProject.slug}`}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#590907] text-[#F7F5F0] text-xs font-semibold uppercase tracking-wider hover:bg-[#3D0605] transition-colors"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-[#D4FF24] text-[#030407] text-xs font-bold uppercase tracking-wider hover:bg-[#e1ff5c] transition-colors"
                   >
                     <span>Case Study</span>
                     <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -185,7 +204,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       href={featuredProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-[#590907] hover:text-[#3D0605] underline-reveal"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md bg-[#1558C9] text-[#F5F5F5] text-xs font-mono font-semibold uppercase tracking-wider hover:bg-[#1b65e0] transition-colors"
                     >
                       <span>Live Demo</span>
                       <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -197,10 +216,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       href={featuredProject.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-[#252522] hover:text-[#590907] underline-reveal"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-[#B4B8C3] hover:text-[#D4FF24] underline-reveal"
                     >
                       <Github className="h-3.5 w-3.5" />
-                      <span>Source</span>
+                      <span>GitHub</span>
                     </a>
                   )}
                 </div>
@@ -209,31 +228,47 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           </article>
         )}
 
-        {/* Secondary Editorial Project Grid */}
+        {/* Asymmetric Bento Project Grid */}
         {gridProjects.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
             {gridProjects.map((project, idx) => {
               const coverItem =
                 project.mediaList?.find((m) => m.isCover) || project.mediaList?.[0];
               const imageUrl = coverItem?.media?.url || null;
-              const isWarmAccent = idx % 2 === 0;
+              const features =
+                project.detailsList?.filter((d) => d.type === DetailType.FEATURE).slice(0, 2) || [];
+
+              // Asymmetric 12-column Bento spans: [7, 5, 5, 7, 12]
+              const rowPattern = idx % 4;
+              const colSpanClass =
+                gridProjects.length % 2 !== 0 && idx === gridProjects.length - 1
+                  ? "lg:col-span-12"
+                  : rowPattern === 0 || rowPattern === 3
+                  ? "lg:col-span-7"
+                  : "lg:col-span-5";
+
+              const isCobaltCard = idx === 1;
 
               return (
                 <article
                   key={project.id}
-                  className="editorial-card rounded-xl overflow-hidden flex flex-col justify-between bg-[#FFFFFF]"
+                  className={cn(
+                    "bento-card rounded-2xl overflow-hidden flex flex-col justify-between",
+                    colSpanClass,
+                    isCobaltCard && "border-[#1558C9]/60"
+                  )}
                 >
                   <div>
                     {/* Framed Image Preview */}
                     <div
                       className={cn(
-                        "p-5 border-b border-[#D8D4CA]",
-                        isWarmAccent ? "bg-[#E8D2B5]/35" : "bg-[#A5A79B]/20"
+                        "p-5 border-b border-[#292D36]",
+                        isCobaltCard ? "bg-[#1558C9]/25" : "bg-[#1A1E27]/60"
                       )}
                     >
                       <Link
                         href={`/projects/${project.slug}`}
-                        className="block rounded-lg overflow-hidden border border-[#D8D4CA] bg-[#F7F5F0] aspect-[16/10] relative group"
+                        className="block rounded-xl overflow-hidden border border-[#292D36] bg-[#030407] aspect-[16/9] relative group"
                         aria-label={`View ${project.title} case study`}
                       >
                         {imageUrl ? (
@@ -242,16 +277,16 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                             alt={`${project.title} preview screenshot`}
                             fill
                             loading="lazy"
-                            sizes="(max-width: 768px) 100vw, 50vw"
+                            sizes="(max-width: 1024px) 100vw, 50vw"
                             className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
                           />
                         ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center bg-[#EEEAE2] text-[#66665F] p-4 text-center">
+                          <div className="w-full h-full flex flex-col items-center justify-center bg-[#030407] text-[#B4B8C3] p-4 text-center">
                             <FolderGit2
-                              className="h-8 w-8 mb-2 text-[#590907]"
+                              className="h-8 w-8 mb-2 text-[#D4FF24]"
                               aria-hidden="true"
                             />
-                            <span className="text-xs font-mono font-semibold uppercase">
+                            <span className="text-xs font-mono font-semibold uppercase text-[#F5F5F5]">
                               {project.title}
                             </span>
                           </div>
@@ -262,43 +297,61 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                     {/* Card Content */}
                     <div className="p-6 sm:p-7 space-y-4">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="px-2.5 py-0.5 rounded bg-[#EEEAE2] border border-[#D8D4CA] text-[11px] font-mono font-semibold uppercase tracking-wider text-[#590907]">
+                        <span
+                          className={cn(
+                            "px-2.5 py-1 rounded text-[11px] font-mono font-bold uppercase tracking-wider",
+                            isCobaltCard
+                              ? "bg-[#1558C9] text-[#F5F5F5]"
+                              : "bg-[#1A1E27] border border-[#292D36] text-[#D4FF24]"
+                          )}
+                        >
                           {project.category}
                         </span>
-                        <span className="text-xs font-mono text-[#66665F]">
+                        <span className="text-xs font-mono text-[#B4B8C3]">
                           {String(idx + 2).padStart(2, "0")}
                         </span>
                       </div>
 
-                      <h3 className="font-heading font-bold text-xl text-[#590907] tracking-tight">
+                      <h3 className="font-heading font-bold text-xl sm:text-2xl text-[#F5F5F5] tracking-tight">
                         <Link
                           href={`/projects/${project.slug}`}
-                          className="hover:text-[#3D0605] transition-colors"
+                          className="hover:text-[#D4FF24] transition-colors"
                         >
                           {project.title}
                         </Link>
                       </h3>
 
-                      <p className="text-sm text-[#252522] leading-relaxed">
+                      <p className="text-sm text-[#B4B8C3] leading-relaxed">
                         {project.description}
                       </p>
 
-                      {project.purpose && (
-                        <div className="p-3.5 rounded-md bg-[#F7F5F0] border border-[#D8D4CA]">
-                          <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#590907] block mb-0.5">
-                            Problem Solved
-                          </span>
-                          <p className="text-xs text-[#66665F] leading-relaxed">
-                            {project.purpose}
-                          </p>
-                        </div>
+                      {/* Main Features */}
+                      {features.length > 0 && (
+                        <ul className="space-y-1.5 pt-1">
+                          {features.map((f) => (
+                            <li
+                              key={f.id}
+                              className="text-xs text-[#B4B8C3] flex items-start gap-2"
+                            >
+                              <span
+                                className="w-1.5 h-1.5 rounded-full bg-[#D4FF24] mt-1.5 shrink-0"
+                                aria-hidden="true"
+                              />
+                              <span>
+                                <strong className="text-[#F5F5F5] font-medium">{f.title}:</strong>{" "}
+                                {f.description}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
                       )}
 
-                      <ul className="flex flex-wrap gap-1.5 pt-1" aria-label="Technologies used">
+                      {/* Tech Stack */}
+                      <ul className="flex flex-wrap gap-1.5 pt-2" aria-label="Technologies used">
                         {project.techStack.map((tech) => (
                           <li
                             key={tech}
-                            className="px-2.5 py-0.5 rounded bg-[#EEEAE2] border border-[#D8D4CA] text-[11px] font-medium text-[#252522]"
+                            className="px-2.5 py-1 rounded bg-[#1A1E27] border border-[#292D36] text-[11px] font-mono text-[#F5F5F5]"
                           >
                             {tech}
                           </li>
@@ -308,14 +361,14 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </div>
 
                   {/* Card Footer Links */}
-                  <div className="px-6 sm:px-7 py-4 bg-[#F7F5F0] border-t border-[#D8D4CA] flex flex-wrap items-center justify-between gap-3">
+                  <div className="px-6 sm:px-7 py-4 bg-[#030407]/60 border-t border-[#292D36] flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-4">
                       {project.liveUrl && (
                         <a
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-[#590907] hover:text-[#3D0605] underline-reveal"
+                          className="inline-flex items-center gap-1 text-xs font-mono font-bold uppercase tracking-wider text-[#D4FF24] hover:underline"
                         >
                           <span>Live Demo</span>
                           <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -326,7 +379,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-[#252522] hover:text-[#590907] underline-reveal"
+                          className="inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-[#B4B8C3] hover:text-[#F5F5F5] underline-reveal"
                         >
                           <Github className="h-3.5 w-3.5" />
                           <span>GitHub</span>
@@ -336,10 +389,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="inline-flex items-center gap-1 text-xs font-mono font-semibold uppercase tracking-wider text-[#590907] hover:text-[#3D0605] underline-reveal"
+                      className="inline-flex items-center gap-1 text-xs font-mono font-bold uppercase tracking-wider text-[#F5F5F5] hover:text-[#D4FF24] transition-colors"
                     >
                       <span>Case Study</span>
-                      <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                      <ArrowUpRight className="h-3.5 w-3.5 text-[#D4FF24]" aria-hidden="true" />
                     </Link>
                   </div>
                 </article>
@@ -351,4 +404,3 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
     </section>
   );
 }
-

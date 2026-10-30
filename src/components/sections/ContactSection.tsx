@@ -103,45 +103,47 @@ export function ContactSection({
     <section
       id="contact"
       data-section
-      className="relative py-20 sm:py-28 bg-[#F7F5F0]"
+      className="relative py-20 sm:py-28 bg-[#030407]"
     >
       <div className="editorial-container px-5 sm:px-8">
-        {/* Signature Editorial Contact Wrapper with Deep Burgundy Visual Accent */}
-        <div className="rounded-2xl overflow-hidden border border-[#D8D4CA] shadow-sm grid grid-cols-1 lg:grid-cols-12">
-          {/* Left Column: Deep Burgundy Editorial Contact Panel (5 cols) */}
-          <div className="lg:col-span-5 bg-[#590907] text-[#F7F5F0] p-8 sm:p-11 flex flex-col justify-between space-y-10 text-left">
+        <div className="rounded-2xl overflow-hidden border border-[#292D36] bg-[#101218] shadow-2xl grid grid-cols-1 lg:grid-cols-12">
+          {/* Left Column: Midnight Black & Electric Cobalt Blue Details (5 cols) */}
+          <div className="lg:col-span-5 bg-[#030407] border-b lg:border-b-0 lg:border-r border-[#292D36] p-8 sm:p-11 flex flex-col justify-between space-y-10 text-left">
             <div className="space-y-5">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#E8D2B5]">
+              <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-widest text-[#D4FF24]">
                 <span>08</span>
-                <span className="text-[#A5A79B]">/</span>
+                <span className="text-[#1558C9]">/</span>
                 <span>Contact</span>
               </div>
 
               <h2
-                className="font-heading font-bold tracking-tight text-[#F7F5F0] leading-[1.12]"
-                style={{ fontSize: "clamp(1.85rem, 3vw, 2.65rem)" }}
+                className="font-heading font-bold tracking-tight text-[#F5F5F5] leading-[1.08]"
+                style={{ fontSize: "clamp(1.95rem, 3.2vw, 2.75rem)" }}
               >
-                Let&apos;s build something dependable together.
+                Have Something{" "}
+                <span className="text-[#D4FF24]">Ambitious in Mind?</span>
               </h2>
 
-              <p className="text-sm sm:text-base text-[#E8D2B5]/90 leading-relaxed">
-                Available for full-stack MERN development, custom Shopify app engineering, API
-                integrations, and collaborative product builds.
+              <p className="text-sm sm:text-base text-[#B4B8C3] leading-relaxed">
+                Let&apos;s build a digital product that combines thoughtful design with reliable
+                engineering.
               </p>
             </div>
 
-            {/* Direct Contact Details */}
+            {/* Direct Contact Channels with Electric Cobalt Blue Accents */}
             <div className="space-y-4">
               {contactEmail && (
-                <div className="p-4 rounded-lg bg-[#3D0605] border border-[#E8D2B5]/20 flex items-start gap-3.5">
-                  <Mail className="h-5 w-5 text-[#E8D2B5] shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="p-4 rounded-xl bg-[#101218] border border-[#292D36] hover:border-[#1558C9] transition-colors flex items-start gap-3.5">
+                  <div className="p-2 rounded-lg bg-[#1558C9]/20 text-[#D4FF24] shrink-0">
+                    <Mail className="h-4 w-4" aria-hidden="true" />
+                  </div>
                   <div className="min-w-0">
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#A5A79B] block">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#B4B8C3] block">
                       Email Address
                     </span>
                     <a
                       href={`mailto:${contactEmail}`}
-                      className="text-sm font-semibold text-[#F7F5F0] hover:text-[#E8D2B5] transition-colors break-all"
+                      className="text-sm font-semibold text-[#F5F5F5] hover:text-[#D4FF24] transition-colors break-all"
                     >
                       {contactEmail}
                     </a>
@@ -150,15 +152,17 @@ export function ContactSection({
               )}
 
               {contactPhone && (
-                <div className="p-4 rounded-lg bg-[#3D0605] border border-[#E8D2B5]/20 flex items-start gap-3.5">
-                  <Phone className="h-5 w-5 text-[#E8D2B5] shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="p-4 rounded-xl bg-[#101218] border border-[#292D36] hover:border-[#1558C9] transition-colors flex items-start gap-3.5">
+                  <div className="p-2 rounded-lg bg-[#1558C9]/20 text-[#D4FF24] shrink-0">
+                    <Phone className="h-4 w-4" aria-hidden="true" />
+                  </div>
                   <div>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#A5A79B] block">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#B4B8C3] block">
                       Phone
                     </span>
                     <a
                       href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                      className="text-sm font-semibold text-[#F7F5F0] hover:text-[#E8D2B5] transition-colors"
+                      className="text-sm font-semibold text-[#F5F5F5] hover:text-[#D4FF24] transition-colors"
                     >
                       {contactPhone}
                     </a>
@@ -167,13 +171,15 @@ export function ContactSection({
               )}
 
               {contactAddress && (
-                <div className="p-4 rounded-lg bg-[#3D0605] border border-[#E8D2B5]/20 flex items-start gap-3.5">
-                  <MapPin className="h-5 w-5 text-[#E8D2B5] shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="p-4 rounded-xl bg-[#101218] border border-[#292D36] flex items-start gap-3.5">
+                  <div className="p-2 rounded-lg bg-[#1558C9]/20 text-[#D4FF24] shrink-0">
+                    <MapPin className="h-4 w-4" aria-hidden="true" />
+                  </div>
                   <div>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#A5A79B] block">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#B4B8C3] block">
                       Location
                     </span>
-                    <span className="text-sm font-medium text-[#F7F5F0]">
+                    <span className="text-sm font-medium text-[#F5F5F5]">
                       {contactAddress}
                     </span>
                   </div>
@@ -181,17 +187,17 @@ export function ContactSection({
               )}
             </div>
 
-            {/* Social Profiles in Cream Beige & Sage Grey */}
-            <div className="pt-6 border-t border-[#E8D2B5]/20 space-y-3">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-[#A5A79B] block">
-                Professional Profiles
+            {/* Social Profiles */}
+            <div className="pt-6 border-t border-[#292D36] space-y-3">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-[#B4B8C3] block">
+                Developer Profiles
               </span>
               <div className="flex flex-wrap gap-3">
                 <a
                   href={SOCIAL_URLS.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#E8D2B5] text-[#252522] text-xs font-semibold uppercase tracking-wider hover:bg-[#F7F5F0] transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#1558C9] text-[#F5F5F5] text-xs font-mono font-bold uppercase tracking-wider hover:bg-[#1b65e0] transition-colors"
                 >
                   <Github className="h-4 w-4" />
                   <span>GitHub</span>
@@ -202,7 +208,7 @@ export function ContactSection({
                   href={SOCIAL_URLS.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#A5A79B] text-[#252522] text-xs font-semibold uppercase tracking-wider hover:bg-[#E8D2B5] transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-[#292D36] bg-[#1A1E27] text-[#F5F5F5] text-xs font-mono font-bold uppercase tracking-wider hover:border-[#D4FF24] hover:text-[#D4FF24] transition-colors"
                 >
                   <Linkedin className="h-4 w-4" />
                   <span>LinkedIn</span>
@@ -212,15 +218,15 @@ export function ContactSection({
             </div>
           </div>
 
-          {/* Right Column: Clean Editorial Contact Form on White/Cream Surface (7 cols) */}
-          <div className="lg:col-span-7 bg-[#FFFFFF] p-8 sm:p-11 text-left">
+          {/* Right Column: Validated Dark Contact Form (7 cols) */}
+          <div className="lg:col-span-7 bg-[#101218] p-8 sm:p-11 text-left">
             <form onSubmit={onSubmit} noValidate className="space-y-6">
-              <div className="border-b border-[#D8D4CA] pb-4">
-                <h3 className="font-heading font-bold text-xl text-[#252522]">
-                  Send a Project Inquiry
+              <div className="border-b border-[#292D36] pb-4">
+                <h3 className="font-heading font-bold text-xl text-[#F5F5F5]">
+                  Start a Conversation
                 </h3>
-                <p className="text-xs sm:text-sm text-[#66665F] mt-1">
-                  Share a few details about your project scope, timeline, or role opportunity.
+                <p className="text-xs sm:text-sm text-[#B4B8C3] mt-1">
+                  Share your project goals, technical stack requirements, or role details.
                 </p>
               </div>
 
@@ -228,9 +234,9 @@ export function ContactSection({
                 <div
                   role="status"
                   aria-live="polite"
-                  className="p-4 rounded-lg bg-[#E8D2B5]/60 border border-[#590907]/30 flex items-center gap-3 text-sm font-medium text-[#252522]"
+                  className="p-4 rounded-xl bg-[#1558C9]/20 border border-[#D4FF24] flex items-center gap-3 text-sm font-medium text-[#F5F5F5]"
                 >
-                  <CheckCircle2 className="h-5 w-5 text-[#590907] shrink-0" aria-hidden="true" />
+                  <CheckCircle2 className="h-5 w-5 text-[#D4FF24] shrink-0" aria-hidden="true" />
                   <span>
                     Thank you! Your message has been received. I&apos;ll get back to you shortly.
                   </span>
@@ -239,7 +245,7 @@ export function ContactSection({
 
               {/* Service Scope Pills */}
               <div className="space-y-2">
-                <label className="text-xs font-mono font-semibold text-[#252522] uppercase tracking-wider block">
+                <label className="text-xs font-mono font-semibold text-[#F5F5F5] uppercase tracking-wider block">
                   Project Scope
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -250,10 +256,10 @@ export function ContactSection({
                       onClick={() => setService(srv)}
                       aria-pressed={service === srv}
                       className={cn(
-                        "px-3.5 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer",
+                        "px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-colors cursor-pointer",
                         service === srv
-                          ? "bg-[#590907] text-[#F7F5F0]"
-                          : "bg-[#EEEAE2] border border-[#D8D4CA] text-[#66665F] hover:text-[#252522]"
+                          ? "bg-[#1558C9] text-[#F5F5F5] border border-[#1558C9]"
+                          : "bg-[#1A1E27] border border-[#292D36] text-[#B4B8C3] hover:text-[#F5F5F5]"
                       )}
                     >
                       {srv}
@@ -264,7 +270,7 @@ export function ContactSection({
 
               {/* Estimated Budget Pills */}
               <div className="space-y-2">
-                <label className="text-xs font-mono font-semibold text-[#252522] uppercase tracking-wider block">
+                <label className="text-xs font-mono font-semibold text-[#F5F5F5] uppercase tracking-wider block">
                   Estimated Budget (Optional)
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -275,10 +281,10 @@ export function ContactSection({
                       onClick={() => setBudget(bdg)}
                       aria-pressed={budget === bdg}
                       className={cn(
-                        "px-3.5 py-1.5 rounded-md text-xs font-mono font-medium transition-colors cursor-pointer",
+                        "px-3.5 py-1.5 rounded-md text-xs font-mono font-semibold transition-colors cursor-pointer",
                         budget === bdg
-                          ? "bg-[#E8D2B5] text-[#590907] border border-[#590907]/40 font-semibold"
-                          : "bg-[#EEEAE2] border border-[#D8D4CA] text-[#66665F] hover:text-[#252522]"
+                          ? "bg-[#D4FF24] text-[#030407] border border-[#D4FF24] font-bold"
+                          : "bg-[#1A1E27] border border-[#292D36] text-[#B4B8C3] hover:text-[#F5F5F5]"
                       )}
                     >
                       {bdg}
@@ -292,7 +298,7 @@ export function ContactSection({
                 <div className="space-y-1.5">
                   <label
                     htmlFor="contact-name"
-                    className="text-xs font-mono font-semibold text-[#252522] uppercase tracking-wider block"
+                    className="text-xs font-mono font-semibold text-[#F5F5F5] uppercase tracking-wider block"
                   >
                     Your Name *
                   </label>
@@ -305,13 +311,13 @@ export function ContactSection({
                     placeholder="Sagar Panchal"
                     aria-invalid={Boolean(errors.name)}
                     aria-describedby={errors.name ? "contact-name-error" : undefined}
-                    className="w-full px-4 py-3 rounded-md bg-[#F7F5F0] border border-[#D8D4CA] text-sm text-[#252522] placeholder-[#66665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors"
+                    className="w-full px-4 py-3 rounded-md bg-[#030407] border border-[#292D36] text-sm text-[#F5F5F5] placeholder-[#B4B8C3]/50 focus:border-[#D4FF24] transition-colors"
                   />
                   {errors.name && (
                     <span
                       id="contact-name-error"
                       role="alert"
-                      className="text-xs text-[#590907] font-medium block"
+                      className="text-xs text-[#D4FF24] font-mono block"
                     >
                       {errors.name}
                     </span>
@@ -321,7 +327,7 @@ export function ContactSection({
                 <div className="space-y-1.5">
                   <label
                     htmlFor="contact-email"
-                    className="text-xs font-mono font-semibold text-[#252522] uppercase tracking-wider block"
+                    className="text-xs font-mono font-semibold text-[#F5F5F5] uppercase tracking-wider block"
                   >
                     Email Address *
                   </label>
@@ -334,13 +340,13 @@ export function ContactSection({
                     placeholder="you@company.com"
                     aria-invalid={Boolean(errors.email)}
                     aria-describedby={errors.email ? "contact-email-error" : undefined}
-                    className="w-full px-4 py-3 rounded-md bg-[#F7F5F0] border border-[#D8D4CA] text-sm text-[#252522] placeholder-[#66665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors"
+                    className="w-full px-4 py-3 rounded-md bg-[#030407] border border-[#292D36] text-sm text-[#F5F5F5] placeholder-[#B4B8C3]/50 focus:border-[#D4FF24] transition-colors"
                   />
                   {errors.email && (
                     <span
                       id="contact-email-error"
                       role="alert"
-                      className="text-xs text-[#590907] font-medium block"
+                      className="text-xs text-[#D4FF24] font-mono block"
                     >
                       {errors.email}
                     </span>
@@ -352,7 +358,7 @@ export function ContactSection({
               <div className="space-y-1.5">
                 <label
                   htmlFor="contact-subject"
-                  className="text-xs font-mono font-semibold text-[#252522] uppercase tracking-wider block"
+                  className="text-xs font-mono font-semibold text-[#F5F5F5] uppercase tracking-wider block"
                 >
                   Subject *
                 </label>
@@ -362,16 +368,16 @@ export function ContactSection({
                   required
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  placeholder="Custom Shopify Application / MERN Web Platform"
+                  placeholder="Custom Shopify App / MERN Stack Application"
                   aria-invalid={Boolean(errors.subject)}
                   aria-describedby={errors.subject ? "contact-subject-error" : undefined}
-                  className="w-full px-4 py-3 rounded-md bg-[#F7F5F0] border border-[#D8D4CA] text-sm text-[#252522] placeholder-[#66665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors"
+                  className="w-full px-4 py-3 rounded-md bg-[#030407] border border-[#292D36] text-sm text-[#F5F5F5] placeholder-[#B4B8C3]/50 focus:border-[#D4FF24] transition-colors"
                 />
                 {errors.subject && (
                   <span
                     id="contact-subject-error"
                     role="alert"
-                    className="text-xs text-[#590907] font-medium block"
+                    className="text-xs text-[#D4FF24] font-mono block"
                   >
                     {errors.subject}
                   </span>
@@ -382,7 +388,7 @@ export function ContactSection({
               <div className="space-y-1.5">
                 <label
                   htmlFor="contact-message"
-                  className="text-xs font-mono font-semibold text-[#252522] uppercase tracking-wider block"
+                  className="text-xs font-mono font-semibold text-[#F5F5F5] uppercase tracking-wider block"
                 >
                   Project Details *
                 </label>
@@ -392,27 +398,27 @@ export function ContactSection({
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Tell me about the goals, technical requirements, and timeline..."
+                  placeholder="Tell me about the product goals, technical requirements, and timeline..."
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={errors.message ? "contact-message-error" : undefined}
-                  className="w-full px-4 py-3 rounded-md bg-[#F7F5F0] border border-[#D8D4CA] text-sm text-[#252522] placeholder-[#66665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-md bg-[#030407] border border-[#292D36] text-sm text-[#F5F5F5] placeholder-[#B4B8C3]/50 focus:border-[#D4FF24] transition-colors resize-none"
                 />
                 {errors.message && (
                   <span
                     id="contact-message-error"
                     role="alert"
-                    className="text-xs text-[#590907] font-medium block"
+                    className="text-xs text-[#D4FF24] font-mono block"
                   >
                     {errors.message}
                   </span>
                 )}
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button — Bold Acid Lime CTA */}
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full sm:w-auto px-8 py-4 rounded-md bg-[#590907] text-[#F7F5F0] font-semibold text-xs uppercase tracking-widest hover:bg-[#3D0605] disabled:opacity-60 transition-colors flex items-center justify-center gap-2.5 cursor-pointer"
+                className="w-full sm:w-auto px-8 py-4 rounded-md bg-[#D4FF24] text-[#030407] font-bold text-xs uppercase tracking-widest hover:bg-[#e1ff5c] disabled:opacity-60 transition-colors flex items-center justify-center gap-2.5 cursor-pointer"
               >
                 {isPending ? (
                   <>
