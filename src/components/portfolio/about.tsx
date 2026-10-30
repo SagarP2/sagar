@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Tilt } from "./tilt";
-import { Copy, Check, Terminal, Folder } from "lucide-react";
-import { toast } from "sonner";
+import React from "react";
+import { Layers, Server, ShoppingBag, ShieldCheck, CheckCircle2 } from "lucide-react";
 
 interface AboutProps {
   bioText: string;
@@ -11,224 +9,171 @@ interface AboutProps {
   experienceYears?: number;
 }
 
+const FOCUS_AREAS = [
+  {
+    icon: Layers,
+    title: "Maintainable Full-Stack Applications",
+    description:
+      "Designing modular React.js and Next.js frontends backed by structured Node.js and Express.js services that remain clean as products grow.",
+  },
+  {
+    icon: ShoppingBag,
+    title: "Shopify App & Commerce Integrations",
+    description:
+      "Developing custom embedded Shopify applications using Admin GraphQL APIs, Polaris, App Bridge, Theme App Extensions, and Liquid.",
+  },
+  {
+    icon: Server,
+    title: "Reliable Backend & Data Systems",
+    description:
+      "Architecting REST and GraphQL APIs, authentication workflows, background queues, and schemas across MongoDB and PostgreSQL.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Practical, Accessible Interfaces",
+    description:
+      "Translating complex workflows into responsive, fast, and intuitive interfaces with clear visual hierarchy and thorough validation.",
+  },
+] as const;
+
+const WORKING_PRINCIPLES = [
+  "Write clear, strongly typed code that other engineers can read and extend confidently.",
+  "Prioritize real-world performance, clean API boundaries, and predictable error states.",
+  "Build merchant and end-user interfaces that feel effortless without unnecessary visual clutter.",
+  "Validate data at every boundary — from client forms to database schemas and webhook handlers.",
+] as const;
+
 export function About({ bioText, subBioText, experienceYears = 1.5 }: AboutProps) {
-  const [activeTab, setActiveTab] = useState("profile.ts");
-  const [copied, setCopied] = useState(false);
-
-  const metricBadges = [
-    { label: "Years Experience", value: `${experienceYears}+` },
-    { label: "Custom Integrations", value: "30+" },
-    { label: "Completed Projects", value: "15+" },
-    { label: "Rendering Velocity", value: "60 FPS" },
-  ];
-
-  const handleCopy = () => {
-    const textToCopy = activeTab === "profile.ts" ? profileRawCode : stackRawCode;
-    navigator.clipboard.writeText(textToCopy);
-    setCopied(true);
-    toast.success("Code copied to clipboard!");
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const profileRawCode = `const developer = {
-  name: "Sagar Panchal",
-  role: "MERN Stack & Shopify Architect",
-  experience: "${experienceYears}+ Years",
-  location: "Gujarat, India",
-  specialties: [
-    "Next.js / React 19 / TS",
-    "Node.js & Scalable APIs",
-    "Shopify Liquid & App Bridge"
-  ],
-  focus: "High-performance visual code"
-};
-export default developer;`;
-
-  const stackRawCode = `{
-  "core": [
-    "Next.js", "React 19", 
-    "TypeScript", "Node.js"
-  ],
-  "shopify": [
-    "App Bridge v4", 
-    "GraphQL Admin API", 
-    "Liquid"
-  ],
-  "databases": [
-    "Supabase", 
-    "MongoDB", 
-    "PostgreSQL"
-  ],
-  "animation": [
-    "GSAP ScrollTrigger", 
-    "Framer Motion"
-  ]
-}`;
-
-  const renderProfileCode = () => (
-    <div className="space-y-1 text-2xs sm:text-xs leading-relaxed font-mono select-all text-white/80">
-      <div><span className="text-gold-400 font-bold">const</span> <span className="text-[#7dd3fc]">developer</span> = &#123;</div>
-      <div className="pl-4"><span className="text-white/40">name:</span> <span className="text-emerald-400">{"\"Sagar Panchal\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">role:</span> <span className="text-emerald-400">{"\"MERN Stack & Shopify Architect\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">experience:</span> <span className="text-emerald-400">{"\""}{experienceYears}{"+ Years\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">location:</span> <span className="text-emerald-400">{"\"Gujarat, India\""}</span>,</div>
-      <div className="pl-4"><span className="text-white/40">specialties:</span> [</div>
-      <div className="pl-8"><span className="text-emerald-400">{"\"Next.js / React 19 / TS\""}</span>,</div>
-      <div className="pl-8"><span className="text-emerald-400">{"\"Node.js & Scalable APIs\""}</span>,</div>
-      <div className="pl-8"><span className="text-emerald-400">{"\"Shopify Liquid & App Bridge\""}</span></div>
-      <div className="pl-4">],</div>
-      <div className="pl-4"><span className="text-white/40">focus:</span> <span className="text-emerald-400">{"\"High-performance visual code\""}</span></div>
-      <div>&#125;;</div>
-      <div className="mt-4"><span className="text-gold-400 font-bold">export default</span> <span className="text-[#7dd3fc]">developer</span>;</div>
-    </div>
-  );
-
-  const renderStackCode = () => (
-    <div className="space-y-1 text-2xs sm:text-xs leading-relaxed font-mono select-all text-white/80">
-      <div>&#123;</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"core\""}</span>: [ <span className="text-emerald-400">{"\"Next.js\""}</span>, <span className="text-emerald-400">{"\"React 19\""}</span>, <span className="text-emerald-400">{"\"TypeScript\""}</span>, <span className="text-emerald-400">{"\"Node.js\""}</span> ],</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"shopify\""}</span>: [ <span className="text-emerald-400">{"\"App Bridge v4\""}</span>, <span className="text-emerald-400">{"\"GraphQL Admin API\""}</span>, <span className="text-emerald-400">{"\"Liquid\""}</span> ],</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"databases\""}</span>: [ <span className="text-emerald-400">{"\"Supabase\""}</span>, <span className="text-emerald-400">{"\"MongoDB\""}</span>, <span className="text-emerald-400">{"\"PostgreSQL\""}</span> ],</div>
-      <div className="pl-4"><span className="text-gold-400 font-bold">{"\"animation\""}</span>: [ <span className="text-emerald-400">{"\"GSAP ScrollTrigger\""}</span>, <span className="text-emerald-400">{"\"Framer Motion\""}</span> ]</div>
-      <div>&#125;</div>
-    </div>
-  );
-
   return (
-    <section id="about" data-section className="relative py-36 px-6 sm:px-12 steel-border-t bg-[#040406]">
-      {/* Structural layout details */}
-      <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-
-      <div className="max-w-7xl mx-auto w-full grid gap-16 lg:grid-cols-12 relative z-10">
-        
-        {/* Left Column: Storytelling Content & Metrics */}
-        <div className="lg:col-span-7 flex flex-col justify-center space-y-10" data-reveal="fade-right">
-          <div>
-            <span className="text-[9px] font-bold text-gold-400 uppercase tracking-[0.25em] block mb-3">
-              01 // THE ARCHITECT
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight leading-tight uppercase">
-              HIGH PERFORMANCE BACKENDS. CUSTOM COMMERCE ARCHITECTURE. ELITE FRONTEND CODE.
+    <section
+      id="about"
+      data-section
+      className="relative py-20 sm:py-24 bg-[#A5A79B]/16 border-b border-[#DAD8D0]"
+    >
+      <div className="editorial-container px-5 sm:px-8 space-y-12">
+        {/* Section Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end text-left">
+          <div className="lg:col-span-6 space-y-2.5">
+            <p className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#590907]">
+              01 • About Me
+            </p>
+            <h2
+              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.1]"
+              style={{ fontSize: "clamp(1.85rem, 3vw + 0.4rem, 2.75rem)" }}
+            >
+              Engineering Thoughtful Digital Experiences.
             </h2>
           </div>
 
-          <p className="text-white/60 text-sm sm:text-base leading-relaxed font-sans font-medium whitespace-pre-line">
-            {bioText || "I am a dedicated full-stack developer specializing in the MERN ecosystem and Shopify custom configurations. I build secure databases, robust node servers, and interactive, beautiful interfaces."}
+          <p className="lg:col-span-6 text-sm sm:text-base text-[#68665F] leading-relaxed">
+            Focused on building maintainable web applications, practical user interfaces, reliable
+            backend systems, and custom Shopify integrations.
           </p>
-
-          <p className="text-white/40 text-xs sm:text-sm leading-relaxed font-sans whitespace-pre-line">
-            {subBioText || "My core focus lies in performance-oriented development, integrating state-of-the-art caching, stateless sessions, and GraphQL database APIs to deliver high-performance applications."}
-          </p>
-
-          {/* Metrics Grid redone as high-end watch face / gauges */}
-          <div className="grid grid-cols-2 gap-4 pt-6 max-w-xl">
-            {metricBadges.map((badge) => (
-              <Tilt key={badge.label}>
-                <div
-                  className="border border-white/5 bg-white/[0.01] p-6 rounded-2xl flex flex-col justify-between min-h-[120px] hover:border-gold-400/20 hover:shadow-[0_0_30px_rgba(198,163,104,0.05)] transition-all duration-300 cursor-default group"
-                >
-                  <span className="text-3xl sm:text-4xl font-black text-white tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70 group-hover:to-gold-400 transition-all duration-300">
-                    {badge.value}
-                  </span>
-                  <span className="text-[9px] text-white/30 font-bold uppercase tracking-widest mt-3">
-                    {badge.label}
-                  </span>
-                </div>
-              </Tilt>
-            ))}
-          </div>
         </div>
 
-        {/* Right Column: Deluxe VSCode IDE Sandbox */}
-        <div className="lg:col-span-5 flex flex-col justify-center" data-reveal="fade-left">
-          <div className="border border-white/5 w-full overflow-hidden rounded-2xl flex flex-col bg-[#08080a] shadow-2xl shadow-black/95 relative">
-            
-            {/* Header controls */}
-            <div className="bg-[#050507] px-4 py-4 flex items-center justify-between border-b border-white/5 select-none font-mono">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+        {/* Asymmetrical Bento Grid for About Me */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 text-left">
+          {/* Card 1: Short Professional Introduction (7 cols) */}
+          <div className="lg:col-span-7 bento-card rounded-xl p-6 sm:p-8 bg-[#FFFFFF] flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <span className="inline-block px-3 py-1 rounded-md bg-[#E8D2B5]/70 text-[#590907] text-xs font-mono font-semibold">
+                Professional Introduction
+              </span>
+              <p className="text-base sm:text-lg text-[#24231F] font-medium leading-relaxed">
+                {bioText ||
+                  "I’m Sagar Panchal, a MERN Stack Developer and Shopify App Developer focused on building dependable web applications and custom commerce tools."}
+              </p>
+              <p className="text-sm text-[#68665F] leading-relaxed">
+                {subBioText ||
+                  "From database schema design and API architecture to responsive frontend interfaces, I approach every build with attention to clarity, maintainability, and user experience."}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-[#DAD8D0]">
+              <div className="p-3.5 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0]">
+                <span className="text-[11px] font-mono text-[#68665F] block">Experience</span>
+                <span className="font-heading font-bold text-sm text-[#590907] mt-0.5 block">
+                  {experienceYears}+ Years
+                </span>
               </div>
-              <div className="flex items-center gap-2 text-[8px] text-white/30 uppercase tracking-[0.2em] font-bold">
-                <Terminal className="h-3.5 w-3.5 text-gold-400/50" />
-                sagar-sandbox-console
+              <div className="p-3.5 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0]">
+                <span className="text-[11px] font-mono text-[#68665F] block">Core Stack</span>
+                <span className="font-heading font-bold text-sm text-[#24231F] mt-0.5 block">
+                  MERN + Next.js
+                </span>
               </div>
-              
-              {/* Copy Code Button */}
-              <button
-                onClick={handleCopy}
-                className="p-1.5 rounded hover:bg-white/5 text-white/40 hover:text-white transition-colors cursor-pointer"
-                title="Copy Code"
+              <div className="p-3.5 rounded-lg bg-[#E8D2B5]/55 border border-[#DAD8D0]">
+                <span className="text-[11px] font-mono text-[#24231F] block">Commerce</span>
+                <span className="font-heading font-bold text-sm text-[#590907] mt-0.5 block">
+                  Shopify Apps
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2: Working Principles on Warm Cream Beige & Burgundy (5 cols) */}
+          <div className="lg:col-span-5 rounded-xl bg-[#E8D2B5]/65 border border-[#DAD8D0] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#590907]">
+                  Working Principles
+                </span>
+                <span className="text-xs font-mono text-[#68665F]">How I Build</span>
+              </div>
+
+              <h3 className="font-heading font-bold text-xl text-[#24231F]">
+                Clarity in code, reliability in production.
+              </h3>
+
+              <ul className="space-y-3 pt-1">
+                {WORKING_PRINCIPLES.map((principle) => (
+                  <li key={principle} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#24231F]">
+                    <CheckCircle2
+                      className="h-4 w-4 text-[#590907] shrink-0 mt-0.5"
+                      aria-hidden="true"
+                    />
+                    <span className="leading-relaxed">{principle}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="p-4 rounded-lg bg-[#590907] text-[#F7F5F0] flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-mono text-[#E8D2B5] uppercase">Current Focus</p>
+                <p className="text-xs sm:text-sm font-heading font-semibold mt-0.5">
+                  Full-Stack Web Apps &amp; Embedded Shopify Solutions
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Row: 4 Technical Focus Area Cards (3 cols each on desktop) */}
+          {FOCUS_AREAS.map((area, idx) => {
+            const Icon = area.icon;
+            return (
+              <article
+                key={area.title}
+                className="lg:col-span-3 bento-card rounded-xl p-6 bg-[#FFFFFF] flex flex-col justify-between space-y-4"
               >
-                {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-              </button>
-            </div>
-
-            {/* Editor Workspace Directory Tabs */}
-            <div className="bg-[#060608] border-b border-white/5 flex select-none text-[8px] font-mono tracking-widest uppercase">
-              {["profile.ts", "stack.json"].map((filename) => {
-                const isActive = activeTab === filename;
-                return (
-                  <button
-                    key={filename}
-                    onClick={() => setActiveTab(filename)}
-                    className={`px-6 py-4 border-r border-white/5 transition-colors cursor-pointer ${
-                      isActive
-                        ? "bg-[#08080a] text-gold-400 font-bold border-t border-t-gold-400"
-                        : "text-white/20 hover:text-white/50"
-                    }`}
-                  >
-                    {filename}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Split Screen Panel */}
-            <div className="flex flex-1 min-h-[300px]">
-              {/* Sidebar Explorer Mock */}
-              <div className="w-1/3 border-r border-white/5 bg-[#050507] p-4 select-none font-mono text-[9px] text-white/30 hidden sm:block space-y-4">
-                <span className="text-[7.5px] uppercase tracking-widest font-black text-white/20 block mb-2">EXPLORER</span>
-                <div className="flex items-center gap-1 text-white/55 font-bold truncate">
-                  <Folder className="h-3.5 w-3.5 text-gold-400/60" />
-                  <span>sagar-api-core</span>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="w-9 h-9 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] flex items-center justify-center text-[#590907]">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    <span className="text-xs font-mono text-[#68665F]">0{idx + 1}</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-base text-[#24231F] leading-snug">
+                    {area.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#68665F] leading-relaxed">
+                    {area.description}
+                  </p>
                 </div>
-                <div className="pl-3 space-y-2.5 pt-1">
-                  <button
-                    onClick={() => setActiveTab("profile.ts")}
-                    className={`flex items-center gap-1.5 w-full hover:text-white transition-colors cursor-pointer text-left ${activeTab === "profile.ts" ? "text-gold-400 font-bold" : ""}`}
-                  >
-                    <span>📄 profile.ts</span>
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("stack.json")}
-                    className={`flex items-center gap-1.5 w-full hover:text-white transition-colors cursor-pointer text-left ${activeTab === "stack.json" ? "text-gold-400 font-bold" : ""}`}
-                  >
-                    <span>📄 stack.json</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Code Editor Body */}
-              <div className="flex-1 p-5 overflow-x-auto bg-[#08080a] flex flex-col justify-between select-text selection:bg-white/10 selection:text-white">
-                <div className="animate-fadeIn">
-                  {activeTab === "profile.ts" ? renderProfileCode() : renderStackCode()}
-                </div>
-                
-                {/* Editor Footer details */}
-                <div className="flex justify-between items-center text-[7.5px] font-mono text-white/25 select-none pt-4 border-t border-white/5 uppercase tracking-widest mt-6">
-                  <span>ENCODING: UTF-8</span>
-                  <span>TYPESCRIPT SPECIFICATION</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
+              </article>
+            );
+          })}
         </div>
-
       </div>
     </section>
   );

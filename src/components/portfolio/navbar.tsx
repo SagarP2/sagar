@@ -1,42 +1,34 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, Download, ArrowUpRight } from "lucide-react";
+import { NAVIGATION_ITEMS } from "@/constants/portfolio";
+import { scrollToSection } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
-import { Magnetic } from "./magnetic";
-import { motion, AnimatePresence } from "framer-motion";
 
-const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Shopify", href: "#shopify" },
-  { label: "Services", href: "#services" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
-];
+interface NavbarProps {
+  resumeUrl?: string;
+}
 
-export function Navbar() {
+export function Navbar({ resumeUrl = "/Resume_Sagar_Panchal.pdf" }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 12);
 
-      // Section intersection detection
-      const sections = NAV_LINKS.map((link) => link.href.slice(1));
+      const sections = NAVIGATION_ITEMS.map((link) => link.href);
       let currentSection = "home";
 
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 140 && rect.bottom >= 140) {
+          if (rect.top <= 130 && rect.bottom >= 130) {
             currentSection = section;
             break;
           }
@@ -45,183 +37,176 @@ export function Navbar() {
       setActiveSection(currentSection);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, targetId: string) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
+
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+    targetId: string
+  ) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const lenis = (window as unknown as { lenis: { scrollTo: (target: string, options?: { offset?: number }) => void } | undefined }).lenis;
-    if (lenis) {
-      lenis.scrollTo(`#${targetId}`, { offset: -80 });
-    } else {
-      const element = document.getElementById(targetId);
-      if (element) {
-        const offset = 80;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        });
-      }
-    }
+    scrollToSection(targetId);
   };
 
   return (
-    <>
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-45 transition-all duration-550 ease-out-expo px-6 sm:px-12 flex justify-center w-full pointer-events-none"
-        )}
-      >
-        <div
-          className={cn(
-            "w-full transition-all duration-550 ease-out-expo flex items-center justify-between pointer-events-auto",
-            isScrolled
-              ? "max-w-[1000px] h-14 bg-[#08080a]/75 border border-white/5 backdrop-blur-xl rounded-full px-6 mt-4 shadow-2xl shadow-black/80"
-              : "max-w-7xl h-24 bg-transparent border border-transparent"
-          )}
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-200 border-b border-[#DAD8D0]",
+        isScrolled
+          ? "glass-nav shadow-[0_2px_16px_rgba(36,35,31,0.04)]"
+          : "bg-[#F7F5F0]"
+      )}
+    >
+      <div className="editorial-container px-5 sm:px-8 h-[68px] flex items-center justify-between gap-4">
+        {/* Typographic Wordmark */}
+        <Link
+          href="#home"
+          onClick={(e) => handleLinkClick(e, "home")}
+          className="inline-flex items-center gap-2.5 group shrink-0"
+          aria-label="Sagar Panchal — Home"
         >
-          {/* Logo */}
-          <Magnetic>
-            <Link
-              href="#home"
-              onClick={(e) => handleLinkClick(e, "home")}
-              className="flex items-center gap-2 text-[10px] sm:text-xs font-black tracking-[0.25em] text-white uppercase group"
-            >
-              <span className="font-heading transition-colors group-hover:text-gold-400">
-                SAGAR<span className="text-white/40 group-hover:text-gold-400/40">PANCHAL</span>
-              </span>
-            </Link>
-          </Magnetic>
+          <span className="w-8 h-8 rounded-md bg-[#590907] text-[#F7F5F0] font-heading font-bold text-xs flex items-center justify-center tracking-tight group-hover:bg-[#3D0605] transition-colors">
+            SP
+          </span>
+          <div className="flex flex-col text-left">
+            <span className="font-heading font-bold text-sm sm:text-base tracking-tight text-[#24231F] leading-none">
+              Sagar Panchal
+            </span>
+            <span className="text-[10px] font-mono text-[#68665F] tracking-wider uppercase mt-0.5">
+              MERN • Shopify
+            </span>
+          </div>
+        </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6">
-            {NAV_LINKS.map((link) => {
-              const id = link.href.slice(1);
-              const isActive = activeSection === id;
+        {/* Desktop Navigation in Subtle Sage/Cream Surface */}
+        <nav
+          aria-label="Primary navigation"
+          className="hidden lg:flex items-center gap-1 px-2 py-1 rounded-lg bg-[#A5A79B]/18 border border-[#DAD8D0]"
+        >
+          {NAVIGATION_ITEMS.map((link) => {
+            const isActive = activeSection === link.href;
+            return (
+              <a
+                key={link.href}
+                href={`#${link.href}`}
+                onClick={(e) => handleLinkClick(e, link.href)}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "px-3.5 py-1.5 text-xs font-medium transition-colors rounded-md",
+                  isActive
+                    ? "bg-[#590907] text-[#F7F5F0] font-semibold shadow-xs"
+                    : "text-[#24231F] hover:bg-[#E8D2B5]/60"
+                )}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+        </nav>
+
+        {/* Resume & Contact Actions */}
+        <div className="hidden sm:flex items-center gap-2.5">
+          {resumeUrl && (
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md bg-[#E8D2B5]/75 border border-[#DAD8D0] text-[#24231F] text-xs font-medium hover:bg-[#E8D2B5] transition-colors"
+            >
+              <Download className="h-3.5 w-3.5 text-[#590907]" aria-hidden="true" />
+              <span>Resume</span>
+            </a>
+          )}
+
+          <a
+            href="#contact"
+            onClick={(e) => handleLinkClick(e, "contact")}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-[#590907] text-[#F7F5F0] text-xs font-semibold hover:bg-[#3D0605] transition-colors"
+          >
+            <span>Let&apos;s Talk</span>
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          ref={menuButtonRef}
+          type="button"
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
+          className="lg:hidden p-2 rounded-md border border-[#DAD8D0] bg-[#FFFFFF] text-[#24231F] hover:bg-[#E8D2B5]/40 transition-colors cursor-pointer"
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation-menu"
+        >
+          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation Drawer */}
+      {mobileMenuOpen && (
+        <nav
+          id="mobile-navigation-menu"
+          aria-label="Mobile navigation"
+          className="lg:hidden border-t border-[#DAD8D0] glass-nav px-5 sm:px-8 py-5 space-y-4 shadow-lg"
+        >
+          <div className="flex flex-col divide-y divide-[#DAD8D0]/80">
+            {NAVIGATION_ITEMS.map((link, idx) => {
+              const isActive = activeSection === link.href;
               return (
                 <a
                   key={link.href}
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(e, id)}
+                  href={`#${link.href}`}
+                  onClick={(e) => handleLinkClick(e, link.href)}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "text-[9px] font-bold tracking-[0.2em] uppercase transition-colors relative py-1 underline-reveal",
-                    isActive ? "text-gold-400" : "text-white/40 hover:text-white"
+                    "py-3 flex items-center justify-between text-sm font-heading font-semibold transition-colors",
+                    isActive ? "text-[#590907]" : "text-[#24231F] hover:text-[#590907]"
                   )}
                 >
-                  {link.label}
-                  {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-gold-400 rounded-full" />
-                  )}
+                  <span>{link.label}</span>
+                  <span className="text-xs font-mono text-[#68665F]">0{idx + 1}</span>
                 </a>
               );
             })}
-          </nav>
-
-          {/* Call to Action Button */}
-          <div className="hidden lg:flex items-center">
-            <Magnetic>
-              <button
-                onClick={(e) => handleLinkClick(e, "contact")}
-                className="inline-flex items-center justify-center rounded-full border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-gold-400/30 px-6 py-2.5 text-[9px] font-bold uppercase tracking-widest text-white transition-all duration-300 shadow-xl cursor-pointer"
-              >
-                Start project
-                <ArrowUpRight className="ml-1.5 h-3 w-3 text-gold-400" />
-              </button>
-            </Magnetic>
           </div>
 
-          {/* Mobile hamburger button */}
-          <div className="flex lg:hidden items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-full border border-white/5 bg-[#0a0a0c]/60 text-white/80 hover:text-white transition-colors"
-              aria-label="Toggle menu"
+          <div className="grid grid-cols-2 gap-2.5 pt-2">
+            {resumeUrl && (
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-md bg-[#E8D2B5] border border-[#DAD8D0] text-[#24231F] font-semibold text-xs"
+              >
+                <Download className="h-3.5 w-3.5 text-[#590907]" aria-hidden="true" />
+                <span>Resume</span>
+              </a>
+            )}
+            <a
+              href="#contact"
+              onClick={(e) => handleLinkClick(e, "contact")}
+              className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-md bg-[#590907] text-[#F7F5F0] font-semibold text-xs"
             >
-              {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </button>
+              <span>Let&apos;s Talk</span>
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
           </div>
-        </div>
-      </header>
-
-      {/* Editorial Fullscreen Mobile Drawer */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:hidden fixed inset-0 bg-[#040406] z-40 flex flex-col justify-between p-8 pt-28 font-mono select-none"
-          >
-            <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-
-            {/* Menu Links */}
-            <nav className="flex flex-col gap-3 text-left">
-              <span className="text-[8px] uppercase tracking-widest text-white/30 block mb-2 border-b border-white/5 pb-2">
-                Navigation Directory
-              </span>
-              {NAV_LINKS.map((link, index) => {
-                const id = link.href.slice(1);
-                const isActive = activeSection === id;
-                return (
-                  <motion.a
-                    key={link.href}
-                    href={link.href}
-                    onClick={(e) => handleLinkClick(e, id)}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.04, duration: 0.5 }}
-                    className={cn(
-                      "text-sm font-bold tracking-[0.2em] uppercase py-2 flex items-center justify-between border-b border-white/[0.02]",
-                      isActive ? "text-gold-400 font-black" : "text-white/40"
-                    )}
-                  >
-                    <span>{link.label}</span>
-                    <span className="text-[9px] text-white/10">0{index + 1}</span>
-                  </motion.a>
-                );
-              })}
-            </nav>
-
-            {/* Drawer footer details */}
-            <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4 text-left border-t border-white/5 pt-6 text-[9px] uppercase tracking-widest text-white/30">
-                <div className="space-y-1">
-                  <span className="block text-[8px] text-white/20">Coordinates</span>
-                  <a href="mailto:panchalsagar992003@gmail.com" className="block text-white/60 hover:text-white transition-colors">
-                    panchalsagar992003@gmail.com
-                  </a>
-                </div>
-                <div className="space-y-1 text-right">
-                  <span className="block text-[8px] text-white/20">Social Connects</span>
-                  <div className="flex gap-3 justify-end pt-1">
-                    <a href="https://github.com/SagarP2" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-gold-400 transition-colors">
-                      GH
-                    </a>
-                    <a href="https://www.linkedin.com/in/sagar-panchal-79284921a/" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-gold-400 transition-colors">
-                      LN
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={(e) => handleLinkClick(e, "contact")}
-                className="w-full inline-flex items-center justify-center rounded-full bg-white hover:bg-gold-400 text-black py-4 text-[9px] font-black uppercase tracking-widest transition-all duration-300 shadow-xl cursor-pointer"
-              >
-                Request briefing
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        </nav>
+      )}
+    </header>
   );
 }

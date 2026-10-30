@@ -33,12 +33,12 @@ export default function Home() {
   return (
     <PortfolioClient
       settings={settings}
-      projects={projects as React.ComponentProps<typeof PortfolioClient>["projects"]}
-      skills={skills as React.ComponentProps<typeof PortfolioClient>["skills"]}
-      experiences={experiences as React.ComponentProps<typeof PortfolioClient>["experiences"]}
-      educationList={educationList as React.ComponentProps<typeof PortfolioClient>["educationList"]}
-      services={services as React.ComponentProps<typeof PortfolioClient>["services"]}
-      testimonials={testimonials as React.ComponentProps<typeof PortfolioClient>["testimonials"]}
+      projects={projects}
+      skills={skills}
+      experiences={experiences}
+      educationList={educationList}
+      services={services}
+      testimonials={testimonials}
       resumeSettings={resumeSettings}
     />
   );

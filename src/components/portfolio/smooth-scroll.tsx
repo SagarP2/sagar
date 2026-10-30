@@ -2,6 +2,8 @@
 
 import React, { useEffect } from "react";
 import Lenis from "lenis";
+import { DEFAULT_HEADER_OFFSET } from "@/constants/portfolio";
+import { setLenisInstance } from "@/lib/scroll";
 
 interface SmoothScrollProps {
   children: React.ReactNode;
@@ -9,10 +11,9 @@ interface SmoothScrollProps {
 
 export function SmoothScroll({ children }: SmoothScrollProps) {
   useEffect(() => {
-    // Initialize Lenis smooth scroll
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
@@ -20,14 +21,12 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       touchMultiplier: 1.5,
     });
 
-    // Expose lenis instance globally for coordination across pages/components
-    (window as unknown as { lenis: unknown }).lenis = lenis;
+    setLenisInstance(lenis);
 
-    // Smooth scroll to target hash on initial load
     if (window.location.hash) {
       const hash = window.location.hash;
       setTimeout(() => {
-        lenis.scrollTo(hash, { offset: -80, immediate: false });
+        lenis.scrollTo(hash, { offset: -DEFAULT_HEADER_OFFSET, immediate: false });
       }, 350);
     }
 
@@ -36,13 +35,11 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       requestAnimationFrame(raf);
     }
 
-    // Start requestAnimationFrame scroll loops
     const animationFrameId = requestAnimationFrame(raf);
 
-    // Cleanup scrolling loops on component unmount
     return () => {
       cancelAnimationFrame(animationFrameId);
-      (window as unknown as { lenis: unknown }).lenis = undefined;
+      setLenisInstance(null);
       lenis.destroy();
     };
   }, []);

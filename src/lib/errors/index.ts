@@ -13,7 +13,7 @@ export class AppError extends Error {
   }
 }
 
-interface ErrorResponseBody {
+export interface ErrorResponseBody {
   success: false;
   message: string;
   errors?: Record<string, string>;
@@ -23,7 +23,6 @@ interface ErrorResponseBody {
  * Formats API error responses consistently while preventing internal implementation leakage.
  */
 export function handleApiError(error: unknown): NextResponse<ErrorResponseBody> {
-  // Log complete error details server-side only
   console.error("[API Error Encountered]:", error);
 
   if (error instanceof AppError) {
@@ -36,23 +35,11 @@ export function handleApiError(error: unknown): NextResponse<ErrorResponseBody> 
     );
   }
 
-  // Generic production user message to avoid leaking stack traces or SQL/Prisma details
   return NextResponse.json(
     {
       success: false,
       message: "An unexpected error occurred while processing your request. Please try again later.",
     },
     { status: 500 }
-  );
-}
-
-export function formatSuccessResponse<T>(data: T, message: string = "Success", status: number = 200) {
-  return NextResponse.json(
-    {
-      success: true,
-      message,
-      data,
-    },
-    { status }
   );
 }

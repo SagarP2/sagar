@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { TerminalLoader } from "./loader";
+import React from "react";
 import { Navbar } from "./navbar";
 import { Hero } from "./hero";
 import { About } from "./about";
@@ -13,9 +12,6 @@ import { Services } from "./services";
 import { Testimonials } from "./testimonials";
 import { Contact } from "./contact";
 import { Footer } from "./footer";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CustomCursor } from "./custom-cursor";
 
 interface PortfolioClientProps {
   settings: {
@@ -49,103 +45,50 @@ export default function PortfolioClient({
   testimonials,
   resumeSettings,
 }: PortfolioClientProps) {
-  const [loadingComplete, setLoadingComplete] = useState(false);
-
-  useEffect(() => {
-    if (!loadingComplete) return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Dynamic section trigger reveals
-    const sections = gsap.utils.toArray<HTMLElement>("[data-section]");
-    sections.forEach((section) => {
-      // Add custom section reveal styling class
-      section.classList.add("section-reveal");
-      
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top 85%",
-        onEnter: () => section.classList.add("active"),
-        onLeaveBack: () => section.classList.remove("active"),
-      });
-    });
-
-    // IntersectionObserver scroll reveal setup for generic items
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
-
-    const revealCallback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("reveal-active");
-          observer.unobserve(entry.target);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(revealCallback, observerOptions);
-    const revealElements = document.querySelectorAll("[data-reveal]");
-
-    revealElements.forEach((el) => {
-      el.classList.add("reveal-init");
-      observer.observe(el);
-    });
-
-    return () => {
-      observer.disconnect();
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, [loadingComplete]);
-
-  // Fallbacks if database settings aren't seeded yet
   const bioText = settings?.bioText || "";
   const subBioText = settings?.subBioText || "";
   const contactEmail = settings?.contactEmail || "panchalsagar992003@gmail.com";
-  const contactPhone = settings?.contactPhone || "";
-  const contactAddress = settings?.contactAddress || "Gandhi Road, Bardoli, Gujarat, India - 394601";
-  const resumeUrl = resumeSettings?.cvMedia?.url || undefined;
+  const contactPhone = settings?.contactPhone || "+91 9638061952";
+  const contactAddress =
+    settings?.contactAddress || "Gandhi Road, Bardoli, Gujarat, India - 394601";
+  const resumeUrl = resumeSettings?.cvMedia?.url || "/Resume_Sagar_Panchal.pdf";
 
   return (
-    <>
-      {/* Dynamic Counter Loader */}
-      {!loadingComplete && (
-        <TerminalLoader onComplete={() => setLoadingComplete(true)} />
-      )}
-
-      {/* Main Page Layout */}
-      <div
-        className={`relative min-h-screen bg-[#000000] text-slate-100 flex flex-col overflow-hidden transition-opacity duration-700 ${
-          loadingComplete ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+    <div className="relative min-h-screen bg-[#F7F5F0] text-[#24231F] flex flex-col">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:rounded-md focus:bg-[#590907] focus:text-[#F7F5F0] focus:text-xs focus:font-semibold"
       >
-        <CustomCursor />
-        
-        {/* Sleek Faint Background Grids & Noise */}
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 premium-grid opacity-30" />
-        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 noise-overlay" />
-        
-        <Navbar />
+        Skip to main content
+      </a>
 
-        <main className="relative z-10 flex-1">
-          <Hero resumeUrl={resumeUrl} />
-          <About bioText={bioText} subBioText={subBioText} experienceYears={resumeSettings?.totalExperienceYears ?? 1.5} />
-          <Skills skills={skills} />
-          <Experience experiences={experiences} educationList={educationList} cvUrl={resumeUrl} />
-          <Projects projects={projects} />
-          <ShopifyExpertise />
-          <Services services={services} />
-          <Testimonials testimonials={testimonials} />
-          <Contact
-            contactEmail={contactEmail}
-            contactPhone={contactPhone}
-            contactAddress={contactAddress}
-          />
-        </main>
+      <Navbar resumeUrl={resumeUrl} />
 
-        <Footer />
-      </div>
-    </>
+      <main id="main-content" className="relative z-10 flex-1">
+        <Hero resumeUrl={resumeUrl} />
+        <Projects projects={projects} />
+        <About
+          bioText={bioText}
+          subBioText={subBioText}
+          experienceYears={resumeSettings?.totalExperienceYears ?? 1.5}
+        />
+        <Skills skills={skills} />
+        <Experience
+          experiences={experiences}
+          educationList={educationList}
+          cvUrl={resumeUrl}
+        />
+        <ShopifyExpertise />
+        <Services services={services} />
+        <Testimonials testimonials={testimonials} />
+        <Contact
+          contactEmail={contactEmail}
+          contactPhone={contactPhone}
+          contactAddress={contactAddress}
+        />
+      </main>
+
+      <Footer />
+    </div>
   );
 }

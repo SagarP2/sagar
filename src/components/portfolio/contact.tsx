@@ -2,22 +2,12 @@
 
 import React, { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { Mail, MapPin, Globe, Sparkles, Loader2, CheckCircle2, Phone } from "lucide-react";
-import * as z from "zod";
-import dynamic from "next/dynamic";
-import { Magnetic } from "./magnetic";
-
-const ContactBgCanvas = dynamic(
-  () => import("./contact-bg-canvas").then((mod) => mod.ContactBgCanvas),
-  { ssr: false }
-);
-
-const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Please enter a valid email address."),
-  subject: z.string().min(3, "Subject must be at least 3 characters."),
-  message: z.string().min(10, "Message must be at least 10 characters."),
-});
+import { Mail, MapPin, Loader2, Phone, Send, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { CONTACT_SERVICE_OPTIONS, SOCIAL_URLS } from "@/constants/portfolio";
+import { contactFormSchema } from "@/lib/validations/contact";
+import type { ContactApiResponse } from "@/types/portfolio";
+import { GithubIcon as Github, LinkedinIcon as Linkedin } from "./social-icons";
+import { cn } from "@/lib/utils";
 
 interface ContactProps {
   contactEmail: string;
@@ -29,29 +19,36 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
   const [isSuccess, setIsSuccess] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  // Form states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-  const [budget, setBudget] = useState("$5k - $10k");
-  const [service, setService] = useState("Full-Stack MERN");
+  const [service, setService] = useState<string>(CONTACT_SERVICE_OPTIONS[0]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({});
+    setIsSuccess(false);
 
-    const validation = contactSchema.safeParse({ name, email, subject, message });
-    
+    const validation = contactFormSchema.safeParse({
+      name,
+      email,
+      subject,
+      service,
+      message,
+    });
+
     if (!validation.success) {
       const fieldErrors: Record<string, string> = {};
       validation.error.issues.forEach((issue) => {
-        const path = issue.path[0] as string;
-        fieldErrors[path] = issue.message;
+        const path = String(issue.path[0] ?? "");
+        if (path) {
+          fieldErrors[path] = issue.message;
+        }
       });
       setErrors(fieldErrors);
-      toast.error("Please correct the errors in the form.");
+      toast.error("Please review the highlighted fields.");
       return;
     }
 
@@ -62,27 +59,20 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            name,
-            email,
-            subject,
-            service,
-            budget,
-            message,
-          }),
+          body: JSON.stringify(validation.data),
         });
 
-        const data = await response.json();
+        const data = (await response.json()) as ContactApiResponse;
 
-        if (!response.ok) {
-          if (data.errors) {
+        if (!response.ok || !data.success) {
+          if (!data.success && data.errors) {
             setErrors(data.errors);
           }
-          toast.error(data.message || "An error occurred submitting specifications.");
+          toast.error(data.message || "An error occurred while sending your message.");
           return;
         }
 
-        toast.success(data.message || "Specifications sent successfully!");
+        toast.success(data.message || "Your message has been sent!");
         setIsSuccess(true);
         setName("");
         setEmail("");
@@ -96,229 +86,321 @@ export function Contact({ contactEmail, contactPhone, contactAddress }: ContactP
   };
 
   return (
-    <section id="contact" data-section className="relative py-36 px-6 sm:px-12 border-t border-white/5 bg-[#040406] overflow-hidden">
-      {/* Blueprint Structural Layout Lines */}
-      <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
+    <section
+      id="contact"
+      data-section
+      className="relative py-20 sm:py-24 bg-[#F7F5F0]"
+    >
+      <div className="editorial-container px-5 sm:px-8">
+        {/* Dominant Deep Burgundy CTA & Contact Bento Container */}
+        <div className="rounded-2xl overflow-hidden border border-[#DAD8D0] bg-[#590907] grid grid-cols-1 lg:grid-cols-12">
+          {/* Left Column: Deep Burgundy Dominant CTA Panel with Cream Typography & Sage Details (5 cols) */}
+          <div className="lg:col-span-5 p-8 sm:p-11 flex flex-col justify-between space-y-10 text-left text-[#F7F5F0]">
+            <div className="space-y-4">
+              <p className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#E8D2B5]">
+                08 • Contact
+              </p>
 
-      {/* Wave Background canvas */}
-      <ContactBgCanvas />
+              <h2
+                className="font-heading font-bold tracking-tight text-[#E8D2B5] leading-[1.1]"
+                style={{ fontSize: "clamp(1.95rem, 3vw, 2.75rem)" }}
+              >
+                Have an Idea Worth Building?
+              </h2>
 
-      <div className="max-w-7xl mx-auto w-full grid gap-16 lg:grid-cols-12 relative z-10">
-        
-        {/* Left Column - Contact Coordinates */}
-        <div className="lg:col-span-5 space-y-10 text-left" data-reveal="fade-right">
-          <div>
-            <span className="text-[9px] font-bold text-gold-400 uppercase tracking-[0.25em] block mb-3">
-              08 // INBOX SPECIFICATION
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight uppercase leading-none">
-              LET&apos;S BUILD SOMETHING EXTRAORDINARY
-            </h2>
-            <p className="text-white/50 text-xs sm:text-sm mt-5 leading-relaxed font-sans font-medium">
-              Have an app idea, custom Shopify integrations, or custom headless storefront? Request a briefing call to align on architecture.
-            </p>
-          </div>
+              <p className="text-sm sm:text-base text-[#F7F5F0]/90 leading-relaxed">
+                Let&apos;s turn your next idea into a reliable, thoughtfully designed digital
+                product.
+              </p>
 
-          <div className="space-y-6 pt-2">
-            <div className="flex items-center gap-2.5 px-4 py-2 rounded-full border border-gold-400/10 bg-gold-400/5 text-gold-400 text-[8.5px] font-bold uppercase tracking-widest max-w-fit shadow-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-ping" />
-              CONTRACT AVAILABILITY // Q3 2026
-            </div>
-
-            <div className="space-y-4 text-white/50 text-[10px] sm:text-xs font-mono tracking-widest select-all uppercase">
               {contactEmail && (
-                <a
-                  href={`mailto:${contactEmail}`}
-                  className="flex items-center gap-3.5 hover:text-white transition-colors"
-                >
-                  <Mail className="h-4.5 w-4.5 text-gold-400 flex-shrink-0" />
-                  {contactEmail}
-                </a>
-              )}
-              {contactPhone && (
-                <a
-                  href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                  className="flex items-center gap-3.5 hover:text-white transition-colors"
-                >
-                  <Phone className="h-4.5 w-4.5 text-gold-400 flex-shrink-0" />
-                  {contactPhone}
-                </a>
-              )}
-              {contactAddress && (
-                <div className="flex items-center gap-3.5 text-white/30 select-none">
-                  <MapPin className="h-4.5 w-4.5 text-gold-400/60 flex-shrink-0" />
-                  <span>{contactAddress}</span>
+                <div className="pt-2">
+                  <a
+                    href={`mailto:${contactEmail}`}
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#E8D2B5] text-[#24231F] font-semibold text-xs hover:bg-[#FFFFFF] transition-colors"
+                  >
+                    <Mail className="h-4 w-4 text-[#590907]" aria-hidden="true" />
+                    <span>Email Me Directly</span>
+                    <ArrowUpRight className="h-3.5 w-3.5 text-[#590907]" aria-hidden="true" />
+                  </a>
                 </div>
               )}
-              <div className="flex items-center gap-3.5 text-white/30 select-none">
-                <Globe className="h-4.5 w-4.5 text-gold-400/60 flex-shrink-0" />
-                <span>TIMEZONE: GMT+5:30 (IST)</span>
+            </div>
+
+            {/* Verified Contact Details */}
+            <div className="space-y-3.5">
+              {contactEmail && (
+                <div className="p-4 rounded-xl bg-[#3D0605] border border-[#A5A79B]/25 flex items-start gap-3.5">
+                  <Mail className="h-4 w-4 text-[#E8D2B5] shrink-0 mt-0.5" aria-hidden="true" />
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#A5A79B] block">
+                      Email Address
+                    </span>
+                    <a
+                      href={`mailto:${contactEmail}`}
+                      className="text-sm font-semibold text-[#E8D2B5] hover:text-[#FFFFFF] transition-colors break-all"
+                    >
+                      {contactEmail}
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {contactPhone && (
+                <div className="p-4 rounded-xl bg-[#3D0605] border border-[#A5A79B]/25 flex items-start gap-3.5">
+                  <Phone className="h-4 w-4 text-[#E8D2B5] shrink-0 mt-0.5" aria-hidden="true" />
+                  <div>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#A5A79B] block">
+                      Phone
+                    </span>
+                    <a
+                      href={`tel:${contactPhone.replace(/\s+/g, "")}`}
+                      className="text-sm font-semibold text-[#E8D2B5] hover:text-[#FFFFFF] transition-colors"
+                    >
+                      {contactPhone}
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {contactAddress && (
+                <div className="p-4 rounded-xl bg-[#3D0605] border border-[#A5A79B]/25 flex items-start gap-3.5">
+                  <MapPin className="h-4 w-4 text-[#E8D2B5] shrink-0 mt-0.5" aria-hidden="true" />
+                  <div>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#A5A79B] block">
+                      Location
+                    </span>
+                    <span className="text-sm font-medium text-[#F7F5F0]">
+                      {contactAddress}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Social Links in Cream & Sage */}
+            <div className="pt-5 border-t border-[#A5A79B]/25 space-y-3">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-[#A5A79B] block">
+                Connect Online
+              </span>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={SOCIAL_URLS.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#E8D2B5] text-[#24231F] text-xs font-semibold hover:bg-[#FFFFFF] transition-colors"
+                >
+                  <Github className="h-4 w-4 text-[#590907]" />
+                  <span>GitHub</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </a>
+
+                <a
+                  href={SOCIAL_URLS.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#A5A79B] text-[#24231F] text-xs font-semibold hover:bg-[#E8D2B5] transition-colors"
+                >
+                  <Linkedin className="h-4 w-4 text-[#24231F]" />
+                  <span>LinkedIn</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </a>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Right Column - Premium Project Scope Form */}
-        <div className="lg:col-span-7 flex items-center" data-reveal="fade-left">
-          <div className="w-full relative min-h-[400px] flex flex-col justify-center border border-white/5 bg-white/[0.01] backdrop-blur-md p-8 rounded-3xl shadow-2xl">
-            {isSuccess ? (
-              <div className="text-center space-y-4 py-10 animate-fadeIn select-none">
-                <div className="inline-flex p-3.5 rounded-full border border-gold-400/20 bg-gold-400/5 text-gold-400 mx-auto shadow-md">
-                  <CheckCircle2 className="h-10 w-10 text-gold-400 animate-bounce" />
-                </div>
-                <h3 className="text-lg font-bold text-white uppercase tracking-wider font-heading">SPECIFICATIONS RECEIVED!</h3>
-                <p className="text-xs sm:text-sm text-white/40 max-w-xs mx-auto leading-relaxed font-sans">
-                  I will review your project scope details and reach out within 24 hours to schedule an architecture alignment call.
+          {/* Right Column: Accessible Contact Form on Clean White Surface (7 cols) */}
+          <div className="lg:col-span-7 bg-[#FFFFFF] p-8 sm:p-11 text-left border-t lg:border-t-0 lg:border-l border-[#DAD8D0]">
+            <form onSubmit={onSubmit} noValidate className="space-y-5">
+              <div className="border-b border-[#DAD8D0] pb-4">
+                <h3 className="font-heading font-bold text-xl text-[#24231F]">
+                  Send a Message
+                </h3>
+                <p className="text-xs sm:text-sm text-[#68665F] mt-1">
+                  Share details about your web application, Shopify project, or engineering role.
                 </p>
-                
-                <Magnetic>
-                  <button
-                    onClick={() => setIsSuccess(false)}
-                    className="mt-6 border border-white/10 bg-white text-black hover:bg-gold-400 text-[9px] font-black uppercase tracking-widest rounded-full py-3.5 px-8 cursor-pointer transition-all duration-300"
-                  >
-                    Send another briefing
-                  </button>
-                </Magnetic>
               </div>
-            ) : (
-              <form onSubmit={onSubmit} className="space-y-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
-                  {/* Name field */}
-                  <div className="space-y-2.5">
-                    <label htmlFor="name" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Your Name *</label>
-                    <input
-                      id="name"
-                      type="text"
-                      placeholder="e.g. John Doe"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 ${
-                        errors.name ? "border-red-500/50" : "border-white/10"
-                      }`}
-                      disabled={isPending}
-                    />
-                    {errors.name && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.name}</p>}
-                  </div>
 
-                  {/* Email field */}
-                  <div className="space-y-2.5">
-                    <label htmlFor="email" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Email Address *</label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="e.g. john@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 ${
-                        errors.email ? "border-red-500/50" : "border-white/10"
-                      }`}
-                      disabled={isPending}
-                    />
-                    {errors.email && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.email}</p>}
-                  </div>
-                </div>
-
-                {/* Service Type Selectors */}
-                <div className="space-y-3.5 text-left">
-                  <span className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono block">Project Category *</span>
-                  <div className="flex flex-wrap gap-2">
-                    {["Full-Stack MERN", "Shopify Apps / Liquid", "Custom Integration", "Consultancy"].map((srv) => (
-                      <button
-                        key={srv}
-                        type="button"
-                        onClick={() => setService(srv)}
-                        className={`px-4 py-2 border rounded-full text-[9px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                          service === srv
-                            ? "bg-white text-black border-white shadow-md font-black"
-                            : "bg-transparent text-white/40 border-white/5 hover:border-gold-400/20 hover:text-white"
-                        }`}
-                      >
-                        {srv}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Budget Selectors */}
-                <div className="space-y-3.5 text-left">
-                  <span className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono block">Estimated Budget *</span>
-                  <div className="flex flex-wrap gap-2">
-                    {["<$2k", "$2k - $5k", "$5k - $10k", "$10k+"].map((bdg) => (
-                      <button
-                        key={bdg}
-                        type="button"
-                        onClick={() => setBudget(bdg)}
-                        className={`px-4 py-2 border rounded-full text-[9px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                          budget === bdg
-                            ? "bg-white text-black border-white shadow-md font-black"
-                            : "bg-transparent text-white/40 border-white/5 hover:border-gold-400/20 hover:text-white"
-                        }`}
-                      >
-                        {bdg}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Subject field */}
-                <div className="space-y-2.5 text-left">
-                  <label htmlFor="subject" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Subject *</label>
-                  <input
-                    id="subject"
-                    type="text"
-                    placeholder="e.g. Custom Embedded App Bridge integration"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 ${
-                      errors.subject ? "border-red-500/50" : "border-white/10"
-                    }`}
-                    disabled={isPending}
-                  />
-                  {errors.subject && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.subject}</p>}
-                </div>
-
-                {/* Message field */}
-                <div className="space-y-2.5 text-left">
-                  <label htmlFor="message" className="text-[9px] font-bold text-white/50 uppercase tracking-widest font-mono">Scope Details *</label>
-                  <textarea
-                    id="message"
-                    rows={3}
-                    placeholder="Describe the application features, timelines, or Shopify endpoints required..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className={`w-full border-b py-3 text-xs sm:text-sm bg-transparent text-white placeholder-white/30 focus:outline-none focus:border-gold-400 transition-colors duration-300 resize-none ${
-                      errors.message ? "border-red-500/50" : "border-white/10"
-                    }`}
-                    disabled={isPending}
-                  />
-                  {errors.message && <p className="text-[8px] font-mono uppercase text-red-400 mt-1">{errors.message}</p>}
-                </div>
-
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={isPending}
-                  className="w-full inline-flex items-center justify-center rounded-full bg-white hover:bg-gold-400 text-black py-4 text-[9px] font-black uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-xl active:scale-98"
+              {isSuccess && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="p-4 rounded-lg bg-[#E8D2B5]/65 border border-[#590907]/30 flex items-center gap-3 text-sm font-medium text-[#24231F]"
                 >
-                  {isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Saving specifications
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2 h-3.5 w-3.5 text-black" />
-                      Submit scope details
-                    </>
+                  <CheckCircle2 className="h-5 w-5 text-[#590907] shrink-0" aria-hidden="true" />
+                  <span>
+                    Thank you! Your message has been sent. I&apos;ll respond shortly.
+                  </span>
+                </div>
+              )}
+
+              {/* Project Scope Selector */}
+              <div className="space-y-2">
+                <label className="text-xs font-mono font-semibold text-[#24231F] uppercase tracking-wider block">
+                  Area of Interest
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {CONTACT_SERVICE_OPTIONS.map((srv) => (
+                    <button
+                      type="button"
+                      key={srv}
+                      onClick={() => setService(srv)}
+                      aria-pressed={service === srv}
+                      className={cn(
+                        "px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer",
+                        service === srv
+                          ? "bg-[#590907] text-[#F7F5F0]"
+                          : "bg-[#F7F5F0] border border-[#DAD8D0] text-[#68665F] hover:text-[#24231F]"
+                      )}
+                    >
+                      {srv}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Name & Email Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="contact-name"
+                    className="text-xs font-mono font-semibold text-[#24231F] uppercase tracking-wider block"
+                  >
+                    Name *
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your name"
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? "contact-name-error" : undefined}
+                    className="w-full px-4 py-3 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] text-sm text-[#24231F] placeholder-[#68665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors"
+                  />
+                  {errors.name && (
+                    <span
+                      id="contact-name-error"
+                      role="alert"
+                      className="text-xs text-[#590907] font-medium block"
+                    >
+                      {errors.name}
+                    </span>
                   )}
-                </button>
-              </form>
-            )}
+                </div>
+
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="contact-email"
+                    className="text-xs font-mono font-semibold text-[#24231F] uppercase tracking-wider block"
+                  >
+                    Email *
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@company.com"
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? "contact-email-error" : undefined}
+                    className="w-full px-4 py-3 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] text-sm text-[#24231F] placeholder-[#68665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors"
+                  />
+                  {errors.email && (
+                    <span
+                      id="contact-email-error"
+                      role="alert"
+                      className="text-xs text-[#590907] font-medium block"
+                    >
+                      {errors.email}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Subject */}
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="contact-subject"
+                  className="text-xs font-mono font-semibold text-[#24231F] uppercase tracking-wider block"
+                >
+                  Subject *
+                </label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  required
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Project inquiry or collaboration"
+                  aria-invalid={Boolean(errors.subject)}
+                  aria-describedby={errors.subject ? "contact-subject-error" : undefined}
+                  className="w-full px-4 py-3 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] text-sm text-[#24231F] placeholder-[#68665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors"
+                />
+                {errors.subject && (
+                  <span
+                    id="contact-subject-error"
+                    role="alert"
+                    className="text-xs text-[#590907] font-medium block"
+                  >
+                    {errors.subject}
+                  </span>
+                )}
+              </div>
+
+              {/* Message */}
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="contact-message"
+                  className="text-xs font-mono font-semibold text-[#24231F] uppercase tracking-wider block"
+                >
+                  Message *
+                </label>
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  required
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Tell me about what you're building..."
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? "contact-message-error" : undefined}
+                  className="w-full px-4 py-3 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] text-sm text-[#24231F] placeholder-[#68665F]/60 focus:border-[#590907] focus:bg-[#FFFFFF] transition-colors resize-none"
+                />
+                {errors.message && (
+                  <span
+                    id="contact-message-error"
+                    role="alert"
+                    className="text-xs text-[#590907] font-medium block"
+                  >
+                    {errors.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isPending}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-lg bg-[#590907] text-[#F7F5F0] font-semibold text-xs sm:text-sm hover:bg-[#3D0605] disabled:opacity-60 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                    <span>Sending Message...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" aria-hidden="true" />
+                    <span>Send Message</span>
+                  </>
+                )}
+              </button>
+            </form>
           </div>
         </div>
-
       </div>
     </section>
   );

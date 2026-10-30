@@ -1,37 +1,78 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Webhook, Zap, Code2, Play } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React, { useState } from "react";
+import {
+  Webhook,
+  Play,
+  ShoppingBag,
+  ArrowRight,
+  Code2,
+  Database,
+  Layers,
+  Server,
+} from "lucide-react";
 import { toast } from "sonner";
-import { Magnetic } from "./magnetic";
+import type { WebhookLog } from "@/types/portfolio";
 
-interface WebhookLog {
-  id: string;
-  topic: string;
-  timestamp: string;
-  status: "success" | "retry" | "fail";
-  details: string;
-}
+const SHOPIFY_CAPABILITIES = [
+  {
+    icon: ShoppingBag,
+    title: "Custom Shopify App Development",
+    description:
+      "Embedded merchant apps built with Node.js, React/Next.js, Shopify CLI, and OAuth session token authentication.",
+  },
+  {
+    icon: Server,
+    title: "Admin API & GraphQL Workflows",
+    description:
+      "Rate-limit aware Admin GraphQL queries and mutations for products, orders, metafields, inventory, and discounts.",
+  },
+  {
+    icon: Layers,
+    title: "Shopify Polaris & App Bridge",
+    description:
+      "Native-feeling merchant admin interfaces using Shopify Polaris components, App Bridge actions, and Theme App Extensions.",
+  },
+  {
+    icon: Database,
+    title: "Database, Webhooks & Background Queues",
+    description:
+      "HMAC-verified webhook handlers, Redis & BullMQ job processing, and data persistence with Prisma ORM, PostgreSQL, or MongoDB.",
+  },
+] as const;
 
 export function ShopifyExpertise() {
   const [webhookLogs, setWebhookLogs] = useState<WebhookLog[]>([
-    { id: "log-1", topic: "orders/create", timestamp: "15:01:22", status: "success", details: "Processed order #1085 - customer notified." },
-    { id: "log-2", topic: "products/update", timestamp: "14:55:10", status: "success", details: "Synced metafields for SKU-SH-990." },
-    { id: "log-3", topic: "app/uninstalled", timestamp: "13:20:45", status: "success", details: "Cleaned GDPR metadata from DB." },
+    {
+      id: "log-1",
+      topic: "orders/create",
+      timestamp: "15:01:22",
+      status: "success",
+      details: "Queued order #1085 sync job & updated merchant dashboard.",
+    },
+    {
+      id: "log-2",
+      topic: "products/update",
+      timestamp: "14:55:10",
+      status: "success",
+      details: "Synced custom metafields for SKU-SH-990 via Admin GraphQL.",
+    },
+    {
+      id: "log-3",
+      topic: "app/uninstalled",
+      timestamp: "13:20:45",
+      status: "success",
+      details: "Revoked store session tokens and cleaned shop metadata.",
+    },
   ]);
 
-  const [activeTab, setActiveTab] = useState<"admin" | "liquid" | "graphql">("admin");
-  const [triggerCount, setTriggerCount] = useState(0);
-
-  // Manual Trigger for webhook simulation
   const handleTriggerWebhook = () => {
     const topics = ["orders/fulfilled", "refunds/create", "carts/update", "products/create"];
     const detailsList = [
-      "Updated inventory records across 3 warehouse locations.",
-      "Reversed charge for #2099 - Shopify payments notified.",
-      "Cart abandoned - trigger automation sequence.",
-      "Created draft SKU-SP-002, syncing images.",
+      "Synced fulfillment tracking across warehouse locations.",
+      "Processed refund webhook and updated merchant ledger.",
+      "Validated cart attributes via Theme App Extension.",
+      "Created product metafield definitions via Admin GraphQL API.",
     ];
 
     const randomTopic = topics[Math.floor(Math.random() * topics.length)];
@@ -46,227 +87,158 @@ export function ShopifyExpertise() {
       details: randomDetail,
     };
 
-    setWebhookLogs((prev) => [newLog, ...prev.slice(0, 4)]);
-    setTriggerCount(prev => prev + 1);
-    toast.success(`Webhook triggered: ${randomTopic}`);
+    setWebhookLogs((prev) => [newLog, ...prev.slice(0, 3)]);
+    toast.success(`Simulated Shopify Webhook: ${randomTopic}`);
   };
 
-  // Simulated live webhooks feed ticker
-  useEffect(() => {
-    const topics = ["orders/fulfilled", "refunds/create", "carts/update", "products/create"];
-    const detailsList = [
-      "Updated inventory records across 3 warehouse locations.",
-      "Reversed charge for #2099 - Shopify payments notified.",
-      "Cart abandoned - trigger automation sequence.",
-      "Created draft SKU-SP-002, syncing images.",
-    ];
-
-    const interval = setInterval(() => {
-      const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-      const randomDetail = detailsList[Math.floor(Math.random() * detailsList.length)];
-      const time = new Date().toLocaleTimeString();
-
-      const newLog: WebhookLog = {
-        id: `log-${Date.now()}`,
-        topic: randomTopic,
-        timestamp: time,
-        status: Math.random() > 0.08 ? "success" : "retry",
-        details: randomDetail,
-      };
-
-      setWebhookLogs((prev) => [newLog, ...prev.slice(0, 4)]);
-    }, 8500);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <section id="shopify" data-section className="relative py-36 px-6 sm:px-12 steel-border-t bg-[#040406]">
-      {/* Blueprint Structural Layout Lines */}
-      <div className="absolute inset-0 premium-grid opacity-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-6 sm:left-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-      <div className="absolute top-0 bottom-0 right-6 sm:right-12 w-[1px] bg-white/[0.02] pointer-events-none hidden md:block" />
-
-      <div className="max-w-7xl mx-auto w-full grid gap-16 lg:grid-cols-12 relative z-10">
-        
-        {/* Left Copy block */}
-        <div className="lg:col-span-5 flex flex-col justify-center space-y-10 text-left" data-reveal="fade-right">
-          <div>
-            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.25em] block mb-3">
-              05 // SHOPIFY SPECIALTY
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-white font-heading tracking-tight uppercase leading-tight">
-              APP BRIDGE &amp; CUSTOM COMMERCE ARCHITECTURE
+    <section
+      id="shopify"
+      data-section
+      className="relative py-20 sm:py-24 bg-[#A5A79B]/20 border-b border-[#DAD8D0]"
+    >
+      <div className="editorial-container px-5 sm:px-8 space-y-12">
+        {/* Section Heading */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end text-left">
+          <div className="lg:col-span-7 space-y-2.5">
+            <p className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#590907]">
+              05 • Featured Shopify Development
+            </p>
+            <h2
+              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.1]"
+              style={{ fontSize: "clamp(1.85rem, 3vw + 0.4rem, 2.75rem)" }}
+            >
+              Custom Shopify Apps, Admin GraphQL &amp; Storefront Extensions.
             </h2>
           </div>
-
-          <p className="text-white/60 text-sm sm:text-base leading-relaxed">
-            I design bespoke enterprise integrations: building highly resilient Node.js apps, deploying event-driven webhook ingestion pipelines with micro-queue retry strategies, writing performant Liquid components, and leveraging the Shopify GraphQL Admin API.
+          <p className="lg:col-span-5 text-sm sm:text-base text-[#68665F] leading-relaxed">
+            End-to-end commerce engineering across embedded Shopify Admin apps, Polaris UI, Theme
+            App Extensions, and reliable webhook processing pipelines.
           </p>
-
-          <ul className="space-y-5 text-white/45 text-xs sm:text-sm font-sans">
-            <li className="flex items-start gap-4">
-              <Zap className="h-5 w-5 text-gold-400 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong className="text-white font-bold block mb-0.5 uppercase tracking-wider text-[10.5px]">Embedded App Bridge</strong>
-                Deploy custom Node/React modules that render natively inside the merchant admin pane.
-              </span>
-            </li>
-            <li className="flex items-start gap-4">
-              <Webhook className="h-5 w-5 text-gold-400 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong className="text-white font-bold block mb-0.5 uppercase tracking-wider text-[10.5px]">Resilient Webhook Pipelines</strong>
-                Process bulk updates asynchronously utilizing secure database writes.
-              </span>
-            </li>
-            <li className="flex items-start gap-4">
-              <Code2 className="h-5 w-5 text-gold-400 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong className="text-white font-bold block mb-0.5 uppercase tracking-wider text-[10.5px]">Frictionless Storefront &amp; GraphQL</strong>
-                Structure custom metafield configurations and fast collection queries.
-              </span>
-            </li>
-          </ul>
         </div>
 
-        {/* Right Admin simulator widget */}
-        <div className="lg:col-span-7 flex items-center justify-center" data-reveal="fade-left">
-          <div className="border border-white/5 w-full max-w-[620px] rounded-2xl overflow-hidden flex flex-col bg-[#08080a] shadow-2xl shadow-black/95">
-            {/* Header tabs console */}
-            <div className="bg-[#050507] px-4 py-4 flex items-center justify-between border-b border-white/5 select-none font-mono">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-gold-400 animate-pulse" />
-                <span className="text-[8px] text-white/30 uppercase tracking-[0.2em] font-bold">SHOPIFY CONSOLE SIMULATOR</span>
+        {/* Burgundy & Sage Bento Composition */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left items-stretch">
+          {/* Left: Deep Burgundy Technical Architecture Panel (7 cols) */}
+          <div className="lg:col-span-7 rounded-xl bg-[#590907] text-[#F7F5F0] border border-[#590907] p-6 sm:p-8 flex flex-col justify-between space-y-8">
+            <div className="space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8D2B5]/20 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-8 h-8 rounded-lg bg-[#E8D2B5] text-[#590907] flex items-center justify-center">
+                    <ShoppingBag className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <h3 className="font-heading font-bold text-lg text-[#F7F5F0]">
+                    Shopify Application Architecture
+                  </h3>
+                </div>
+                <span className="text-xs font-mono text-[#E8D2B5]">
+                  Polaris • App Bridge • GraphQL
+                </span>
               </div>
-              <div className="flex gap-2">
-                {(["admin", "graphql", "liquid"] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={cn(
-                      "px-3 py-1.5 rounded transition-all cursor-pointer text-[7.5px] font-bold uppercase tracking-wider",
-                      activeTab === tab
-                        ? "bg-white text-black font-black"
-                        : "text-white/30 hover:text-white/60"
-                    )}
+
+              {/* 4 Capability Sub-Cards inside Burgundy Panel */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {SHOPIFY_CAPABILITIES.map((cap) => {
+                  const Icon = cap.icon;
+                  return (
+                    <div
+                      key={cap.title}
+                      className="p-4 rounded-lg bg-[#3D0605] border border-[#E8D2B5]/20 space-y-2"
+                    >
+                      <div className="flex items-center gap-2 text-[#E8D2B5]">
+                        <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                        <h4 className="font-heading font-bold text-sm text-[#F7F5F0]">
+                          {cap.title}
+                        </h4>
+                      </div>
+                      <p className="text-xs text-[#E8D2B5]/85 leading-relaxed">
+                        {cap.description}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-[#E8D2B5]/20 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  "Shopify Admin API",
+                  "GraphQL",
+                  "Shopify Polaris",
+                  "App Bridge",
+                  "Theme App Extensions",
+                  "Liquid",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 rounded bg-[#E8D2B5]/15 border border-[#E8D2B5]/30 text-[11px] font-medium text-[#E8D2B5]"
                   >
-                    {tab}
-                  </button>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#E8D2B5] text-[#24231F] text-xs font-semibold hover:bg-[#FFFFFF] transition-colors"
+              >
+                <span>Discuss a Shopify Build</span>
+                <ArrowRight className="h-3.5 w-3.5 text-[#590907]" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+
+          {/* Right: Interactive Webhook & Background Queue Simulator (5 cols) */}
+          <div className="lg:col-span-5 bento-card rounded-xl bg-[#FFFFFF] p-6 sm:p-7 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-[#DAD8D0] pb-4">
+                <div className="flex items-center gap-2">
+                  <Webhook className="h-4 w-4 text-[#590907]" aria-hidden="true" />
+                  <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#24231F]">
+                    Webhook &amp; Queue Simulator
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleTriggerWebhook}
+                  className="px-3.5 py-1.5 rounded-lg bg-[#590907] text-[#F7F5F0] font-semibold text-xs hover:bg-[#3D0605] transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Play className="h-3 w-3 fill-current" aria-hidden="true" />
+                  <span>Simulate Event</span>
+                </button>
+              </div>
+
+              <p className="text-xs text-[#68665F] leading-relaxed">
+                Test how incoming Shopify store events are verified via HMAC-SHA256 and processed
+                asynchronously without blocking merchant requests.
+              </p>
+
+              <div className="space-y-2.5" aria-live="polite">
+                {webhookLogs.map((log) => (
+                  <div
+                    key={log.id}
+                    className="p-3.5 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] text-left font-mono text-xs space-y-1"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="inline-flex items-center gap-2 font-bold text-[#590907]">
+                        <span className="w-2 h-2 rounded-full bg-[#590907]" aria-hidden="true" />
+                        {log.topic}
+                      </span>
+                      <span className="text-[11px] text-[#68665F]">{log.timestamp}</span>
+                    </div>
+                    <p className="text-xs font-sans text-[#68665F] pl-4">{log.details}</p>
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Workspace simulated viewport */}
-            <div className="p-6 bg-[#08080a] min-h-[340px]">
-              {activeTab === "admin" && (
-                <div className="grid grid-cols-12 gap-4 h-full text-left font-mono">
-                  {/* Sidebar Mock */}
-                  <div className="col-span-3 border-r border-white/5 pr-3 space-y-3.5 text-[8px] font-bold text-white/20 select-none uppercase tracking-widest pt-2">
-                    <span className="block text-[7.5px] text-gold-400/80 font-black">ADMIN CORE</span>
-                    <span className="block py-1 hover:text-white/60">Orders</span>
-                    <span className="block py-1 hover:text-white/60">Products</span>
-                    <span className="block px-2.5 py-1.5 bg-white/[0.02] rounded text-gold-400 border-l border-gold-400 font-bold">
-                      Sagar App
-                    </span>
-                  </div>
-
-                  {/* App Mock Content */}
-                  <div className="col-span-9 pl-3 space-y-4">
-                    <div className="flex justify-between items-center pb-3 border-b border-white/5">
-                      <div>
-                        <h4 className="text-[10px] font-bold text-white uppercase tracking-wider font-heading">APP WEBHOOK MONITOR</h4>
-                        <p className="text-[7.5px] text-white/30 lowercase mt-0.5">bridge: store-app.myshopify.com</p>
-                      </div>
-                      
-                      {/* Manual trigger button */}
-                      <Magnetic>
-                        <button
-                          onClick={handleTriggerWebhook}
-                          className="px-3 py-1.5 rounded-full border border-gold-400/20 bg-gold-400/5 hover:bg-gold-400 hover:text-black text-gold-400 text-[8px] font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5"
-                        >
-                          <Play className="h-2.5 w-2.5 fill-current" />
-                          TEST WEBHOOK
-                        </button>
-                      </Magnetic>
-                    </div>
-
-                    {/* Live Logs feed list */}
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between text-[7.5px] text-white/30 uppercase tracking-widest">
-                        <span>LIVE LOG STREAM ({triggerCount} TESTED)</span>
-                        <span className="flex items-center gap-1.5 text-gold-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-ping" />
-                          CONNECTED
-                        </span>
-                      </div>
-                      
-                      <div className="space-y-2 text-[9px] max-h-[160px] overflow-y-auto pr-1">
-                        {webhookLogs.map((log) => (
-                          <div
-                            key={log.id}
-                            className="bg-[#050507] border border-white/5 p-3 rounded-xl flex justify-between items-start gap-4 hover:border-gold-400/20 transition-colors duration-300"
-                          >
-                            <div className="space-y-1">
-                              <div className="flex items-center gap-2">
-                                <span className="text-white font-bold">{log.topic}</span>
-                                <span className="text-white/35 text-[7.5px]">{log.timestamp}</span>
-                              </div>
-                              <p className="text-white/50 leading-relaxed font-sans">{log.details}</p>
-                            </div>
-                            <span className={cn(
-                              "px-2 py-0.5 rounded text-[7.5px] tracking-widest uppercase font-bold border shrink-0",
-                              log.status === "success" 
-                                ? "bg-emerald-500/5 text-emerald-400 border-emerald-500/10" 
-                                : "bg-amber-500/5 text-amber-400 border-amber-500/10"
-                            )}>
-                              {log.status}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === "liquid" && (
-                <div className="font-mono text-2xs text-white/60 p-4 bg-[#050507] rounded-xl border border-white/5 leading-relaxed whitespace-pre-wrap select-all text-left">
-                  <div><span className="text-white/30">{"{% comment %} Custom Shopify Liquid product gallery {% endcomment %}"}</span></div>
-                  <div>{"<div class="}<span className="text-emerald-400">{"\"product-gallery\""}</span>{" data-autoplay="}<span className="text-gold-400">{"\"{{ section.settings.autoplay }}\""}</span>{">"}</div>
-                  <div className="pl-4">{"{% "}<span className="text-gold-400 font-bold">for</span>{" image in product.images %}"}</div>
-                  <div className="pl-8">{"<img src="}<span className="text-emerald-400">{"\"{{ image.src | image_url: width: 450 }}\""}</span>{" alt="}<span className="text-emerald-400">{"\"{{ image.alt | escape }}\""}</span>{" loading="}<span className="text-gold-400">{"\"lazy\""}</span>{">"}</div>
-                  <div className="pl-4">{"{% "}<span className="text-gold-400 font-bold">endfor</span>{" %}"}</div>
-                  <div>{"</div>"}</div>
-                  <div className="mt-4"><span className="text-gold-400 font-bold">{"{% schema %}"}</span></div>
-                  <div>{"{"}</div>
-                  <div className="pl-4"><span className="text-white/40 font-bold">{"\"name\""}</span>: <span className="text-emerald-400">{"\"Custom Product Gallery\""}</span>,</div>
-                  <div className="pl-4"><span className="text-white/40 font-bold">{"\"settings\""}</span>: [</div>
-                  <div className="pl-8">{"{ "}<span className="text-white/40">{"\"type\""}</span>: <span className="text-emerald-400">{"\"checkbox\""}</span>, <span className="text-white/40">{"\"id\""}</span>: <span className="text-emerald-400">{"\"autoplay\""}</span>, <span className="text-white/40">{"\"label\""}</span>: <span className="text-emerald-400">{"\"Autoplay\""}</span>, <span className="text-white/40">{"\"default\""}</span>: <span className="text-gold-400">true</span>{" }"}</div>
-                  <div className="pl-4">]</div>
-                  <div>{"}"}</div>
-                  <div><span className="text-gold-400 font-bold">{"{% endschema %}"}</span></div>
-                </div>
-              )}
-
-              {activeTab === "graphql" && (
-                <div className="font-mono text-2xs text-white/60 p-4 bg-[#050507] rounded-xl border border-white/5 leading-relaxed whitespace-pre-wrap select-all text-left">
-                  <div><span className="text-white/30"># Query Shopify GraphQL Admin API for product metafields</span></div>
-                  <div><span className="text-gold-400 font-bold">query</span> <span className="text-[#7dd3fc] font-bold">getProductMetafields</span>($productId: ID!) &#123;</div>
-                  <div className="pl-4">product(id: $productId) &#123;</div>
-                  <div className="pl-8">title</div>
-                  <div className="pl-8">metafields(first: 5, namespace: <span className="text-emerald-400">{"\"sagar_app\""}</span>) &#123;</div>
-                  <div className="pl-12">edges &#123;</div>
-                  <div className="pl-16">node &#123;</div>
-                  <div className="pl-20 text-[#7dd3fc]">key</div>
-                  <div className="pl-20 text-[#7dd3fc]">value</div>
-                  <div className="pl-20 text-[#7dd3fc]">type</div>
-                  <div className="pl-16">&#125;</div>
-                  <div className="pl-12">&#125;</div>
-                  <div className="pl-8">&#125;</div>
-                  <div className="pl-4">&#125;</div>
-                  <div>&#125;</div>
-                </div>
-              )}
+            <div className="p-3.5 rounded-lg bg-[#E8D2B5]/60 border border-[#DAD8D0] flex items-center justify-between text-xs">
+              <span className="font-medium text-[#24231F] flex items-center gap-2">
+                <Code2 className="h-4 w-4 text-[#590907]" aria-hidden="true" />
+                HMAC-SHA256 Verified • BullMQ Worker
+              </span>
+              <span className="font-mono font-semibold text-[#590907]">200 OK</span>
             </div>
           </div>
         </div>
