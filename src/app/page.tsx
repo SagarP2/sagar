@@ -2,82 +2,80 @@ import React from "react";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { HeroSection } from "@/components/sections/HeroSection";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { SkillsSection } from "@/components/sections/SkillsSection";
-import { ProjectsSection } from "@/components/sections/ProjectsSection";
-import { ShopifySection } from "@/components/sections/ShopifySection";
-import { ServicesSection } from "@/components/sections/ServicesSection";
-import { ExperienceSection } from "@/components/sections/ExperienceSection";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { ContactSection } from "@/components/sections/ContactSection";
+import { Hero } from "@/components/sections/Hero";
+import { Projects } from "@/components/sections/Projects";
+import { Expertise } from "@/components/sections/Expertise";
+import { AIWorkflow } from "@/components/sections/AIWorkflow";
+import { Experience } from "@/components/sections/Experience";
+import { About } from "@/components/sections/About";
+import { Contact } from "@/components/sections/Contact";
 import {
   settings,
   projects,
-  skills,
+  expertiseAreas,
   experiences,
-  educationList,
-  services,
-  testimonials,
-  resumeSettings,
 } from "@/data/portfolioData";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: settings.siteName,
-    description: settings.bioText,
+    description: settings.heroDescription,
     keywords: [
       "Sagar Panchal",
       "MERN Stack Developer",
       "Shopify App Developer",
+      "React Developer",
       "Next.js Developer",
-      "TypeScript Engineer",
+      "TypeScript Developer",
       "Node.js Developer",
       "Shopify Admin API",
-      "GraphQL Developer",
+      "Shopify GraphQL",
+      "Shopify Polaris",
+      "Theme App Extensions",
     ],
   };
 }
 
 export default function Home() {
-  const cvUrl = resumeSettings.cvMedia?.url ?? "/Resume_Sagar_Panchal.pdf";
+  const featuredProject = projects[0];
 
   return (
     <div className="min-h-screen bg-[#030407] text-[#F5F5F5] flex flex-col">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:rounded-md focus:bg-[#D4FF24] focus:text-[#030407] focus:text-xs focus:font-bold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:bg-[#D4FF24] focus:text-[#030407] focus:text-xs focus:font-mono focus:font-bold"
       >
         Skip to main content
       </a>
 
-      <Navbar resumeUrl={cvUrl} />
+      {/* 1. Navbar */}
+      <Navbar resumeUrl={settings.resumeUrl} />
 
-      <main id="main-content" className="flex-1">
-        <HeroSection resumeUrl={cvUrl} featuredProject={projects[0]} />
-        <ProjectsSection projects={projects} />
-        <AboutSection
-          bioText={settings.bioText}
-          subBioText={settings.subBioText}
-          experienceYears={resumeSettings.totalExperienceYears}
-        />
-        <SkillsSection skills={skills} />
-        <ShopifySection />
-        <ExperienceSection
-          experiences={experiences}
-          educationList={educationList}
-          cvUrl={cvUrl}
-        />
-        <ServicesSection services={services} />
-        <TestimonialsSection testimonials={testimonials} />
-        <ContactSection
-          contactEmail={settings.contactEmail}
-          contactPhone={settings.contactPhone}
-          contactAddress={settings.contactAddress}
-        />
+      <main id="main-content" className="flex-1 pt-[72px]">
+        {/* 2. Hero */}
+        <Hero settings={settings} featuredProject={featuredProject} />
+
+        {/* 3. Selected Projects */}
+        <Projects projects={projects} />
+
+        {/* 4. Technical Expertise */}
+        <Expertise areas={expertiseAreas} />
+
+        {/* 5. AI-Assisted Development Workflow */}
+        <AIWorkflow />
+
+        {/* 6. Professional Experience */}
+        <Experience experiences={experiences} />
+
+        {/* 7. About Me */}
+        <About />
+
+        {/* 8. Contact */}
+        <Contact settings={settings} />
       </main>
 
-      <Footer />
+      {/* 9. Footer */}
+      <Footer settings={settings} />
     </div>
   );
 }

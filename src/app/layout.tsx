@@ -26,13 +26,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sagarpanchal.dev"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://sagarpanchal.dev",
+  ),
   title: {
     default: "Sagar Panchal | MERN Stack Developer & Shopify App Developer",
     template: "%s | Sagar Panchal",
   },
   description:
-    "Portfolio of Sagar Panchal — MERN Stack Developer and Shopify App Developer building modern web applications, custom Shopify solutions, and reliable backend architectures.",
+    "I'm Sagar Panchal, a MERN Stack Developer and Shopify App Developer building modern web applications, scalable backend systems, and custom e-commerce solutions.",
   keywords: [
     "Sagar Panchal",
     "MERN Stack Developer",
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sagar Panchal | MERN Stack Developer & Shopify App Developer",
     description:
-      "Building digital experiences that move business forward — full-stack MERN applications, custom Shopify apps, and dependable backend systems.",
+      "Turning ideas into powerful digital products — full-stack MERN applications, scalable backend systems, and custom Shopify apps.",
     url: "https://sagarpanchal.dev",
     siteName: "Sagar Panchal Portfolio",
     type: "website",
@@ -63,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sagar Panchal | MERN Stack Developer & Shopify App Developer",
     description:
-      "Modern web applications and Shopify solutions engineered with thoughtful interfaces and reliable architecture.",
+      "MERN Stack Developer & Shopify App Developer combining engineering fundamentals with AI-assisted development.",
   },
 };
 

@@ -1,78 +1,65 @@
-import { Experience, Education } from "@/types/portfolio";
+import { Experience } from "@/types/portfolio";
 
 export const experiences: Experience[] = [
   {
-    id: "cmq28oiip000sjszntx82disv",
-    company: "Sedulous® Infosys",
-    role: "MERN Stack Developer Intern",
-    location: "Surat, Gujarat",
-    startDate: "2024-03-01T00:00:00.000Z",
-    endDate: "2024-12-31T00:00:00.000Z",
-    isCurrent: false,
-    description:
-      "Worked as a MERN Stack Developer Intern for 9+ months. Gained experience building full-stack web applications using JavaScript, React.js, Node.js, Express.js, and MongoDB. Handled deployment pipelines, API integration, and developed user-friendly, responsive layouts.",
-    orderIndex: 1,
-  },
-  {
-    id: "cmq28oin1000tjsznycd0ep18",
+    id: "exp-rabbitcode-agency",
     company: "Rabbitcode Agency",
     role: "MERN Stack & Shopify App Developer",
     location: "Remote",
     startDate: "2025-01-01T00:00:00.000Z",
     endDate: null,
     isCurrent: true,
-    description:
-      "Developing robust full-stack web applications using the MERN stack (MongoDB, Express, React, Node.js) and designing custom Shopify applications. Implementing embedded app architectures, Webhook event pipelines, GraphQL API integrations, and tailored Liquid themes to meet enterprise merchant requirements.",
+    responsibilities: [
+      "Develop full-stack web applications using the MERN stack (MongoDB, Express.js, React, Node.js) and build custom Shopify applications.",
+      "Implement embedded Shopify app architectures using Shopify Polaris, App Bridge, Admin GraphQL APIs, and Theme App Extensions.",
+      "Design webhook event pipelines, background worker queues, and custom Liquid storefront integrations for merchant requirements.",
+    ],
+    technicalContributions: [
+      "Architected custom Shopify app workflows and Admin GraphQL mutations for merchant automation.",
+      "Built collaborative MERN stack platforms including Rabbit Case and dynamic agency systems with AWS S3 integration.",
+      "Engineered HMAC-verified webhook listeners and database state synchronization.",
+    ],
+    technologies: [
+      "React",
+      "Next.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Shopify Admin API",
+      "GraphQL",
+      "Shopify Polaris",
+      "App Bridge",
+      "AWS S3",
+    ],
     orderIndex: 2,
   },
-];
-
-export const ROLE_TECH_MAP: Record<string, readonly string[]> = {
-  "cmq28oin1000tjsznycd0ep18": [
-    "MongoDB",
-    "Express.js",
-    "React.js",
-    "Node.js",
-    "Shopify CLI",
-    "GraphQL API",
-    "Liquid",
-    "Webhooks",
-  ],
-  "cmq28oiip000sjszntx82disv": [
-    "JavaScript",
-    "React.js",
-    "Node.js",
-    "Express.js",
-    "MongoDB",
-    "REST APIs",
-    "Responsive UI",
-  ],
-};
-
-export const educationList: Education[] = [
   {
-    id: "cmq28oird000ujszndimnry69",
-    institution: "Babu Madhv Institute of Information Technology",
-    degree: "Bachelor of Science in Information Technology",
-    fieldOfStudy: "Information Technology",
-    location: "Bardoli, Gujarat",
-    startDate: "2021-06-01T00:00:00.000Z",
-    endDate: "2024-05-31T00:00:00.000Z",
-    description:
-      "Completed Bachelor's in IT, focusing on practical programming concepts, database management systems, and software engineering. BMIIT provided hands-on experience in a wide range of emerging technologies.",
+    id: "exp-sedulous-infosys",
+    company: "Sedulous® Infosys",
+    role: "MERN Stack Developer Intern",
+    location: "Surat, Gujarat",
+    startDate: "2024-03-01T00:00:00.000Z",
+    endDate: "2024-12-31T00:00:00.000Z",
+    isCurrent: false,
+    responsibilities: [
+      "Worked as a MERN Stack Developer Intern for 9+ months building full-stack web applications with JavaScript, React.js, Node.js, Express.js, and MongoDB.",
+      "Handled REST API integration, database schema modeling, and deployment pipelines.",
+      "Developed responsive, accessible frontend layouts and reusable React components.",
+    ],
+    technicalContributions: [
+      "Implemented JWT-based authentication, password hashing, and role-based route protection across web projects.",
+      "Translated product requirements into clean REST endpoints and responsive UI views.",
+    ],
+    technologies: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "REST APIs",
+      "JWT Auth",
+      "JavaScript",
+      "Tailwind CSS",
+    ],
     orderIndex: 1,
   },
-  {
-    id: "cmq28oivn000vjsznpjmt2j11",
-    institution: "The Sheth H.J Shah Sarvajanik Junior College",
-    degree: "11th & 12th Standard",
-    fieldOfStudy: "Science Stream",
-    location: "Navapur, Maharashtra",
-    startDate: "2019-06-01T00:00:00.000Z",
-    endDate: "2021-05-31T00:00:00.000Z",
-    description:
-      "Focused on core science subjects (Physics, Chemistry, Mathematics). Developed analytical thinking and foundational logic skills.",
-    orderIndex: 2,
-  },
 ];
-

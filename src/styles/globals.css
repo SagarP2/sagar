@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "./tokens.css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+
+  /* Strict Design System Palette */
+  --color-midnight: #030407;
+  --color-cobalt: #1558C9;
+  --color-lime: #D4FF24;
+  --color-surface: #101218;
+  --color-surface-secondary: #171B25;
+  --color-text-primary: #F5F5F5;
+  --color-text-muted: #B4B8C3;
+  --color-border-token: #292D36;
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+    background-color: #030407;
+    color: #F5F5F5;
+  }
+
+  body {
+    background-color: #030407;
+    color: #F5F5F5;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #D4FF24;
+    color: #030407;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
+    color: #F5F5F5;
+    letter-spacing: -0.03em;
+  }
+
+  a, button, input, textarea, select {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4FF24] focus-visible:ring-offset-2 focus-visible:ring-offset-[#030407];
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #030407;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #292D36;
+    border: 2px solid #030407;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1558C9;
+  }
+}
+
+@layer utilities {
+  .editorial-container {
+    width: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+  }
+
+  /* Bento & Brutalist Card Surfaces */
+  .bento-panel {
+    background-color: #101218;
+    border: 1px solid #292D36;
+    transition: border-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .bento-panel:hover {
+    border-color: #1558C9;
+  }
+
+  .brutalist-border {
+    border: 1px solid #292D36;
+  }
+
+  .brutalist-accent-lime {
+    box-shadow: 4px 4px 0px 0px #D4FF24;
+  }
+
+  .brutalist-accent-cobalt {
+    box-shadow: 4px 4px 0px 0px #1558C9;
+  }
+
+  /* Subtle Glassmorphism for Navigation & Selected Overlays */
+  .glass-nav {
+    background-color: rgba(3, 4, 7, 0.84);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-overlay {
+    background-color: rgba(16, 18, 24, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid #292D36;
+  }
+
+  /* Subtle Architectural Grid Background */
+  .architectural-grid {
+    background-image:
+      linear-gradient(to right, rgba(41, 45, 54, 0.28) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(41, 45, 54, 0.28) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .link-underline {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: #D4FF24;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .bento-panel:hover {
+    transform: none !important;
+  }
+}
+

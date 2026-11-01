@@ -2,26 +2,24 @@ import type { NavigationItem } from "@/types/portfolio";
 
 export const NAVIGATION_ITEMS: readonly NavigationItem[] = [
   { label: "Home", href: "home" },
-  { label: "About", href: "about" },
-  { label: "Skills", href: "skills" },
-  { label: "Projects", href: "projects" },
-  { label: "Shopify", href: "shopify" },
+  { label: "Work", href: "work" },
+  { label: "Expertise", href: "expertise" },
   { label: "Experience", href: "experience" },
+  { label: "About", href: "about" },
   { label: "Contact", href: "contact" },
 ] as const;
 
 export const CONTACT_SERVICE_OPTIONS = [
-  "Full-Stack MERN",
-  "Shopify Custom App",
-  "API System Integration",
-  "Liquid Theme Design",
+  "MERN Stack Web App",
+  "Custom Shopify App",
+  "API & Backend Architecture",
+  "Engineering Opportunity",
 ] as const;
 
 export const CONTACT_BUDGET_OPTIONS = [
-  "<$5k",
-  "$5k - $10k",
-  "$10k - $25k",
-  "$25k+",
+  "Project Build",
+  "Full-Time / Contract",
+  "Long-Term Collaboration",
 ] as const;
 
 export const SOCIAL_URLS = {
@@ -31,4 +29,3 @@ export const SOCIAL_URLS = {
 } as const;
 
 export const DEFAULT_HEADER_OFFSET = 72;
-

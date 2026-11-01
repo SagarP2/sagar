@@ -1,84 +1,119 @@
-import {
-  WebsiteSetting,
-  ResumeSetting,
-  SocialLink,
-} from "@/types/portfolio";
+import { WebsiteSetting, SocialLink, AIWorkflowStep } from "@/types/portfolio";
 
 export const settings: WebsiteSetting = {
   id: "global_settings",
-  siteName: "Sagar Panchal | Portfolio MERN Stack & Shopify Developer",
-  logoMediaId: null,
-  bioText:
-    "Welcome! I’m Sagar Panchal, a professional MERN Stack and Shopify App Developer with expertise in Web Application Development, Programming, Graphic Design, and Video Editing. I specialize in crafting innovative, scalable solutions tailored to meet business needs and deliver exceptional user experiences.",
-  subBioText:
-    "With a focus on quality and precision, I bring both technical expertise and creative insight to every project, ensuring results that exceed expectations. I thrive in dynamic, collaborative environments that challenge my problem-solving skills and promote continuous growth. Let’s work together to build impactful, high-performance applications that drive success.",
+  siteName: "Sagar Panchal | MERN Stack Developer & Shopify App Developer",
+  name: "Sagar Panchal",
+  eyebrow: "MERN STACK DEVELOPER / SHOPIFY APP DEVELOPER",
+  headlineLine1: "I Build Digital Products.",
+  headlineLine2: "From Idea to Production.",
+  heroDescription:
+    "I'm Sagar Panchal, a MERN Stack Developer and Shopify App Developer building modern web applications, custom Shopify solutions, and reliable digital products through engineering and AI-assisted development.",
   contactEmail: "panchalsagar992003@gmail.com",
   contactPhone: "+91 9638061952",
-  contactAddress: "Gandhi Road, Bardoli, Gujarat, India - 394601",
-  createdAt: "2026-06-06T10:57:39.366Z",
-  updatedAt: "2026-06-06T10:57:39.366Z",
+  contactAddress: "Bardoli, Gujarat, India",
+  resumeUrl: "/Resume_Sagar_Panchal.pdf",
 };
 
-export const resumeSettings: ResumeSetting = {
-  id: "global_resume",
-  cvMediaId: "media_cv_sagar",
-  lastUpdated: "2026-06-06T10:57:39.524Z",
-  totalExperienceYears: 1.5,
-  cvMedia: {
-    url: "/Resume_Sagar_Panchal.pdf",
+export const aiWorkflowSteps: AIWorkflowStep[] = [
+  {
+    number: "01",
+    title: "Understand the problem.",
+    detail:
+      "Clarify user workflows, merchant constraints, data relationships, and edge cases before writing code.",
   },
+  {
+    number: "02",
+    title: "Plan architecture.",
+    detail:
+      "Design database schemas, API routes, state boundaries, and component structure across the stack.",
+  },
+  {
+    number: "03",
+    title: "AI-assisted implementation.",
+    detail:
+      "Accelerate scaffolding, TypeScript interfaces, GraphQL queries, and UI implementation with AI tools.",
+  },
+  {
+    number: "04",
+    title: "Review generated code.",
+    detail:
+      "Inspect every module for logic accuracy, security, type safety, and maintainability—no blind copy-pasting.",
+  },
+  {
+    number: "05",
+    title: "Debug and test.",
+    detail:
+      "Validate inputs, resolve runtime edge cases, optimize database queries, and test responsive behavior.",
+  },
+  {
+    number: "06",
+    title: "Deliver working software.",
+    detail:
+      "Ship clean, production-ready builds with verified routes, reliable performance, and maintainable structure.",
+  },
+];
+
+export const aiToolsList = [
+  {
+    name: "Cursor",
+    purpose: "Multi-file TypeScript implementation & codebase-aware refactoring",
+  },
+  {
+    name: "Codex",
+    purpose: "Rapid prototyping, API logic drafting & query generation",
+  },
+  {
+    name: "Antigravity",
+    purpose: "Agentic system architecture, debugging & full-stack execution",
+  },
+] as const;
+
+export const aboutContent = {
+  headline: "Curious Mind. Engineering Mindset.",
+  intro:
+    "I'm a software developer with a B.Sc. in Information Technology and hands-on agency and internship experience building full-stack web applications and custom e-commerce tools.",
+  paragraphs: [
+    "My primary specialization is full-stack MERN development—architecting React and Next.js interfaces connected to Node.js, Express.js, and MongoDB/SQL backends. Alongside web applications, I focus heavily on custom Shopify app development: building embedded admin experiences with Shopify Polaris and App Bridge, integrating the Shopify Admin GraphQL API, creating Theme App Extensions, and handling background webhooks.",
+    "I actively integrate AI-assisted development and vibe coding into my engineering workflow. Because I understand how applications work under the hood—from database schemas and authentication to API rate limits and UI state—I use AI tools to move faster from concept to working product while maintaining strict control over code quality and debugging.",
+  ],
+  focusAreas: [
+    {
+      label: "Background",
+      value: "B.Sc. in Information Technology (BMIIT) · 1.5+ Years Production Experience",
+    },
+    {
+      label: "MERN Specialization",
+      value: "React, Next.js, TypeScript, Node.js, Express.js & MongoDB/PostgreSQL",
+    },
+    {
+      label: "Shopify Focus",
+      value: "Custom Embedded Apps, Admin GraphQL API, Polaris, App Bridge & Extensions",
+    },
+    {
+      label: "Engineering Approach",
+      value: "Practical architecture accelerated by Cursor, Codex & Antigravity",
+    },
+  ],
 };
 
 export const socialLinks: SocialLink[] = [
   {
-    id: "cmq28ofa70001jszns4ingorm",
+    id: "social_github",
     platform: "GitHub",
     url: "https://github.com/SagarP2",
-    icon: "Github",
-    orderIndex: 1,
-    isActive: true,
-    createdAt: "2026-06-06T10:57:39.679Z",
-    updatedAt: "2026-06-06T10:57:39.679Z",
+    label: "github.com/SagarP2",
   },
   {
-    id: "cmq28ofei0002jszn4iogovnq",
+    id: "social_linkedin",
     platform: "LinkedIn",
     url: "https://www.linkedin.com/in/sagar-panchal-79284921a/",
-    icon: "Linkedin",
-    orderIndex: 2,
-    isActive: true,
-    createdAt: "2026-06-06T10:57:39.834Z",
-    updatedAt: "2026-06-06T10:57:39.834Z",
+    label: "linkedin.com/in/sagar-panchal",
   },
   {
-    id: "cmq28ofit0003jsznn8qkl2ys",
-    platform: "Instagram",
-    url: "https://www.instagram.com/_sagarpanchal._",
-    icon: "Instagram",
-    orderIndex: 3,
-    isActive: true,
-    createdAt: "2026-06-06T10:57:39.989Z",
-    updatedAt: "2026-06-06T10:57:39.989Z",
-  },
-  {
-    id: "cmq28ofn40004jszndntzrxau",
-    platform: "Facebook",
-    url: "https://www.facebook.com/profile.php?id=100043381202793",
-    icon: "Facebook",
-    orderIndex: 4,
-    isActive: true,
-    createdAt: "2026-06-06T10:57:40.144Z",
-    updatedAt: "2026-06-06T10:57:40.144Z",
-  },
-  {
-    id: "cmq28ofre0005jsznreqbxtja",
-    platform: "Twitter",
-    url: "https://x.com/SagarPanchal09",
-    icon: "Twitter",
-    orderIndex: 5,
-    isActive: true,
-    createdAt: "2026-06-06T10:57:40.298Z",
-    updatedAt: "2026-06-06T10:57:40.298Z",
+    id: "social_email",
+    platform: "Email",
+    url: "mailto:panchalsagar992003@gmail.com",
+    label: "panchalsagar992003@gmail.com",
   },
 ];
-

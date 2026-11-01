@@ -1,5 +1,10 @@
-export { settings, resumeSettings, socialLinks } from "./profile";
-export { skills } from "./skills";
-export { experiences, educationList, ROLE_TECH_MAP } from "./experience";
-export { services, testimonials } from "./services";
+export {
+  settings,
+  aiWorkflowSteps,
+  aiToolsList,
+  aboutContent,
+  socialLinks,
+} from "./profile";
+export { expertiseAreas } from "./technologies";
+export { experiences } from "./experience";
 export { projects } from "./projects";

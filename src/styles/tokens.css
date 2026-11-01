@@ -1,0 +1,39 @@
+:root {
+  /* Core Palette Tokens */
+  --color-midnight: #030407;
+  --color-cobalt: #1558C9;
+  --color-lime: #D4FF24;
+
+  /* Supporting Surface & Text Tokens */
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #B4B8C3;
+  --color-surface-card: #101218;
+  --color-surface-secondary: #171B25;
+  --color-border-token: #292D36;
+
+  /* Typography Scale Tokens */
+  --font-heading: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Shadcn / Tailwind Semantic Mappings */
+  --background: #030407;
+  --foreground: #F5F5F5;
+  --card: #101218;
+  --card-foreground: #F5F5F5;
+  --popover: #101218;
+  --popover-foreground: #F5F5F5;
+  --primary: #D4FF24;
+  --primary-foreground: #030407;
+  --secondary: #1558C9;
+  --secondary-foreground: #F5F5F5;
+  --muted: #171B25;
+  --muted-foreground: #B4B8C3;
+  --accent: #1558C9;
+  --accent-foreground: #F5F5F5;
+  --border: #292D36;
+  --input: #292D36;
+  --ring: #D4FF24;
+  --radius: 0.5rem;
+}
+
