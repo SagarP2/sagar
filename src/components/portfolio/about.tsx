@@ -1,7 +1,19 @@
 "use client";
 
 import React from "react";
-import { Layers, Server, ShoppingBag, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import {
+  Layers,
+  Server,
+  ShoppingBag,
+  ShieldCheck,
+  CheckCircle2,
+  Sparkles,
+  GraduationCap,
+  Briefcase,
+  Code2,
+} from "lucide-react";
+import { HaikeiOrganicBlob } from "./haikei-svg";
 
 interface AboutProps {
   bioText: string;
@@ -9,168 +21,200 @@ interface AboutProps {
   experienceYears?: number;
 }
 
-const FOCUS_AREAS = [
+const PILLARS = [
   {
     icon: Layers,
-    title: "Maintainable Full-Stack Applications",
+    title: "Modular Full-Stack Architecture",
     description:
-      "Designing modular React.js and Next.js frontends backed by structured Node.js and Express.js services that remain clean as products grow.",
+      "Crafting React.js and Next.js applications backed by clean Node.js microservices and REST/GraphQL APIs that scale without architectural debt.",
   },
   {
     icon: ShoppingBag,
-    title: "Shopify App & Commerce Integrations",
+    title: "Shopify Merchant Engineering",
     description:
-      "Developing custom embedded Shopify applications using Admin GraphQL APIs, Polaris, App Bridge, Theme App Extensions, and Liquid.",
+      "Developing embedded Shopify apps using Admin GraphQL APIs, Polaris UI, App Bridge session tokens, and custom Liquid storefront extensions.",
   },
   {
     icon: Server,
-    title: "Reliable Backend & Data Systems",
+    title: "Resilient Data & Queue Systems",
     description:
-      "Architecting REST and GraphQL APIs, authentication workflows, background queues, and schemas across MongoDB and PostgreSQL.",
+      "Structuring relational and NoSQL schemas across MongoDB and PostgreSQL, paired with Redis caching and asynchronous job queues.",
   },
   {
     icon: ShieldCheck,
-    title: "Practical, Accessible Interfaces",
+    title: "Performance & Defensiveness",
     description:
-      "Translating complex workflows into responsive, fast, and intuitive interfaces with clear visual hierarchy and thorough validation.",
+      "Implementing end-to-end schema validation, webhook HMAC verification, strict rate limiting, and zero layout shift design.",
   },
 ] as const;
 
-const WORKING_PRINCIPLES = [
-  "Write clear, strongly typed code that other engineers can read and extend confidently.",
-  "Prioritize real-world performance, clean API boundaries, and predictable error states.",
-  "Build merchant and end-user interfaces that feel effortless without unnecessary visual clutter.",
-  "Validate data at every boundary — from client forms to database schemas and webhook handlers.",
-] as const;
-
 export function About({ bioText, subBioText, experienceYears = 1.5 }: AboutProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section
       id="about"
       data-section
-      className="relative py-20 sm:py-24 bg-[#A5A79B]/16 border-b border-[#DAD8D0]"
+      className="relative py-20 sm:py-28 bg-[#F7F5F0] border-b border-[#DAD8D0] overflow-hidden"
     >
-      <div className="editorial-container px-5 sm:px-8 space-y-12">
+      {/* Background Haikei Organic Blob */}
+      <div className="absolute -top-24 -right-24 w-96 h-96 opacity-40 pointer-events-none">
+        <HaikeiOrganicBlob />
+      </div>
+
+      <div className="editorial-container px-5 sm:px-8 space-y-14 relative z-10">
         {/* Section Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end text-left">
-          <div className="lg:col-span-6 space-y-2.5">
-            <p className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#590907]">
-              01 • About Me
-            </p>
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-7 space-y-3"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8D2B5]/70 border border-[#DAD8D0] text-[#590907] text-xs font-mono font-semibold">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span>02 • About Me</span>
+            </div>
             <h2
-              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.1]"
-              style={{ fontSize: "clamp(1.85rem, 3vw + 0.4rem, 2.75rem)" }}
+              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.08]"
+              style={{ fontSize: "clamp(2rem, 3.2vw + 0.4rem, 3rem)" }}
             >
-              Engineering Thoughtful Digital Experiences.
+              Engineering Thoughtful Products with Craft &amp; Precision.
             </h2>
-          </div>
+          </motion.div>
 
-          <p className="lg:col-span-6 text-sm sm:text-base text-[#68665F] leading-relaxed">
-            Focused on building maintainable web applications, practical user interfaces, reliable
-            backend systems, and custom Shopify integrations.
-          </p>
+          <motion.p
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="lg:col-span-5 text-sm sm:text-base text-[#68665F] leading-relaxed"
+          >
+            A full-stack software engineer based in Gujarat, India, specializing in
+            production-ready web applications, Shopify ecosystem integrations, and resilient
+            backend architectures.
+          </motion.p>
         </div>
 
-        {/* Asymmetrical Bento Grid for About Me */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 text-left">
-          {/* Card 1: Short Professional Introduction (7 cols) */}
-          <div className="lg:col-span-7 bento-card rounded-xl p-6 sm:p-8 bg-[#FFFFFF] flex flex-col justify-between space-y-6">
+        {/* Asymmetrical Bento Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
+          {/* Bento Card 1: Narrative & Mindset (7 cols) */}
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55 }}
+            className="lg:col-span-7 rounded-2xl bg-[#FFFFFF] border border-[#DAD8D0] p-7 sm:p-9 flex flex-col justify-between space-y-6 shadow-sm hover:border-[#A5A79B] transition-all"
+          >
             <div className="space-y-4">
-              <span className="inline-block px-3 py-1 rounded-md bg-[#E8D2B5]/70 text-[#590907] text-xs font-mono font-semibold">
-                Professional Introduction
+              <span className="inline-block px-3 py-1 rounded-md bg-[#E8D2B5]/60 text-[#590907] text-xs font-mono font-semibold">
+                Core Narrative
               </span>
+
               <p className="text-base sm:text-lg text-[#24231F] font-medium leading-relaxed">
                 {bioText ||
-                  "I’m Sagar Panchal, a MERN Stack Developer and Shopify App Developer focused on building dependable web applications and custom commerce tools."}
+                  "Welcome! I’m Sagar Panchal, a professional MERN Stack and Shopify App Developer with expertise in Web Application Development, Programming, Graphic Design, and Video Editing. I specialize in crafting innovative, scalable solutions tailored to meet business needs and deliver exceptional user experiences."}
               </p>
+
               <p className="text-sm text-[#68665F] leading-relaxed">
                 {subBioText ||
-                  "From database schema design and API architecture to responsive frontend interfaces, I approach every build with attention to clarity, maintainability, and user experience."}
+                  "With a focus on quality and precision, I bring both technical expertise and creative insight to every project, ensuring results that exceed expectations. I thrive in dynamic, collaborative environments that challenge my problem-solving skills and promote continuous growth."}
               </p>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-[#DAD8D0]">
-              <div className="p-3.5 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0]">
+            {/* Quick Metrics Bar */}
+            <div className="grid grid-cols-3 gap-3 pt-6 border-t border-[#DAD8D0]">
+              <div className="p-3.5 rounded-xl bg-[#F7F5F0] border border-[#DAD8D0]">
                 <span className="text-[11px] font-mono text-[#68665F] block">Experience</span>
-                <span className="font-heading font-bold text-sm text-[#590907] mt-0.5 block">
+                <span className="font-heading font-bold text-base sm:text-lg text-[#590907] mt-0.5 block">
                   {experienceYears}+ Years
                 </span>
+                <span className="text-[10px] text-[#68665F]">Agency &amp; Remote</span>
               </div>
-              <div className="p-3.5 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0]">
-                <span className="text-[11px] font-mono text-[#68665F] block">Core Stack</span>
-                <span className="font-heading font-bold text-sm text-[#24231F] mt-0.5 block">
-                  MERN + Next.js
+
+              <div className="p-3.5 rounded-xl bg-[#F7F5F0] border border-[#DAD8D0]">
+                <span className="text-[11px] font-mono text-[#68665F] block">Production</span>
+                <span className="font-heading font-bold text-base sm:text-lg text-[#24231F] mt-0.5 block">
+                  10+ Apps
                 </span>
+                <span className="text-[10px] text-[#68665F]">Web &amp; Commerce</span>
               </div>
-              <div className="p-3.5 rounded-lg bg-[#E8D2B5]/55 border border-[#DAD8D0]">
-                <span className="text-[11px] font-mono text-[#24231F] block">Commerce</span>
-                <span className="font-heading font-bold text-sm text-[#590907] mt-0.5 block">
-                  Shopify Apps
+
+              <div className="p-3.5 rounded-xl bg-[#F7F5F0] border border-[#DAD8D0]">
+                <span className="text-[11px] font-mono text-[#68665F] block">Education</span>
+                <span className="font-heading font-bold text-base sm:text-lg text-[#24231F] mt-0.5 block">
+                  B.Sc. IT
                 </span>
+                <span className="text-[10px] text-[#68665F]">BMIIT Bardoli</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Card 2: Working Principles on Warm Cream Beige & Burgundy (5 cols) */}
-          <div className="lg:col-span-5 rounded-xl bg-[#E8D2B5]/65 border border-[#DAD8D0] p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          {/* Bento Card 2: Technical Background & Values (5 cols) */}
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="lg:col-span-5 rounded-2xl bg-[#E8D2B5]/30 border border-[#DAD8D0] p-7 sm:p-9 flex flex-col justify-between space-y-6 shadow-sm"
+          >
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#590907]">
-                  Working Principles
-                </span>
-                <span className="text-xs font-mono text-[#68665F]">How I Build</span>
-              </div>
+              <span className="inline-block px-3 py-1 rounded-md bg-[#590907] text-[#F7F5F0] text-xs font-mono font-semibold">
+                Engineering Tenets
+              </span>
 
-              <h3 className="font-heading font-bold text-xl text-[#24231F]">
-                Clarity in code, reliability in production.
+              <h3 className="font-heading font-bold text-xl sm:text-2xl text-[#24231F]">
+                How I Approach Software
               </h3>
 
               <ul className="space-y-3 pt-1">
-                {WORKING_PRINCIPLES.map((principle) => (
-                  <li key={principle} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#24231F]">
-                    <CheckCircle2
-                      className="h-4 w-4 text-[#590907] shrink-0 mt-0.5"
-                      aria-hidden="true"
-                    />
-                    <span className="leading-relaxed">{principle}</span>
+                {[
+                  "Write clean, type-safe TypeScript code that is readable and easily extensible.",
+                  "Prioritize real-world performance, zero-layout-shift UI, and fast API responses.",
+                  "Enforce strict schema validation at API boundaries and database adapters.",
+                  "Respect native platform paradigms — whether Shopify Polaris or modern React 19.",
+                ].map((principle, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#24231F]">
+                    <CheckCircle2 className="h-4 w-4 text-[#590907] shrink-0 mt-0.5" />
+                    <span>{principle}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="p-4 rounded-lg bg-[#590907] text-[#F7F5F0] flex items-center justify-between">
-              <div>
-                <p className="text-[11px] font-mono text-[#E8D2B5] uppercase">Current Focus</p>
-                <p className="text-xs sm:text-sm font-heading font-semibold mt-0.5">
-                  Full-Stack Web Apps &amp; Embedded Shopify Solutions
-                </p>
-              </div>
+            <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#DAD8D0] space-y-1">
+              <span className="text-[11px] font-mono text-[#68665F] uppercase tracking-wider block">
+                Current Role
+              </span>
+              <p className="font-heading font-semibold text-sm text-[#24231F]">
+                MERN &amp; Shopify App Developer at Rabbitcode Agency
+              </p>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Bottom Row: 4 Technical Focus Area Cards (3 cols each on desktop) */}
-          {FOCUS_AREAS.map((area, idx) => {
-            const Icon = area.icon;
+          {/* 4 Architectural Focus Cards (3 cols each on lg) */}
+          {PILLARS.map((pillar, idx) => {
+            const Icon = pillar.icon;
             return (
-              <article
-                key={area.title}
-                className="lg:col-span-3 bento-card rounded-xl p-6 bg-[#FFFFFF] flex flex-col justify-between space-y-4"
+              <motion.div
+                key={pillar.title}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.45, delay: idx * 0.08 }}
+                className="lg:col-span-3 rounded-2xl bg-[#FFFFFF] border border-[#DAD8D0] p-6 space-y-3.5 shadow-xs hover:border-[#A5A79B] transition-all group"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="w-9 h-9 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] flex items-center justify-center text-[#590907]">
-                      <Icon className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                    <span className="text-xs font-mono text-[#68665F]">0{idx + 1}</span>
-                  </div>
-                  <h3 className="font-heading font-bold text-base text-[#24231F] leading-snug">
-                    {area.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#68665F] leading-relaxed">
-                    {area.description}
-                  </p>
+                <div className="w-10 h-10 rounded-xl bg-[#A5A79B]/20 text-[#590907] flex items-center justify-center transition-colors group-hover:bg-[#590907] group-hover:text-[#F7F5F0]">
+                  <Icon className="h-5 w-5" />
                 </div>
-              </article>
+                <h4 className="font-heading font-bold text-base text-[#24231F]">
+                  {pillar.title}
+                </h4>
+                <p className="text-xs text-[#68665F] leading-relaxed">
+                  {pillar.description}
+                </p>
+              </motion.div>
             );
           })}
         </div>

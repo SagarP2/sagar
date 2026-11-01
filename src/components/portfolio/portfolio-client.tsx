@@ -3,15 +3,15 @@
 import React from "react";
 import { Navbar } from "./navbar";
 import { Hero } from "./hero";
+import { Projects } from "./projects";
 import { About } from "./about";
 import { Skills } from "./skills";
-import { Experience } from "./experience";
-import { Projects } from "./projects";
 import { ShopifyExpertise } from "./shopify";
-import { Services } from "./services";
-import { Testimonials } from "./testimonials";
+import { Experience } from "./experience";
+import { DevelopmentApproach } from "./approach";
 import { Contact } from "./contact";
 import { Footer } from "./footer";
+import type { Project, Skill, Experience as ExperienceType, Education, Service, Testimonial } from "@/types/portfolio";
 
 interface PortfolioClientProps {
   settings: {
@@ -21,12 +21,12 @@ interface PortfolioClientProps {
     contactPhone?: string | null;
     contactAddress?: string | null;
   } | null;
-  projects: React.ComponentProps<typeof Projects>["projects"];
-  skills: React.ComponentProps<typeof Skills>["skills"];
-  experiences: React.ComponentProps<typeof Experience>["experiences"];
-  educationList: React.ComponentProps<typeof Experience>["educationList"];
-  services: React.ComponentProps<typeof Services>["services"];
-  testimonials: React.ComponentProps<typeof Testimonials>["testimonials"];
+  projects: Project[];
+  skills: Skill[];
+  experiences: ExperienceType[];
+  educationList: Education[];
+  services: Service[];
+  testimonials: Testimonial[];
   resumeSettings: {
     totalExperienceYears?: number | null;
     cvMedia?: {
@@ -54,33 +54,49 @@ export default function PortfolioClient({
   const resumeUrl = resumeSettings?.cvMedia?.url || "/Resume_Sagar_Panchal.pdf";
 
   return (
-    <div className="relative min-h-screen bg-[#F7F5F0] text-[#24231F] flex flex-col">
+    <div className="relative min-h-screen bg-[#F7F5F0] text-[#24231F] flex flex-col selection:bg-[#590907] selection:text-[#F7F5F0]">
+      {/* Accessibility Skip Link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:rounded-md focus:bg-[#590907] focus:text-[#F7F5F0] focus:text-xs focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2.5 focus:rounded-lg focus:bg-[#590907] focus:text-[#F7F5F0] focus:text-xs focus:font-semibold shadow-md"
       >
         Skip to main content
       </a>
 
+      {/* 1. Navigation */}
       <Navbar resumeUrl={resumeUrl} />
 
       <main id="main-content" className="relative z-10 flex-1">
+        {/* 2. Hero */}
         <Hero resumeUrl={resumeUrl} />
+
+        {/* 3. Featured Projects */}
         <Projects projects={projects} />
+
+        {/* 4. About Me */}
         <About
           bioText={bioText}
           subBioText={subBioText}
           experienceYears={resumeSettings?.totalExperienceYears ?? 1.5}
         />
+
+        {/* 5. Technical Skills */}
         <Skills skills={skills} />
+
+        {/* 6. Shopify Development Expertise */}
+        <ShopifyExpertise />
+
+        {/* 7. Professional Experience */}
         <Experience
           experiences={experiences}
           educationList={educationList}
           cvUrl={resumeUrl}
         />
-        <ShopifyExpertise />
-        <Services services={services} />
-        <Testimonials testimonials={testimonials} />
+
+        {/* 8. Development Approach */}
+        <DevelopmentApproach services={services} testimonials={testimonials} />
+
+        {/* 9. Contact */}
         <Contact
           contactEmail={contactEmail}
           contactPhone={contactPhone}
@@ -88,6 +104,7 @@ export default function PortfolioClient({
         />
       </main>
 
+      {/* 10. Footer */}
       <Footer />
     </div>
   );

@@ -1,237 +1,224 @@
 "use client";
 
-import React from "react";
-import { Briefcase, GraduationCap, Calendar, MapPin, Download, CheckCircle2 } from "lucide-react";
-import type { Experience as ExperienceItem, Education as EducationItem } from "@/types/portfolio";
+import React, { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import {
+  Briefcase,
+  GraduationCap,
+  Calendar,
+  MapPin,
+  Download,
+  ArrowUpRight,
+  Sparkles,
+  CheckCircle2,
+} from "lucide-react";
+import type { Experience as ExperienceType, Education } from "@/types/portfolio";
 import { formatDateRange } from "@/lib/formatDate";
+import { cn } from "@/lib/utils";
 
 interface ExperienceProps {
-  experiences: ExperienceItem[];
-  educationList: EducationItem[];
+  experiences: ExperienceType[];
+  educationList: Education[];
   cvUrl?: string;
 }
 
-const ROLE_METADATA: Record<
-  string,
-  {
-    tech: string[];
-    highlights: string[];
-  }
-> = {
-  "Rabbitcode Agency": {
-    tech: [
-      "MongoDB",
-      "Express.js",
-      "React.js",
-      "Node.js",
-      "Shopify Admin API",
-      "GraphQL",
-      "Shopify Polaris",
-      "App Bridge",
-      "Theme App Extensions",
-      "Webhooks",
-    ],
-    highlights: [
-      "Engineering embedded Shopify applications using Shopify App Bridge, Polaris, and Admin GraphQL APIs.",
-      "Designing webhook event pipelines and full-stack MERN applications tailored to merchant workflows.",
-      "Customizing storefront themes with Shopify Liquid and Theme App Extensions.",
-    ],
-  },
-  "Sedulous® Infosys": {
-    tech: [
-      "JavaScript",
-      "React.js",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "REST APIs",
-      "HTML5 & CSS3",
-    ],
-    highlights: [
-      "Built and maintained full-stack MERN web applications over a 9+ month internship.",
-      "Implemented REST API integrations, database models in MongoDB, and responsive React interfaces.",
-      "Collaborated on deployment pipelines and frontend layout optimization.",
-    ],
-  },
-};
+export function Experience({
+  experiences,
+  educationList,
+  cvUrl = "/Resume_Sagar_Panchal.pdf",
+}: ExperienceProps) {
+  const [activeTab, setActiveTab] = useState<"work" | "education">("work");
+  const shouldReduceMotion = useReducedMotion();
 
-export function Experience({ experiences, educationList, cvUrl }: ExperienceProps) {
-  const sortedExperiences = [...experiences].sort((a, b) => b.orderIndex - a.orderIndex);
-  const sortedEducation = [...educationList].sort((a, b) => a.orderIndex - b.orderIndex);
+  const sortedExperience = [...experiences].sort((a, b) => b.orderIndex - a.orderIndex);
+  const sortedEducation = [...educationList].sort((a, b) => b.orderIndex - a.orderIndex);
 
   return (
     <section
       id="experience"
       data-section
-      className="relative py-20 sm:py-24 bg-[#F7F5F0] border-b border-[#DAD8D0]"
+      className="relative py-20 sm:py-28 bg-[#A5A79B]/15 border-b border-[#DAD8D0] overflow-hidden"
     >
-      <div className="editorial-container px-5 sm:px-8 space-y-14">
+      <div className="editorial-container px-5 sm:px-8 space-y-12 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 text-left">
-          <div className="space-y-2.5 max-w-2xl">
-            <p className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#590907]">
-              04 • Experience &amp; Education
-            </p>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 text-left">
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+            className="space-y-3 max-w-2xl"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8D2B5]/70 border border-[#DAD8D0] text-[#590907] text-xs font-mono font-semibold">
+              <Briefcase className="h-3.5 w-3.5" />
+              <span>05 • Professional Journey</span>
+            </div>
             <h2
-              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.1]"
-              style={{ fontSize: "clamp(1.85rem, 3vw + 0.4rem, 2.75rem)" }}
+              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.08]"
+              style={{ fontSize: "clamp(2rem, 3.2vw + 0.4rem, 3rem)" }}
             >
-              Professional Timeline &amp; Academic Foundation.
+              Verified Experience &amp; Academic Background.
             </h2>
-          </div>
+            <p className="text-sm sm:text-base text-[#68665F] leading-relaxed">
+              A chronological timeline of production engineering roles, client agency deliverables,
+              and academic milestones in Information Technology.
+            </p>
+          </motion.div>
 
-          {cvUrl && (
+          {/* Tab Filter & Resume Action */}
+          <div className="flex flex-wrap items-center gap-3">
+            <div
+              className="p-1 rounded-xl bg-[#FFFFFF] border border-[#DAD8D0] shadow-xs flex items-center gap-1"
+              role="tablist"
+            >
+              <button
+                type="button"
+                onClick={() => setActiveTab("work")}
+                className={cn(
+                  "px-4 py-2 rounded-lg text-xs font-mono font-medium transition-colors cursor-pointer flex items-center gap-2",
+                  activeTab === "work"
+                    ? "bg-[#590907] text-[#F7F5F0] shadow-xs"
+                    : "text-[#68665F] hover:text-[#24231F]"
+                )}
+              >
+                <Briefcase className="h-3.5 w-3.5" />
+                <span>Work Experience</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("education")}
+                className={cn(
+                  "px-4 py-2 rounded-lg text-xs font-mono font-medium transition-colors cursor-pointer flex items-center gap-2",
+                  activeTab === "education"
+                    ? "bg-[#590907] text-[#F7F5F0] shadow-xs"
+                    : "text-[#68665F] hover:text-[#24231F]"
+                )}
+              >
+                <GraduationCap className="h-3.5 w-3.5" />
+                <span>Education</span>
+              </button>
+            </div>
+
             <a
               href={cvUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#590907] text-[#F7F5F0] text-xs font-semibold hover:bg-[#3D0605] transition-colors self-start md:self-auto"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#E8D2B5] border border-[#DAD8D0] text-[#24231F] text-xs font-semibold hover:bg-[#E8D2B5]/80 transition-colors shadow-xs"
             >
-              <Download className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>Download Resume (PDF)</span>
+              <Download className="h-3.5 w-3.5 text-[#590907]" />
+              <span>Full Resume</span>
             </a>
-          )}
+          </div>
         </div>
 
-        {/* Two-Column Editorial & Bento Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left items-start">
-          {/* Left: Professional Timeline (7 cols) */}
-          <div className="lg:col-span-7 space-y-5">
-            <div className="flex items-center gap-2 border-b border-[#DAD8D0] pb-3">
-              <Briefcase className="h-4 w-4 text-[#590907]" aria-hidden="true" />
-              <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#24231F]">
-                Employment History
-              </h3>
-            </div>
+        {/* Timeline Bento Layout */}
+        <div className="max-w-4xl mx-auto space-y-6 text-left">
+          {activeTab === "work" ? (
+            <div className="relative pl-6 sm:pl-8 border-l-2 border-[#DAD8D0] space-y-8">
+              {sortedExperience.map((exp, idx) => (
+                <motion.div
+                  key={exp.id}
+                  initial={shouldReduceMotion ? {} : { opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="relative group"
+                >
+                  {/* Timeline Dot */}
+                  <span
+                    className={cn(
+                      "absolute -left-[31px] sm:-left-[39px] top-6 w-4 h-4 rounded-full border-4 border-[#F7F5F0] transition-colors",
+                      exp.isCurrent ? "bg-[#590907]" : "bg-[#A5A79B]"
+                    )}
+                  />
 
-            <div className="space-y-6 relative before:absolute before:top-4 before:bottom-4 before:left-3 before:w-[2px] before:bg-[#DAD8D0]">
-              {sortedExperiences.map((exp) => {
-                const meta = ROLE_METADATA[exp.company];
-                const techList = meta?.tech || ["React.js", "Node.js", "Express.js", "MongoDB"];
-                const highlights = meta?.highlights || [];
-
-                return (
-                  <article key={exp.id} className="relative pl-9">
-                    {/* Timeline Node */}
-                    <span
-                      aria-hidden="true"
-                      className={`absolute left-1 top-6 w-4 h-4 rounded-full border-2 ${
-                        exp.isCurrent
-                          ? "bg-[#590907] border-[#E8D2B5] ring-4 ring-[#590907]/15"
-                          : "bg-[#FFFFFF] border-[#A5A79B]"
-                      }`}
-                    />
-
-                    <div className="bento-card rounded-xl bg-[#FFFFFF] p-6 sm:p-7 space-y-4">
-                      <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#DAD8D0] pb-4">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h4 className="font-heading font-bold text-lg sm:text-xl text-[#24231F]">
-                              {exp.role}
-                            </h4>
-                            {exp.isCurrent && (
-                              <span className="px-2.5 py-0.5 rounded bg-[#590907] text-[#F7F5F0] text-[10px] font-mono font-semibold uppercase tracking-wider">
-                                Current
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm font-semibold text-[#590907] mt-0.5">
-                            {exp.company}
-                          </p>
-                        </div>
-
-                        <div className="flex flex-col sm:items-end gap-1 text-xs font-mono text-[#68665F]">
-                          <span className="inline-flex items-center gap-1.5">
-                            <Calendar className="h-3.5 w-3.5 text-[#590907]" aria-hidden="true" />
-                            {formatDateRange(exp.startDate, exp.endDate, exp.isCurrent)}
-                          </span>
-                          {exp.location && (
-                            <span className="inline-flex items-center gap-1.5">
-                              <MapPin className="h-3.5 w-3.5 text-[#A5A79B]" aria-hidden="true" />
-                              {exp.location}
+                  {/* Experience Card */}
+                  <div className="rounded-2xl bg-[#FFFFFF] border border-[#DAD8D0] p-6 sm:p-8 space-y-4 shadow-sm hover:border-[#A5A79B] transition-all">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DAD8D0]">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2.5">
+                          <h3 className="font-heading font-bold text-lg sm:text-xl text-[#24231F]">
+                            {exp.role}
+                          </h3>
+                          {exp.isCurrent && (
+                            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#590907] text-[#F7F5F0] uppercase">
+                              Current
                             </span>
                           )}
                         </div>
+                        <p className="font-heading font-semibold text-sm text-[#590907]">
+                          {exp.company}
+                        </p>
                       </div>
 
-                      <p className="text-sm text-[#68665F] leading-relaxed">{exp.description}</p>
-
-                      {highlights.length > 0 && (
-                        <ul className="space-y-1.5 pt-1">
-                          {highlights.map((item) => (
-                            <li
-                              key={item}
-                              className="text-xs text-[#24231F] flex items-start gap-2"
-                            >
-                              <CheckCircle2
-                                className="h-3.5 w-3.5 text-[#590907] shrink-0 mt-0.5"
-                                aria-hidden="true"
-                              />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {/* Technologies Used */}
-                      <div className="pt-2 flex flex-wrap gap-1.5">
-                        {techList.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2.5 py-1 rounded-md bg-[#F7F5F0] border border-[#DAD8D0] text-xs font-medium text-[#24231F]"
-                          >
-                            {tech}
+                      <div className="flex flex-col sm:items-end gap-1 text-xs font-mono text-[#68665F]">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="h-3.5 w-3.5" />
+                          <span>
+                            {formatDateRange(exp.startDate, exp.endDate, exp.isCurrent)}
                           </span>
-                        ))}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="h-3.5 w-3.5" />
+                          <span>{exp.location}</span>
+                        </span>
                       </div>
                     </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
 
-          {/* Right: Academic Background Cards (5 cols) */}
-          <div className="lg:col-span-5 space-y-5">
-            <div className="flex items-center gap-2 border-b border-[#DAD8D0] pb-3">
-              <GraduationCap className="h-4 w-4 text-[#590907]" aria-hidden="true" />
-              <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#24231F]">
-                Academic Foundation
-              </h3>
-            </div>
-
-            <div className="space-y-5">
-              {sortedEducation.map((edu, index) => (
-                <article
-                  key={edu.id}
-                  className={`rounded-xl border border-[#DAD8D0] p-6 space-y-3 ${
-                    index === 0 ? "bg-[#E8D2B5]/55" : "bg-[#A5A79B]/18"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2 text-xs font-mono text-[#590907] font-semibold">
-                    <span>{formatDateRange(edu.startDate, edu.endDate)}</span>
-                    {edu.location && <span className="text-[#68665F]">{edu.location}</span>}
-                  </div>
-
-                  <div>
-                    <h4 className="font-heading font-bold text-base sm:text-lg text-[#24231F]">
-                      {edu.degree}
-                    </h4>
-                    <p className="text-xs font-semibold text-[#590907] mt-0.5">
-                      {edu.institution}
-                      {edu.fieldOfStudy ? ` • ${edu.fieldOfStudy}` : ""}
+                    <p className="text-sm text-[#68665F] leading-relaxed">
+                      {exp.description}
                     </p>
                   </div>
-
-                  {edu.description && (
-                    <p className="text-xs sm:text-sm text-[#68665F] leading-relaxed">
-                      {edu.description}
-                    </p>
-                  )}
-                </article>
+                </motion.div>
               ))}
             </div>
-          </div>
+          ) : (
+            <div className="relative pl-6 sm:pl-8 border-l-2 border-[#DAD8D0] space-y-8">
+              {sortedEducation.map((edu, idx) => (
+                <motion.div
+                  key={edu.id}
+                  initial={shouldReduceMotion ? {} : { opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="relative group"
+                >
+                  {/* Timeline Dot */}
+                  <span className="absolute -left-[31px] sm:-left-[39px] top-6 w-4 h-4 rounded-full border-4 border-[#F7F5F0] bg-[#590907]" />
+
+                  {/* Education Card */}
+                  <div className="rounded-2xl bg-[#FFFFFF] border border-[#DAD8D0] p-6 sm:p-8 space-y-4 shadow-sm hover:border-[#A5A79B] transition-all">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#DAD8D0]">
+                      <div className="space-y-1">
+                        <h3 className="font-heading font-bold text-lg sm:text-xl text-[#24231F]">
+                          {edu.degree}
+                        </h3>
+                        <p className="font-heading font-semibold text-sm text-[#590907]">
+                          {edu.institution}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col sm:items-end gap-1 text-xs font-mono text-[#68665F]">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="h-3.5 w-3.5" />
+                          <span>{formatDateRange(edu.startDate, edu.endDate, false)}</span>
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="h-3.5 w-3.5" />
+                          <span>{edu.location}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-[#68665F] leading-relaxed">
+                      {edu.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

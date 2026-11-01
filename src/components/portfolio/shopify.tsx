@@ -1,245 +1,359 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import {
-  Webhook,
-  Play,
   ShoppingBag,
-  ArrowRight,
-  Code2,
+  Server,
   Database,
   Layers,
-  Server,
+  Terminal,
+  Play,
+  CheckCircle2,
+  Sparkles,
+  ShieldCheck,
+  RefreshCw,
+  Code2,
 } from "lucide-react";
 import { toast } from "sonner";
-import type { WebhookLog } from "@/types/portfolio";
+import { HaikeiLowPolyPattern } from "./haikei-svg";
 
-const SHOPIFY_CAPABILITIES = [
+interface WebhookSimulation {
+  id: string;
+  topic: string;
+  timestamp: string;
+  hmacStatus: "VALID" | "PROCESSING";
+  queueTime: string;
+  payload: string;
+}
+
+const INITIAL_LOGS: WebhookSimulation[] = [
   {
-    icon: ShoppingBag,
-    title: "Custom Shopify App Development",
-    description:
-      "Embedded merchant apps built with Node.js, React/Next.js, Shopify CLI, and OAuth session token authentication.",
+    id: "log-1",
+    topic: "orders/create",
+    timestamp: "14:24:08",
+    hmacStatus: "VALID",
+    queueTime: "11ms",
+    payload: '{"order_id": 982140, "total_price": "184.00", "currency": "USD"}',
   },
   {
+    id: "log-2",
+    topic: "products/update",
+    timestamp: "14:18:32",
+    hmacStatus: "VALID",
+    queueTime: "8ms",
+    payload: '{"product_id": "gid://shopify/Product/8401", "sync_metafields": true}',
+  },
+  {
+    id: "log-3",
+    topic: "app/uninstalled",
+    timestamp: "13:50:11",
+    hmacStatus: "VALID",
+    queueTime: "14ms",
+    payload: '{"shop": "merchant-store.myshopify.com", "token_revoked": true}',
+  },
+];
+
+const SHOPIFY_TECH_PILLARS = [
+  {
+    name: "Shopify Admin API & GraphQL",
+    description: "Rate-limit compliant GraphQL queries and mutations with cost monitoring.",
+    badge: "API Architecture",
     icon: Server,
-    title: "Admin API & GraphQL Workflows",
-    description:
-      "Rate-limit aware Admin GraphQL queries and mutations for products, orders, metafields, inventory, and discounts.",
   },
   {
+    name: "Shopify Polaris & App Bridge",
+    description: "Embedded merchant UX matching Shopify native desktop and mobile UI.",
+    badge: "Merchant Interface",
     icon: Layers,
-    title: "Shopify Polaris & App Bridge",
-    description:
-      "Native-feeling merchant admin interfaces using Shopify Polaris components, App Bridge actions, and Theme App Extensions.",
   },
   {
-    icon: Database,
-    title: "Database, Webhooks & Background Queues",
-    description:
-      "HMAC-verified webhook handlers, Redis & BullMQ job processing, and data persistence with Prisma ORM, PostgreSQL, or MongoDB.",
+    name: "Theme App Extensions & Liquid",
+    description: "Clean storefront block injections without altering merchant core themes.",
+    badge: "Storefront Liquid",
+    icon: ShoppingBag,
   },
-] as const;
+  {
+    name: "Redis, BullMQ & Webhooks",
+    description: "Zero-data-loss asynchronous queue workers and cryptographic HMAC verification.",
+    badge: "Queue & Persistence",
+    icon: Database,
+  },
+  {
+    name: "Prisma & Supabase",
+    description: "Type-safe database ORM and high-availability PostgreSQL for multi-tenant data.",
+    badge: "Database Layer",
+    icon: ShieldCheck,
+  },
+];
 
 export function ShopifyExpertise() {
-  const [webhookLogs, setWebhookLogs] = useState<WebhookLog[]>([
-    {
-      id: "log-1",
-      topic: "orders/create",
-      timestamp: "15:01:22",
-      status: "success",
-      details: "Queued order #1085 sync job & updated merchant dashboard.",
-    },
-    {
-      id: "log-2",
-      topic: "products/update",
-      timestamp: "14:55:10",
-      status: "success",
-      details: "Synced custom metafields for SKU-SH-990 via Admin GraphQL.",
-    },
-    {
-      id: "log-3",
-      topic: "app/uninstalled",
-      timestamp: "13:20:45",
-      status: "success",
-      details: "Revoked store session tokens and cleaned shop metadata.",
-    },
-  ]);
+  const [logs, setLogs] = useState<WebhookSimulation[]>(INITIAL_LOGS);
+  const [activeConsoleTab, setActiveConsoleTab] = useState<"webhooks" | "graphql">("webhooks");
+  const shouldReduceMotion = useReducedMotion();
 
-  const handleTriggerWebhook = () => {
-    const topics = ["orders/fulfilled", "refunds/create", "carts/update", "products/create"];
-    const detailsList = [
-      "Synced fulfillment tracking across warehouse locations.",
-      "Processed refund webhook and updated merchant ledger.",
-      "Validated cart attributes via Theme App Extension.",
-      "Created product metafield definitions via Admin GraphQL API.",
+  const handleSimulateWebhook = () => {
+    const topics = [
+      {
+        topic: "orders/fulfilled",
+        payload: '{"fulfillment_id": 55192, "carrier": "DHL", "tracking": "DH-9840"}',
+      },
+      {
+        topic: "inventory_levels/update",
+        payload: '{"location_id": 102, "available": 42, "sku": "SH-MOD-01"}',
+      },
+      {
+        topic: "refunds/create",
+        payload: '{"refund_id": 7820, "amount": "45.00", "restock": true}',
+      },
     ];
 
-    const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-    const randomDetail = detailsList[Math.floor(Math.random() * detailsList.length)];
+    const pick = topics[Math.floor(Math.random() * topics.length)];
     const time = new Date().toLocaleTimeString();
 
-    const newLog: WebhookLog = {
-      id: `manual-log-${Date.now()}`,
-      topic: randomTopic,
+    const newLog: WebhookSimulation = {
+      id: `wh-${Date.now()}`,
+      topic: pick.topic,
       timestamp: time,
-      status: "success",
-      details: randomDetail,
+      hmacStatus: "VALID",
+      queueTime: `${Math.floor(Math.random() * 8) + 7}ms`,
+      payload: pick.payload,
     };
 
-    setWebhookLogs((prev) => [newLog, ...prev.slice(0, 3)]);
-    toast.success(`Simulated Shopify Webhook: ${randomTopic}`);
+    setLogs((prev) => [newLog, ...prev.slice(0, 3)]);
+    toast.success(`Shopify Webhook Processed: ${pick.topic}`, {
+      description: `HMAC verified and pushed to BullMQ worker in ${newLog.queueTime}.`,
+    });
   };
 
   return (
     <section
       id="shopify"
       data-section
-      className="relative py-20 sm:py-24 bg-[#A5A79B]/20 border-b border-[#DAD8D0]"
+      className="relative py-20 sm:py-28 bg-[#F7F5F0] border-b border-[#DAD8D0] overflow-hidden"
     >
-      <div className="editorial-container px-5 sm:px-8 space-y-12">
-        {/* Section Heading */}
+      {/* Background Haikei Low-Poly Subtle Pattern */}
+      <div className="absolute top-0 right-0 w-[55%] h-full opacity-35 pointer-events-none hidden lg:block">
+        <HaikeiLowPolyPattern />
+      </div>
+
+      <div className="editorial-container px-5 sm:px-8 space-y-12 relative z-10">
+        {/* Section Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end text-left">
-          <div className="lg:col-span-7 space-y-2.5">
-            <p className="text-xs font-mono font-semibold uppercase tracking-[0.14em] text-[#590907]">
-              05 • Featured Shopify Development
-            </p>
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-7 space-y-3"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E8D2B5]/70 border border-[#DAD8D0] text-[#590907] text-xs font-mono font-semibold">
+              <ShoppingBag className="h-3.5 w-3.5" />
+              <span>04 • Shopify Specialization</span>
+            </div>
             <h2
-              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.1]"
-              style={{ fontSize: "clamp(1.85rem, 3vw + 0.4rem, 2.75rem)" }}
+              className="font-heading font-bold text-[#24231F] tracking-tight leading-[1.08]"
+              style={{ fontSize: "clamp(2rem, 3.2vw + 0.4rem, 3rem)" }}
             >
-              Custom Shopify Apps, Admin GraphQL &amp; Storefront Extensions.
+              Enterprise Shopify App &amp; Commerce Engineering.
             </h2>
-          </div>
-          <p className="lg:col-span-5 text-sm sm:text-base text-[#68665F] leading-relaxed">
-            End-to-end commerce engineering across embedded Shopify Admin apps, Polaris UI, Theme
-            App Extensions, and reliable webhook processing pipelines.
-          </p>
+          </motion.div>
+
+          <motion.p
+            initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="lg:col-span-5 text-sm sm:text-base text-[#68665F] leading-relaxed"
+          >
+            Verified production experience building custom embedded Shopify applications,
+            synchronizing large product catalogs via Admin GraphQL, and handling mission-critical
+            merchant webhook queues with Redis and BullMQ.
+          </motion.p>
         </div>
 
-        {/* Burgundy & Sage Bento Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left items-stretch">
-          {/* Left: Deep Burgundy Technical Architecture Panel (7 cols) */}
-          <div className="lg:col-span-7 rounded-xl bg-[#590907] text-[#F7F5F0] border border-[#590907] p-6 sm:p-8 flex flex-col justify-between space-y-8">
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8D2B5]/20 pb-4">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-8 h-8 rounded-lg bg-[#E8D2B5] text-[#590907] flex items-center justify-center">
-                    <ShoppingBag className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                  <h3 className="font-heading font-bold text-lg text-[#F7F5F0]">
-                    Shopify Application Architecture
-                  </h3>
-                </div>
-                <span className="text-xs font-mono text-[#E8D2B5]">
-                  Polaris • App Bridge • GraphQL
+        {/* Technical Product-Interface Console Composition */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 text-left items-start">
+          {/* Left Column: Interactive Technical Console (7 cols) */}
+          <motion.div
+            initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55 }}
+            className="lg:col-span-7 rounded-2xl bg-[#24231F] text-[#F7F5F0] border border-[#DAD8D0] shadow-xl overflow-hidden"
+          >
+            {/* Console Chrome Header */}
+            <div className="bg-[#1C1B18] px-4 py-3 border-b border-[#3D3C37] flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-[#590907]" />
+                <span className="w-3 h-3 rounded-full bg-[#E8D2B5]" />
+                <span className="w-3 h-3 rounded-full bg-[#A5A79B]" />
+                <span className="text-xs font-mono text-[#A5A79B] ml-2 font-medium">
+                  shopify-engine://app-bridge.v4
                 </span>
               </div>
 
-              {/* 4 Capability Sub-Cards inside Burgundy Panel */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {SHOPIFY_CAPABILITIES.map((cap) => {
-                  const Icon = cap.icon;
-                  return (
-                    <div
-                      key={cap.title}
-                      className="p-4 rounded-lg bg-[#3D0605] border border-[#E8D2B5]/20 space-y-2"
-                    >
-                      <div className="flex items-center gap-2 text-[#E8D2B5]">
-                        <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                        <h4 className="font-heading font-bold text-sm text-[#F7F5F0]">
-                          {cap.title}
-                        </h4>
-                      </div>
-                      <p className="text-xs text-[#E8D2B5]/85 leading-relaxed">
-                        {cap.description}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-[#E8D2B5]/20 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  "Shopify Admin API",
-                  "GraphQL",
-                  "Shopify Polaris",
-                  "App Bridge",
-                  "Theme App Extensions",
-                  "Liquid",
-                ].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 rounded bg-[#E8D2B5]/15 border border-[#E8D2B5]/30 text-[11px] font-medium text-[#E8D2B5]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#E8D2B5] text-[#24231F] text-xs font-semibold hover:bg-[#FFFFFF] transition-colors"
-              >
-                <span>Discuss a Shopify Build</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#590907]" aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-
-          {/* Right: Interactive Webhook & Background Queue Simulator (5 cols) */}
-          <div className="lg:col-span-5 bento-card rounded-xl bg-[#FFFFFF] p-6 sm:p-7 flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-[#DAD8D0] pb-4">
-                <div className="flex items-center gap-2">
-                  <Webhook className="h-4 w-4 text-[#590907]" aria-hidden="true" />
-                  <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-[#24231F]">
-                    Webhook &amp; Queue Simulator
-                  </h3>
-                </div>
+              {/* Console Mode Switcher */}
+              <div className="flex items-center gap-1 p-0.5 rounded-lg bg-[#2A2924] border border-[#3D3C37]">
                 <button
                   type="button"
-                  onClick={handleTriggerWebhook}
-                  className="px-3.5 py-1.5 rounded-lg bg-[#590907] text-[#F7F5F0] font-semibold text-xs hover:bg-[#3D0605] transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                  onClick={() => setActiveConsoleTab("webhooks")}
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors cursor-pointer ${
+                    activeConsoleTab === "webhooks"
+                      ? "bg-[#590907] text-[#F7F5F0] font-semibold"
+                      : "text-[#A5A79B] hover:text-[#FFFFFF]"
+                  }`}
                 >
-                  <Play className="h-3 w-3 fill-current" aria-hidden="true" />
-                  <span>Simulate Event</span>
+                  Webhook Worker
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveConsoleTab("graphql")}
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors cursor-pointer ${
+                    activeConsoleTab === "graphql"
+                      ? "bg-[#590907] text-[#F7F5F0] font-semibold"
+                      : "text-[#A5A79B] hover:text-[#FFFFFF]"
+                  }`}
+                >
+                  Admin GraphQL
                 </button>
               </div>
+            </div>
 
-              <p className="text-xs text-[#68665F] leading-relaxed">
-                Test how incoming Shopify store events are verified via HMAC-SHA256 and processed
-                asynchronously without blocking merchant requests.
-              </p>
-
-              <div className="space-y-2.5" aria-live="polite">
-                {webhookLogs.map((log) => (
-                  <div
-                    key={log.id}
-                    className="p-3.5 rounded-lg bg-[#F7F5F0] border border-[#DAD8D0] text-left font-mono text-xs space-y-1"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-2 font-bold text-[#590907]">
-                        <span className="w-2 h-2 rounded-full bg-[#590907]" aria-hidden="true" />
-                        {log.topic}
-                      </span>
-                      <span className="text-[11px] text-[#68665F]">{log.timestamp}</span>
-                    </div>
-                    <p className="text-xs font-sans text-[#68665F] pl-4">{log.details}</p>
+            {/* Tab 1: Live Webhook Worker Panel */}
+            {activeConsoleTab === "webhooks" ? (
+              <div className="p-5 sm:p-6 space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#3D3C37]">
+                  <div>
+                    <span className="text-xs font-mono text-[#E8D2B5] font-semibold block">
+                      HMAC SHA-256 Webhook Pipeline
+                    </span>
+                    <span className="text-[11px] font-mono text-[#A5A79B]">
+                      Queue Driver: Redis + BullMQ (Zero loss architecture)
+                    </span>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="p-3.5 rounded-lg bg-[#E8D2B5]/60 border border-[#DAD8D0] flex items-center justify-between text-xs">
-              <span className="font-medium text-[#24231F] flex items-center gap-2">
-                <Code2 className="h-4 w-4 text-[#590907]" aria-hidden="true" />
-                HMAC-SHA256 Verified • BullMQ Worker
-              </span>
-              <span className="font-mono font-semibold text-[#590907]">200 OK</span>
+                  <button
+                    type="button"
+                    onClick={handleSimulateWebhook}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#590907] text-[#F7F5F0] text-xs font-mono font-medium hover:bg-[#3D0605] transition-colors shadow-xs cursor-pointer self-start sm:self-auto"
+                  >
+                    <Play className="h-3 w-3 fill-current" />
+                    <span>Dispatch Webhook</span>
+                  </button>
+                </div>
+
+                {/* Live Stream of Events */}
+                <div className="space-y-2.5 font-mono text-xs">
+                  {logs.map((log) => (
+                    <div
+                      key={log.id}
+                      className="p-3 rounded-lg bg-[#1C1B18] border border-[#3D3C37] space-y-1.5"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[#E8D2B5] font-semibold">{log.topic}</span>
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#590907]/40 text-[#E8D2B5] border border-[#590907]">
+                            HMAC {log.hmacStatus}
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-[#A5A79B]">{log.timestamp}</span>
+                      </div>
+                      <div className="text-[11px] text-[#DAD8D0] truncate">
+                        payload: <code className="text-[#A5A79B]">{log.payload}</code>
+                      </div>
+                      <div className="text-[10px] text-[#A5A79B] flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#E8D2B5]" />
+                        <span>Worker latency: {log.queueTime} • Prisma sync committed</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              /* Tab 2: GraphQL Query Runner */
+              <div className="p-5 sm:p-6 space-y-4 font-mono text-xs">
+                <div className="flex items-center justify-between pb-3 border-b border-[#3D3C37]">
+                  <span className="text-[#E8D2B5] font-semibold">
+                    Admin API Query: 2024-10
+                  </span>
+                  <span className="text-[11px] text-[#A5A79B]">
+                    Cost: 8 / 1000 Available
+                  </span>
+                </div>
+
+                <div className="p-3.5 rounded-lg bg-[#1C1B18] border border-[#3D3C37] text-[#DAD8D0] overflow-x-auto">
+                  <pre className="text-[11px] leading-relaxed text-[#A5A79B]">
+                    {`query GetStoreInventory($cursor: String) {
+  products(first: 10, after: $cursor) {
+    pageInfo { hasNextPage, endCursor }
+    nodes {
+      id
+      title
+      totalInventory
+      metafields(namespace: "custom", first: 3) {
+        nodes { key, value }
+      }
+    }
+  }
+}`}
+                  </pre>
+                </div>
+
+                <div className="p-3 rounded-lg bg-[#1C1B18] border border-[#3D3C37] space-y-1">
+                  <span className="text-[10px] text-[#E8D2B5] font-semibold uppercase">
+                    GraphQL Execution Response:
+                  </span>
+                  <p className="text-[11px] text-[#DAD8D0]">
+                    ✓ Status: 200 OK • Response Time: 42ms • Rate Limit: Under 50pt Budget
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Console Status Bar */}
+            <div className="bg-[#1C1B18] px-4 py-2 border-t border-[#3D3C37] flex items-center justify-between text-[10px] font-mono text-[#A5A79B]">
+              <span>Shopify CLI 3.x • Session Token v4</span>
+              <span>100% Polaris Token Fidelity</span>
             </div>
+          </motion.div>
+
+          {/* Right Column: Verified Shopify Capabilities Grid (5 cols) */}
+          <div className="lg:col-span-5 space-y-4">
+            <h3 className="font-heading font-bold text-xl text-[#24231F] mb-2">
+              Verified Production Architecture
+            </h3>
+
+            {SHOPIFY_TECH_PILLARS.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.name}
+                  initial={shouldReduceMotion ? {} : { opacity: 0, x: 16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.45, delay: idx * 0.08 }}
+                  className="rounded-xl bg-[#FFFFFF] border border-[#DAD8D0] p-4 flex items-start gap-3.5 shadow-xs hover:border-[#A5A79B] transition-colors"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-[#E8D2B5]/50 text-[#590907] flex items-center justify-center shrink-0 mt-0.5">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-heading font-bold text-sm text-[#24231F]">
+                        {item.name}
+                      </h4>
+                      <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#A5A79B]/20 text-[#590907] uppercase font-semibold">
+                        {item.badge}
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#68665F] leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
